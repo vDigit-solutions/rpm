@@ -8,4 +8,6 @@ import com.vDigit.rpm.dto.Job;
 
 public interface JobDAO extends MongoRepository<Job, String> {
 	List<Job> findByPropertyManagerId(String pid);
+
+	List<Job> findByCurrentContractorRequestId(String id);
 }

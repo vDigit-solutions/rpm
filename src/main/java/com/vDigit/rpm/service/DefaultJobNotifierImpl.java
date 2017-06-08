@@ -1,7 +1,6 @@
 package com.vDigit.rpm.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.text.MessageFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +9,20 @@ import org.springframework.stereotype.Component;
 import com.vDigit.rpm.dao.JobDAO;
 import com.vDigit.rpm.dto.ContractWork;
 import com.vDigit.rpm.dto.Contractor;
+import com.vDigit.rpm.dto.Contractors;
 import com.vDigit.rpm.dto.Job;
-import com.vDigit.rpm.util.Util;
+import com.vDigit.rpm.util.PhoneNotification;
 
 @Component
 public class DefaultJobNotifierImpl implements JobNotifier {
 
-	private Collection<Contractor> preferredContractors = makePreferredContractors();
+	private Contractors contractors = new Contractors();
 
 	@Autowired
 	private JobDAO jobDAO;
+
+	@Autowired
+	private PhoneNotification phoneNotification;
 
 	@Override
 	public void processJob(Job job) {
@@ -27,7 +30,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		if (cw != null) {
 			return;
 		}
-		Contractor c = job.getPotentialNextContracter(preferredContractors);
+		Contractor c = job.getPotentialNextContractor(contractors.getContractors());
 		if (c == null) {
 			return;
 		}
@@ -42,16 +45,14 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	}
 
 	private void notifyContractor(Job job, Contractor c) {
-		System.out.println("Notifiying Contractor -> " + Util.toJSON(c));
+		PhoneNotification pn = phoneNotification;
+		pn.sendMessage(c.getPhone(), createMessage(job, c));
 	}
 
-	private Collection<Contractor> makePreferredContractors() {
-		ArrayList<Contractor> contractors = new ArrayList<Contractor>();
-		contractors.add(Contractor.makeNameAndPhone("100", "Sasan", "2067904659"));
-		contractors.add(Contractor.makeNameAndPhone("101", "Siva", "4252837905"));
-		contractors.add(Contractor.makeNameAndPhone("102", "Ramesh", "4259496967"));
-		contractors.add(Contractor.makeNameAndPhone("103", "Keith", "3104089637"));
-		return contractors;
+	private String createMessage(Job job, Contractor c) {
+		String message = "Hi {0},\nWe have a contract work {1}\n.Location of work : {2}\n.Expected Date of Start : {3}\n.Please respond with YES (if you are interested) and NO (if you are not interested)\n";
+		return MessageFormat.format(message, c.getName(), job.getDescription(), job.getJobLocation(),
+				job.getDesiredDateOfBegin().toString());
 	}
 
 }

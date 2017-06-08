@@ -8,4 +8,8 @@ public class Address {
 	private String state;
 	private String country;
 
+	public String toString() {
+		return street1 + " " + street2 + "\n" + city + ", " + state + " " + zip;
+	}
+
 }

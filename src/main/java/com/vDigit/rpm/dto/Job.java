@@ -8,8 +8,6 @@ import java.util.Map;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.vDigit.rpm.dto.Job.ContractorEntry;
-
 @Document
 public class Job {
 	public String getId() {
@@ -122,7 +120,7 @@ public class Job {
 	public Job() {
 	}
 
-	public Contractor getPotentialNextContracter(Collection<Contractor> preferredContractors) {
+	public Contractor getPotentialNextContractor(Collection<Contractor> preferredContractors) {
 		for (Contractor c : preferredContractors) {
 			if (contractorEntries.containsKey(c.getId()))
 				continue;
@@ -133,9 +131,50 @@ public class Job {
 
 	public void addContractorEntry(ContractorEntry jce) {
 		contractorEntries.put(jce.getId(), jce);
+		this.currentContractorRequestId = jce.getId();
 	}
 
 	public ContractorEntry getContractorEntry(String id) {
 		return contractorEntries.get(id);
 	}
+
+	private Address address;
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public String getJobLocation() {
+		if (getAddress() != null) {
+			return getAddress().toString();
+		}
+		return "No Location specified";
+	}
+
+	// This can be replaced with ContractorEntry
+	private String currentContractorRequestId;
+
+	public String getCurrentContractorRequestId() {
+		if (currentContractorRequestId != null) {
+			return currentContractorRequestId;
+		}
+		return getLastContractorId();
+	}
+
+	private String getLastContractorId() {
+		String x = null;
+		for (String id : getContractorEntries().keySet()) {
+			x = id;
+		}
+		return x;
+	}
+
+	public void setCurrentContractorRequestId(String currentContractorRequestId) {
+		this.currentContractorRequestId = currentContractorRequestId;
+	}
+
 }

@@ -23,4 +23,14 @@ public class JobRequest {
 
 	private Job job;
 	private String propertyManagerId;
+
+	public void setPotentialContractorRequestId(String contractorId) {
+		this.contractorRequestId = contractorId;
+	}
+
+	public String getContractorRequestId() {
+		return contractorRequestId;
+	}
+
+	private String contractorRequestId;
 }

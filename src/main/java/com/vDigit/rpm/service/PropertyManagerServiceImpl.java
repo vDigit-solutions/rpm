@@ -38,7 +38,15 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	@Override
 	public JobResponse getJobs(JobRequest jobRequest) {
 		String pid = jobRequest.getPropertyManagerId();
-		Collection<Job> jobs = jobDAO.findByPropertyManagerId(pid);
+		String contractorRequestId = jobRequest.getContractorRequestId();
+		Collection<Job> jobs = null;
+		// Need to implement CoR
+		if (pid != null) {
+			jobs = jobDAO.findByPropertyManagerId(pid);
+		}
+		if (contractorRequestId != null) {
+			jobs = jobDAO.findByCurrentContractorRequestId(contractorRequestId);
+		}
 		JobResponse jr = new JobResponse();
 		jr.setJobs(jobs);
 		return jr;
