@@ -9,6 +9,7 @@ import com.vDigit.rpm.dao.JobDAO;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
+import com.vDigit.rpm.util.Util;
 
 @Component
 public class PropertyManagerServiceImpl implements PropertyManagerService {
@@ -37,6 +38,7 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 
 	@Override
 	public JobResponse getJobs(JobRequest jobRequest) {
+		System.out.println(Util.toJSON(jobRequest));
 		String pid = jobRequest.getPropertyManagerId();
 		String contractorRequestId = jobRequest.getContractorRequestId();
 		Collection<Job> jobs = null;
@@ -50,6 +52,12 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		JobResponse jr = new JobResponse();
 		jr.setJobs(jobs);
 		return jr;
+	}
+
+	@Override
+	public void updateJob(Job job) {
+		jobDAO.save(job);
+		
 	}
 
 }

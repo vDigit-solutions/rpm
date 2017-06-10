@@ -177,4 +177,11 @@ public class Job {
 		this.currentContractorRequestId = currentContractorRequestId;
 	}
 
+	public void updateContractorResponse(String contractorId, String response) {
+		ContractorEntry ce = contractorEntries.get(contractorId);
+		if (ce != null)
+			ce.response = response;
+
+	}
+
 }

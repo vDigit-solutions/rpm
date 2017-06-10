@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.twilio.twiml.Body;
 import com.twilio.twiml.Message;
-import com.twilio.twiml.MessagingResponse;
 import com.vDigit.rpm.dto.ContractorRequest;
 import com.vDigit.rpm.service.ContractorService;
+import com.vDigit.rpm.util.PhoneNotification;
 
 @RestController
 @RequestMapping("/api/sms")
@@ -21,20 +21,30 @@ public class TwilioPhoneController {
 	@Autowired
 	private ContractorService contractorService;
 
+	@Autowired
+	private PhoneNotification pn;
+
 	@RequestMapping(value = "/job", method = RequestMethod.POST)
-	public String receiveMessage(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void receiveMessage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String f = request.getParameter("From");
 		String body = request.getParameter("Body");
-		String mid = request.getParameter("MessageSid");
-		String msid = request.getParameter("MessagingServiceId");
+		// String mid = request.getParameter("MessageSid");
+		// String msid = request.getParameter("MessagingServiceId");
 		String x = f + " -> " + body;
-		System.out.println(x + " -> " + mid + " -> " + msid);
+		// System.out.println(x + " -> " + mid + " -> " + msid);
+		response.setContentType("application/xml");
+
+		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {
+			x = "Thank you for your response[" + body + "]. However, I don't understand " + body
+					+ ". Can you please respond with either Yes or No";
+			pn.sendMessage(f, x);
+			return;
+		}
 		x = "Hello -> I received \"" + body + "\" from " + f + ". Thank you for your message.";
 		Message message = new Message.Builder().body(new Body(x)).build();
 
-		MessagingResponse twiml = new MessagingResponse.Builder().message(message).build();
-
-		response.setContentType("application/xml");
+		// MessagingResponse twiml = new
+		// MessagingResponse.Builder().message(message).build();
 
 		ContractorRequest cr = new ContractorRequest();
 		cr.setContractorPhoneNumber(f);
@@ -47,7 +57,7 @@ public class TwilioPhoneController {
 		 * (TwiMLException e) { e.printStackTrace(); }
 		 */
 		// return twiml.toXml();
-		return x;
+
 	}
 
 	private void processContractorResponse(ContractorRequest request) {

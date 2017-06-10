@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vDigit.rpm.dto.Address;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 
@@ -41,7 +42,19 @@ public class TestService {
 		job.setType("Cleaning");
 		request.setJob(job);
 		job.setPropertyManagerId("100");
+		job.setAddress(makeAddress());
 		System.out.println(objectMapper.writeValueAsString(request));
+	}
+
+	private static Address makeAddress() {
+		Address a = new Address();
+		a.setStreet1("605 5th Ave South");
+		a.setStreet2("Suite 800");
+		a.setCity("Seattle");
+		a.setState("WA");
+		a.setZip("98104");
+		a.setCountry("USA");
+		return a;
 	}
 
 }
