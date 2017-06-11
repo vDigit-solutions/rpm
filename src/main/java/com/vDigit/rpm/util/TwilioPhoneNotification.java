@@ -17,6 +17,8 @@ public class TwilioPhoneNotification implements PhoneNotification {
 	}
 
 	private String convertToUSPhone(String phone) {
+		if (phone.startsWith("+1"))
+			return phone;
 		return "+1" + phone;
 	}
 

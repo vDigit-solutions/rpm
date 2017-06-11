@@ -24,14 +24,19 @@ public class TwilioPhoneController {
 	@Autowired
 	private PhoneNotification pn;
 
+	private String cleanPhoneNumber(String phone) {
+		return phone.replace("+1", "");
+	}
+
 	@RequestMapping(value = "/job", method = RequestMethod.POST)
 	public void receiveMessage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String f = request.getParameter("From");
+		f = cleanPhoneNumber(f);
 		String body = request.getParameter("Body");
 		// String mid = request.getParameter("MessageSid");
 		// String msid = request.getParameter("MessagingServiceId");
 		String x = f + " -> " + body;
-		// System.out.println(x + " -> " + mid + " -> " + msid);
+		System.out.println(x);
 		response.setContentType("application/xml");
 
 		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {
