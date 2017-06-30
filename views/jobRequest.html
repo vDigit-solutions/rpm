@@ -58,8 +58,8 @@
             </div>
 
 
-            <div class="section"><label for="decription">Decription:</label>
-                <textarea name="decription" id="decription" cols="30" rows="4" class="text ui-widget-content ui-corner-all">Clean the apartment in Lynnwood ...</textarea>
+            <div class="section"><label for="description">Decription:</label>
+                <textarea name="description" id="description" cols="30" rows="4" class="text ui-widget-content ui-corner-all">Clean the apartment in Lynnwood ...</textarea>
             </div>
 
 
@@ -148,24 +148,37 @@
             dialog.dialog( "close" );
         }
 
-        function addUser() {
-            var valid = true;
+        function createJobRequest() {
             allFields.removeClass( "ui-state-error" );
 
-            valid = valid && checkLength( name, "username", 3, 16 );
-            valid = valid && checkLength( name, "username", 3, 16 );
-            valid = valid && checkLength( email, "email", 6, 80 );
-            valid = valid && checkLength( phone, "phone", 5, 16 );
+            let jobReqData =
+            {"job":
+                {
+                    "propertyManagerId":"100",
+                    "description":$("#description").val(),
+                    "desiredDateOfBegin":new Date($("#jobtime").val()).getTime(),
+                    "type":$("#jobtype").val(),
+                    "address":
+                            {
+                                "street1":$("#address").val()
+                            }
+                },
+                "propertyManagerId":"100"
+            };
 
-            valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-            valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-            valid = valid && checkRegexp( phone, /^([0-9a-zA-Z])+$/, "phone field only allow : a-z 0-9" );
+            $.ajax({
+                url: 'http://localhost:8080/api/pm/job/100',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(jobReqData),
+                dataType: 'json',
+                success: function() {
+                    dialog.dialog( "close" );
+                }
 
-            if ( valid ) {
-                addNewUserUI(name.val(), email.val(), phone.val()   );
-                dialog.dialog( "close" );
-            }
-            return valid;
+            });
+
+            return true;
         }
 
         dialog = $( "#dialog-form" ).dialog({
@@ -174,7 +187,7 @@
             width: 350,
             modal: true,
             buttons: {
-                "Create an account": addUser,
+                "Create job request": createJobRequest,
                 Cancel: function() {
                     dialog.dialog( "close" );
                 }
@@ -187,7 +200,7 @@
 
         form = dialog.find( "form" ).on( "submit", function( event ) {
             event.preventDefault();
-            addUser();
+            createJobRequest();
         });
 
         $( "#create-user" ).button().on( "click", function() {
@@ -195,7 +208,7 @@
         });
 
         $( "#jobtype" ).selectmenu();
-        $( "#jobtime" ).datepicker();
+        $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
     } );
 </script>
 </body>
