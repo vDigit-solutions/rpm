@@ -6,11 +6,12 @@ public class Contractor {
 	private String email;
 	private String phone;
 
-	public static Contractor makeNameAndPhone(String id, String name, String phone) {
+	public static Contractor makeNameAndPhone(String id, String name, String phone, String email) {
 		Contractor c = new Contractor();
 		c.id = id;
 		c.name = name;
 		c.phone = phone;
+		c.email = email;
 		return c;
 	}
 

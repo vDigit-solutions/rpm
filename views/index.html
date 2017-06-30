@@ -33,7 +33,7 @@
             <label for="email">Email</label>
             <input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">
             <label for="password">Password</label>
-            <input type="password" name="password" id="password" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
+            <input type="phone" name="phone" id="phone" value="xxxxxxx" class="text ui-widget-content ui-corner-all">
 
             <!-- Allow form submission with keyboard without duplicating the dialog button -->
             <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
@@ -43,21 +43,17 @@
 
 
 <div id="users-contain" class="ui-widget">
-    <h1>Existing Users:</h1>
+    <h1>Contractors:</h1>
     <table id="users" class="ui-widget ui-widget-content">
         <thead>
         <tr class="ui-widget-header ">
             <th>Name</th>
             <th>Email</th>
-            <th>Password</th>
+            <th>phone</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>John Doe</td>
-            <td>john.doe@example.com</td>
-            <td>johndoe1</td>
-        </tr>
+
         </tbody>
     </table>
 </div>
@@ -71,16 +67,19 @@
                 emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
                 name = $( "#name" ),
                 email = $( "#email" ),
-                password = $( "#password" ),
-                allFields = $( [] ).add( name ).add( email ).add( password ),
+                phone = $( "#phone" ),
+                allFields = $( [] ).add( name ).add( email ).add( phone ),
                 tips = $( ".validateTips" );
         //get contractors
-        let contractors = $.getJSON(" http://localhost:8080/contractors").then((data) => {
-            console.log(data);
-//                this.setState({ person: data.results });
+        let contractors = $.getJSON(" http://localhost:8080/contractors").then((contractorsData) => {
+            console.log(contractorsData);
+            
+            contractorsData.forEach(function (contractorData) {
+                addNewUserUI(contractorData.name, contractorData.email, contractorData.phone);
+                
+            });
         });
 
-//            console.log(contractors);
 
         function updateTips( t ) {
             tips
@@ -112,6 +111,15 @@
             }
         }
 
+        function addNewUserUI(username, userEmail, userphone) {
+            $( "#users tbody" ).append( "<tr>" +
+                    "<td>" + username + "</td>" +
+                    "<td>" + userEmail + "</td>" +
+                    "<td>" + userphone + "</td>" +
+                    "</tr>" );
+            dialog.dialog( "close" );
+        }
+
         function addUser() {
             var valid = true;
             allFields.removeClass( "ui-state-error" );
@@ -119,18 +127,14 @@
             valid = valid && checkLength( name, "username", 3, 16 );
             valid = valid && checkLength( name, "username", 3, 16 );
             valid = valid && checkLength( email, "email", 6, 80 );
-            valid = valid && checkLength( password, "password", 5, 16 );
+            valid = valid && checkLength( phone, "phone", 5, 16 );
 
             valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
             valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-            valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+            valid = valid && checkRegexp( phone, /^([0-9a-zA-Z])+$/, "phone field only allow : a-z 0-9" );
 
             if ( valid ) {
-                $( "#users tbody" ).append( "<tr>" +
-                        "<td>" + name.val() + "</td>" +
-                        "<td>" + email.val() + "</td>" +
-                        "<td>" + password.val() + "</td>" +
-                        "</tr>" );
+                addNewUserUI(name.val(), email.val(), phone.val()   );
                 dialog.dialog( "close" );
             }
             return valid;
