@@ -1,6 +1,7 @@
 package com.vDigit.rpm.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.vDigit.rpm.service.PropertyManagerService;
 
 @RestController
 @RequestMapping("/api/pm")
+@CrossOrigin(origins = "*")
 public class PropertyManagerController {
 
 	@Autowired
