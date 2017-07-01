@@ -97,19 +97,32 @@
 
 <script>
     $( function() {
-        let dialog, form,
+        let dialog, form;
 
         // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-        emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-        name = $( "#name" ),
-        email = $( "#email" ),
-        phone = $( "#phone" ),
-        allFields = $( [] ).add( name ).add( email ).add( phone ),
-        tips = $( ".validateTips" );
+        //emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+//        name = $( "#name" ),
+//        email = $( "#email" ),
+//        phone = $( "#phone" ),
+//        allFields = $( [] ).add( name ).add( email ).add( phone ),
+//        tips = $( ".validateTips" );
 
         let contractorsCache = {};
 
-        //get contractors
+        function getJobsDataAndBindUI() {
+            $.getJSON("http://localhost:8080/api/pm/job/100").then((jobsData) => {
+                console.log(jobsData);
+                bindJobsUI(jobsData);
+            });
+        }
+
+        function bindJobsUI(jobsData) {
+            jobsData.jobs.forEach(function (jobData) {
+                addNewJobUI(jobData, contractorsCache);
+            });
+        }
+
+//get contractors
         $.getJSON(" http://localhost:8080/contractors").then((contractorsData) => {
             console.log(contractorsData);
             contractorsData.forEach(function (contractorData) {
@@ -118,45 +131,39 @@
             });
 
             //get jobs
-            $.getJSON("http://localhost:8080/api/pm/job/100").then((jobsData) => {
-                console.log(jobsData);
-                jobsData.jobs.forEach(function (jobData) {
-                    addNewJobUI(jobData, contractorsCache);
-                });
-            });
+            getJobsDataAndBindUI();
         });
 
+//        function updateTips( t ) {
+//            tips
+//                    .text( t )
+//                    .addClass( "ui-state-highlight" );
+//            setTimeout(function() {
+//                tips.removeClass( "ui-state-highlight", 1500 );
+//            }, 500 );
+//        }
 
+//        function checkLength( o, n, min, max ) {
+//            if ( o.val().length > max || o.val().length < min ) {
+//                o.addClass( "ui-state-error" );
+//                updateTips( "Length of " + n + " must be between " +
+//                        min + " and " + max + "." );
+//                return false;
+//            } else {
+//                return true;
+//            }
+//        }
+//
+//        function checkRegexp( o, regexp, n ) {
+//            if ( !( regexp.test( o.val() ) ) ) {
+//                o.addClass( "ui-state-error" );
+//                updateTips( n );
+//                return false;
+//            } else {
+//                return true;
+//            }
+//        }
 
-        function updateTips( t ) {
-            tips
-                    .text( t )
-                    .addClass( "ui-state-highlight" );
-            setTimeout(function() {
-                tips.removeClass( "ui-state-highlight", 1500 );
-            }, 500 );
-        }
-
-        function checkLength( o, n, min, max ) {
-            if ( o.val().length > max || o.val().length < min ) {
-                o.addClass( "ui-state-error" );
-                updateTips( "Length of " + n + " must be between " +
-                        min + " and " + max + "." );
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        function checkRegexp( o, regexp, n ) {
-            if ( !( regexp.test( o.val() ) ) ) {
-                o.addClass( "ui-state-error" );
-                updateTips( n );
-                return false;
-            } else {
-                return true;
-            }
-        }
 
         function addNewUserUI(username, userEmail, userphone) {
             $( "#users tbody" ).append( "<tr>" +
@@ -181,7 +188,7 @@
         }
 
         function createJobRequest() {
-            allFields.removeClass( "ui-state-error" );
+//            allFields.removeClass( "ui-state-error" );
 
             let jobReqData =
             {"job":
@@ -205,9 +212,10 @@
                 data: JSON.stringify(jobReqData),
                 dataType: 'json',
                 success: function() {
+                    getJobsDataAndBindUI();
                     dialog.dialog( "close" );
-                }
 
+                }
             });
 
             return true;
@@ -226,7 +234,7 @@
             },
             close: function() {
                 form[ 0 ].reset();
-                allFields.removeClass( "ui-state-error" );
+//                allFields.removeClass( "ui-state-error" );
             }
         });
 
