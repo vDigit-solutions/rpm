@@ -99,7 +99,7 @@
                 allFields = $( [] ).add( name ).add( email ).add( phone ),
                 tips = $( ".validateTips" );
         //get contractors
-        let contractors = $.getJSON(" http://localhost:8080/contractors").then((contractorsData) => {
+        let contractors = $.getJSON("/contractors").then((contractorsData) => {
             console.log(contractorsData);
             
             contractorsData.forEach(function (contractorData) {

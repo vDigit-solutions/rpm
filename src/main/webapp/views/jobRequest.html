@@ -113,7 +113,7 @@
         let contractorsCache = {};
 
         function getJobsDataAndBindUI() {
-            $.getJSON("http://localhost:8080/api/pm/job/100").then((jobsData) => {
+            $.getJSON("/api/pm/job/100").then((jobsData) => {
                 console.log(jobsData);
                 bindJobsUI(jobsData);
 
