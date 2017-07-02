@@ -9,6 +9,7 @@ public class PropertyManagers {
 	private Map<String, PropertyManager> makePropertyManagerMap() {
 		Map<String, PropertyManager> map = new LinkedHashMap<String, PropertyManager>();
 		PropertyManager pm = new PropertyManager("100", "2067904659", "Sasan");
+//		PropertyManager pm = new PropertyManager("100", "3104089637", "KJ");
 		map.put(pm.id, pm);
 		return map;
 	}

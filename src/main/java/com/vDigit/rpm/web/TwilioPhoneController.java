@@ -38,7 +38,7 @@ public class TwilioPhoneController {
 		// String mid = request.getParameter("MessageSid");
 		// String msid = request.getParameter("MessagingServiceId");
 		String x = f + " -> " + body;
-		System.out.println(x);
+		System.out.println("[TwilioPhoneController]: "+x);
 		response.setContentType("application/xml");
 
 		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {

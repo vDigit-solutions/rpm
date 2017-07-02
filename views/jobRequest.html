@@ -113,10 +113,16 @@
             $.getJSON("http://localhost:8080/api/pm/job/100").then((jobsData) => {
                 console.log(jobsData);
                 bindJobsUI(jobsData);
+
+                // auto refresh page every 7 sec
+//                setTimeout(function(){
+//                    window.location.reload(1);
+//                }, 7000);
             });
         }
 
         function bindJobsUI(jobsData) {
+            $( "#jobs tbody" ).html("");
             jobsData.jobs.forEach(function (jobData) {
                 addNewJobUI(jobData, contractorsCache);
             });
@@ -182,7 +188,7 @@
                     "<td>" + (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear() + "</td>" +
                     "<td>" + jobData.type + "</td>" +
                     "<td>" + jobData.jobLocation + "</td>" +
-                    "<td>" + contractor.name+ " <br>" + contractor.phone+ "</td>" +
+                    "<td>" + contractor.name+ "<br>" + contractor.phone+ "</td>" +
                     "<td>" + jobData.description + "</td>" +
                     "</tr>" );
         }
