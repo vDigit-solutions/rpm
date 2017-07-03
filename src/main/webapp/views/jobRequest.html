@@ -132,7 +132,7 @@
         }
 
 //get contractors
-        $.getJSON(" http://localhost:8080/contractors").then((contractorsData) => {
+        $.getJSON("/contractors").then((contractorsData) => {
             console.log(contractorsData);
             contractorsData.forEach(function (contractorData) {
                 contractorsCache[contractorData.id] = contractorData;
