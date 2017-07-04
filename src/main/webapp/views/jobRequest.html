@@ -260,7 +260,7 @@
 
         // ----------- helper functions  -------------
         function getContractorsDataAndBindUI() {
-            return $.getJSON(" http://localhost:8080/contractors")
+            return $.getJSON(" /contractors")
                 .then((contractorsData) => {
                     $( "#users").find("tbody" ).html("");
 
@@ -285,7 +285,7 @@
         }
 
         function getJobsDataAndBindUI() {
-            return $.getJSON("http://localhost:8080/api/pm/job/100").then((jobsData) => {
+            return $.getJSON("/api/pm/job/100").then((jobsData) => {
                 console.log(jobsData);
                 bindJobsUI(jobsData);
 
@@ -344,7 +344,7 @@
                 };
 
             $.ajax({
-                url: 'http://localhost:8080/contractors',
+                url: '/contractors',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(contractorReqData),
@@ -398,7 +398,7 @@
             };
 
             $.ajax({
-                url: 'http://localhost:8080/api/pm/job/100',
+                url: '/api/pm/job/100',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(jobReqData),
