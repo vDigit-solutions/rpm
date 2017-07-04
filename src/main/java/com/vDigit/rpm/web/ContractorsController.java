@@ -2,11 +2,7 @@ package com.vDigit.rpm.web;
 
 import com.vDigit.rpm.dto.Contractor;
 import com.vDigit.rpm.dto.Contractors;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -20,6 +16,11 @@ public class ContractorsController {
 	public @ResponseBody
     Collection<Contractor> getContractors() {
         return contractors.getContractors();
+	}
+
+	@RequestMapping(value = "/contractors", method = RequestMethod.POST)
+	public @ResponseBody Contractor createContractor(@RequestBody Contractor contractorRequest) {
+		return contractors.creatContractor(contractorRequest);
 	}
 
 	@RequestMapping(value = "/test", method = RequestMethod.GET)

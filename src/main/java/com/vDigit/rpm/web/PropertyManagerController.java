@@ -22,7 +22,8 @@ public class PropertyManagerController {
 	private PropertyManagerService pms;
 
 	@RequestMapping(value = "/job/{propertyManagerId}", method = RequestMethod.POST)
-	public @ResponseBody JobResponse createJob(@PathVariable("propertyManagerId") String propertyManagerId,
+	public @ResponseBody JobResponse createJob(
+			@PathVariable("propertyManagerId") String propertyManagerId,
 			@RequestBody JobRequest jobRequest) {
 		// System.out.println("createJob");
 		jobRequest.getJob().setPropertyManagerId(propertyManagerId);

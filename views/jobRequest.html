@@ -23,8 +23,9 @@
         div.section {margin-bottom: 15px}
         button#create-user {float:right;}
         div#jobs-contain h1 {float:left}
-        div#contractor-contain h1 {float:left}
+        div#users-contain h1 {float:left}
         button#create-contractor {float:right;}
+        div#contractor-dialog-form input { width:60%;}
     </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -32,7 +33,8 @@
 </head>
 <body>
 
-<div id="dialog-form" title="New job request">
+<!--NEW JOB dialog-->
+<div id="job-dialog-form" title="New job request">
     <form>
         <fieldset>
             <div class="section">
@@ -66,9 +68,32 @@
     </form>
 </div>
 
-<div id="users-contain" class="ui-widget users-contain">
-    <h1>Contractors:</h1>   <button id="create-contractor">New Contractor</button>
+<!--NEW CONTRACTOR dialog-->
+<div id="contractor-dialog-form" title="New contractor request">
+    <form>
+        <fieldset>
+            <div class="section"><label for="contractor-id">id:</label>
+                <input name="contractor-id" id="contractor-id" class="text ui-widget-content ui-corner-all">
+            </div>
+            <div class="section"><label for="contractor-name">name:</label>
+                <input name="contractor-name" id="contractor-name" class="text ui-widget-content ui-corner-all">
+            </div>
+            <div class="section"><label for="contractor-phone">phone:</label>
+                <input name="contractor-phone" id="contractor-phone" class="text ui-widget-content ui-corner-all">
+            </div>
+            <div class="section"><label for="contractor-email">email:</label>
+                <input name="contractor-email" id="contractor-email" class="text ui-widget-content ui-corner-all">
+            </div>
 
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
+</div>
+
+
+<div id="users-contain" class="ui-widget users-contain">
+    <h1>Contractors:</h1> <button id="create-contractor">New Contractor</button>
     <table id="users" class="ui-widget ui-widget-content">
         <thead>
         <tr class="ui-widget-header ">
@@ -100,20 +125,88 @@
 
 <script>
     $( function() {
-        let dialog, form;
-
-        // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-        //emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-//        name = $( "#name" ),
-//        email = $( "#email" ),
-//        phone = $( "#phone" ),
-//        allFields = $( [] ).add( name ).add( email ).add( phone ),
-//        tips = $( ".validateTips" );
-
+        let jobDialog, contractorDialog, userForm, contractorForm;
         let contractorsCache = {};
 
+        jobDialog = $( "#job-dialog-form" ).dialog({
+            autoOpen: false,
+            height: 445,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Create job request": createJobRequest,
+                Cancel: function() {
+                    jobDialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                userForm[ 0 ].reset();
+                //allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        userForm = jobDialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            createJobRequest();
+        });
+
+        contractorDialog = $( "#contractor-dialog-form" ).dialog({
+            autoOpen: false,
+            height: 445,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Create a contractor": createContractorRequest,
+                Cancel: function() {
+                    contractorDialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                contractorForm[ 0 ].reset();
+                //allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        contractorForm = contractorDialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            createContractorRequest();
+        });
+
+        //create Job button
+        $( "#create-user" ).button().on( "click", function() {
+            jobDialog.dialog( "open" );
+        });
+
+        //create Contractor button
+        $( "#create-contractor" ).button().on( "click", function() {
+            contractorDialog.dialog( "open" );
+        });
+
+        $( "#jobtype" ).selectmenu();
+        $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
+
+        //get contractors
+        getContractorsDataAndBindUI()
+            .then(()=> {
+                getJobsDataAndBindUI();
+        });
+
+        // ----------- helper functions  -------------
+        function getContractorsDataAndBindUI() {
+            return $.getJSON(" http://localhost:8080/contractors")
+                .then((contractorsData) => {
+                    $( "#users").find("tbody" ).html("");
+
+                    console.log(contractorsData);
+                    contractorsData.forEach(function (contractorData) {
+                        contractorsCache[contractorData.id] = contractorData;
+                        addNewUserUI(contractorData.name, contractorData.email, contractorData.phone);
+                    });
+                });
+        }
+
         function getJobsDataAndBindUI() {
-            $.getJSON("http://localhost:8080/api/pm/job/100").then((jobsData) => {
+            return $.getJSON("http://localhost:8080/api/pm/job/100").then((jobsData) => {
                 console.log(jobsData);
                 bindJobsUI(jobsData);
 
@@ -125,69 +218,28 @@
         }
 
         function bindJobsUI(jobsData) {
-            $( "#jobs tbody" ).html("");
+            $( "#jobs").find("tbody" ).html("");
             jobsData.jobs.forEach(function (jobData) {
                 addNewJobUI(jobData, contractorsCache);
             });
         }
 
-//get contractors
-        $.getJSON(" http://localhost:8080/contractors").then((contractorsData) => {
-            console.log(contractorsData);
-            contractorsData.forEach(function (contractorData) {
-                contractorsCache[contractorData.id] = contractorData;
-                addNewUserUI(contractorData.name, contractorData.email, contractorData.phone);
-            });
-
-            //get jobs
-            getJobsDataAndBindUI();
-        });
-
-//        function updateTips( t ) {
-//            tips
-//                    .text( t )
-//                    .addClass( "ui-state-highlight" );
-//            setTimeout(function() {
-//                tips.removeClass( "ui-state-highlight", 1500 );
-//            }, 500 );
-//        }
-
-//        function checkLength( o, n, min, max ) {
-//            if ( o.val().length > max || o.val().length < min ) {
-//                o.addClass( "ui-state-error" );
-//                updateTips( "Length of " + n + " must be between " +
-//                        min + " and " + max + "." );
-//                return false;
-//            } else {
-//                return true;
-//            }
-//        }
-//
-//        function checkRegexp( o, regexp, n ) {
-//            if ( !( regexp.test( o.val() ) ) ) {
-//                o.addClass( "ui-state-error" );
-//                updateTips( n );
-//                return false;
-//            } else {
-//                return true;
-//            }
-//        }
 
 
         function addNewUserUI(username, userEmail, userphone) {
-            $( "#users tbody" ).append( "<tr>" +
+            $( "#users").find("tbody" ).append( "<tr>" +
                     "<td>" + username + "</td>" +
                     "<td>" + userEmail + "</td>" +
                     "<td>" + userphone + "</td>" +
                     "</tr>" );
-            dialog.dialog( "close" );
+            jobDialog.dialog( "close" );
         }
 
         function addNewJobUI(jobData, contractorsCache) {
             const date = new Date(jobData.desiredDateOfBegin);
             const contractor = contractorsCache[jobData.currentContractorRequestId];
 
-            $( "#jobs tbody" ).append( "<tr>" +
+            $( "#jobs").find("tbody" ).append( "<tr>" +
                     "<td>" + (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear() + "</td>" +
                     "<td>" + jobData.type + "</td>" +
                     "<td>" + jobData.jobLocation + "</td>" +
@@ -196,9 +248,31 @@
                     "</tr>" );
         }
 
-        function createJobRequest() {
-//            allFields.removeClass( "ui-state-error" );
+        function createContractorRequest() {
+            let contractorReqData =
+                {
+                    "id": $("#contractor-id").val(),
+                    "name":$("#contractor-name").val(),
+                    "phone": $("#contractor-phone").val(),
+                    "email": $("#contractor-email").val()
+                };
 
+            $.ajax({
+                url: 'http://localhost:8080/contractors',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(contractorReqData),
+                dataType: 'json',
+                success: function() {
+                    getContractorsDataAndBindUI();
+                    contractorDialog.dialog( "close" );
+                }
+            });
+
+            return true;
+        }
+
+        function createJobRequest() {
             let jobReqData =
             {"job":
                 {
@@ -222,42 +296,13 @@
                 dataType: 'json',
                 success: function() {
                     getJobsDataAndBindUI();
-                    dialog.dialog( "close" );
+                    jobDialog.dialog( "close" );
 
                 }
             });
 
             return true;
         }
-
-        dialog = $( "#dialog-form" ).dialog({
-            autoOpen: false,
-            height: 445,
-            width: 350,
-            modal: true,
-            buttons: {
-                "Create job request": createJobRequest,
-                Cancel: function() {
-                    dialog.dialog( "close" );
-                }
-            },
-            close: function() {
-                form[ 0 ].reset();
-//                allFields.removeClass( "ui-state-error" );
-            }
-        });
-
-        form = dialog.find( "form" ).on( "submit", function( event ) {
-            event.preventDefault();
-            createJobRequest();
-        });
-
-        $( "#create-user" ).button().on( "click", function() {
-            dialog.dialog( "open" );
-        });
-
-        $( "#jobtype" ).selectmenu();
-        $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
     } );
 </script>
 </body>

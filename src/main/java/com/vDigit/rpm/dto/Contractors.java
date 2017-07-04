@@ -28,4 +28,8 @@ public class Contractors {
 		return contractors;
 	}
 
+	public Contractor creatContractor(Contractor c) {
+		contractors.add(c);
+		return c;
+	}
 }
