@@ -28,4 +28,10 @@ public class PropertyManagers {
         propertyManagerMap.put(pm.getId(), pm);
         return pm;
     }
+
+    public PropertyManager removePM(String pmId) {
+	    PropertyManager pm = propertyManagerMap.get(pmId);
+        propertyManagerMap.remove(pmId);
+        return pm;
+    }
 }

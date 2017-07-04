@@ -137,6 +137,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Phone</th>
+            <th></th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -273,7 +274,7 @@
         }
 
         function getPMsDataAndBindUI() {
-            return $.getJSON(" http://localhost:8080/pms")
+            return $.getJSON("/pms")
                 .then((pmsData) => {
                     $( "#pms").find("tbody" ).html("");
 
@@ -304,12 +305,26 @@
         }
 
         function addNewPMUI(pmData) {
-            $( "#pms").find("tbody" ).append( "<tr>" +
+            const row = $( "<tr>" +
                 "<td>" + pmData.id + "</td>" +
                 "<td>" + pmData.name + "</td>" +
                 "<td>" + pmData.phone + "</td>" +
-                "</tr>" );
-            //pm.dialog( "close" );
+                "<td><button>delete</button></td>" +
+                "</tr>");
+
+            $( "#pms").find("tbody" ).append(row);
+
+            $("button", row).click(()=> {
+                $.ajax({
+                    url: 'http://localhost:8080/pms/' + pmData.id,
+                    type: 'DELETE',
+                    success: function() {
+                        row.remove();
+                        pmDialog.dialog( "close" );
+                    }
+                });
+            });
+            pmDialog.dialog( "close" );
         }
 
         function addNewUserUI(username, userEmail, userphone) {

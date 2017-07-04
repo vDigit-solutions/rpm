@@ -19,8 +19,13 @@ public class PMsController {
 	}
 
 	@RequestMapping(value = "/pms", method = RequestMethod.POST)
-	public @ResponseBody PropertyManager createContractor(@RequestBody PropertyManager pmReq) {
+	public @ResponseBody PropertyManager createPM(@RequestBody PropertyManager pmReq) {
 		return propertyManagers.createPM(pmReq);
+	}
+
+	@RequestMapping(value = "/pms/{pmId}", method = RequestMethod.DELETE)
+	public @ResponseBody PropertyManager deletePM(@PathVariable("pmId") String pmId) {
+		return propertyManagers.removePM(pmId);
 	}
 
 }
