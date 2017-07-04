@@ -1,5 +1,6 @@
 package com.vDigit.rpm.web;
 
+import com.vDigit.rpm.dto.PropertyManager;
 import com.vDigit.rpm.dto.PropertyManagers;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +14,13 @@ public class PMsController {
 
 	@RequestMapping(value = "/pms", method = RequestMethod.GET)
 	public @ResponseBody
-	List<PropertyManagers.PropertyManager> getPMs() {
+	List<PropertyManager> getPMs() {
 		return propertyManagers.getPropertyManagers();
 	}
 
-//	@RequestMapping(value = "/contractors", method = RequestMethod.POST)
-//	public @ResponseBody Contractor createContractor(@RequestBody Contractor contractorRequest) {
-//		return contractors.creatContractor(contractorRequest);
-//	}
+	@RequestMapping(value = "/pms", method = RequestMethod.POST)
+	public @ResponseBody PropertyManager createContractor(@RequestBody PropertyManager pmReq) {
+		return propertyManagers.createPM(pmReq);
+	}
 
 }

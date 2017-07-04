@@ -24,8 +24,11 @@
         button#create-user {float:right;}
         div#jobs-contain h1 {float:left}
         div#users-contain h1 {float:left}
+        div#pms-contain h1 {float:left}
+        button#create-pm {float:right;}
         button#create-contractor {float:right;}
         div#contractor-dialog-form input { width:60%;}
+        div#pm-dialog-form input { width:60%;}
     </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -91,7 +94,26 @@
     </form>
 </div>
 
+<!--NEW PM dialog-->
+<div id="pm-dialog-form" title="New PM request">
+    <form>
+        <fieldset>
+            <div class="section"><label for="pm-id">id:</label>
+                <input name="pm-id" id="pm-id" class="text ui-widget-content ui-corner-all">
+            </div>
+            <div class="section"><label for="pm-name">name:</label>
+                <input name="pm-name" id="pm-name" class="text ui-widget-content ui-corner-all">
+            </div>
+            <div class="section"><label for="pm-phone">phone:</label>
+                <input name="pm-phone" id="pm-phone" class="text ui-widget-content ui-corner-all">
+            </div>
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
+</div>
 
+<!--CONTRACTORS List-->
 <div id="users-contain" class="ui-widget users-contain">
     <h1>Contractors:</h1> <button id="create-contractor">New Contractor</button>
     <table id="users" class="ui-widget ui-widget-content">
@@ -106,6 +128,22 @@
     </table>
 </div>
 
+<!--PMs List-->
+<div id="pms-contain" class="ui-widget users-contain">
+    <h1>Property Managers:</h1> <button id="create-pm">New PM</button>
+    <table id="pms" class="ui-widget ui-widget-content">
+        <thead>
+        <tr class="ui-widget-header ">
+            <th>ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!--JOBS List-->
 <div id="jobs-contain" class="ui-widget users-contain">
     <h1>Current jobs:</h1> <button id="create-user">New job request</button>
     <table id="jobs" class="ui-widget ui-widget-content">
@@ -125,9 +163,10 @@
 
 <script>
     $( function() {
-        let jobDialog, contractorDialog, userForm, contractorForm;
+        let jobDialog, contractorDialog, pmDialog, pmForm, userForm, contractorForm;
         let contractorsCache = {};
 
+        // JOBS dialog and form
         jobDialog = $( "#job-dialog-form" ).dialog({
             autoOpen: false,
             height: 445,
@@ -150,6 +189,7 @@
             createJobRequest();
         });
 
+        // Contractors dialog and form
         contractorDialog = $( "#contractor-dialog-form" ).dialog({
             autoOpen: false,
             height: 445,
@@ -172,6 +212,29 @@
             createContractorRequest();
         });
 
+        // PMs dialog and form
+        pmDialog = $( "#pm-dialog-form" ).dialog({
+            autoOpen: false,
+            height: 445,
+            width: 350,
+            modal: true,
+            buttons: {
+                "Create a PM": createPMRequest,
+                Cancel: function() {
+                    pmDialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                pmForm[ 0 ].reset();
+                //allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        pmForm = pmDialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            createContractorRequest();
+        });
+
         //create Job button
         $( "#create-user" ).button().on( "click", function() {
             jobDialog.dialog( "open" );
@@ -182,14 +245,18 @@
             contractorDialog.dialog( "open" );
         });
 
+        //create PM button
+        $( "#create-pm" ).button().on( "click", function() {
+            pmDialog.dialog( "open" );
+        });
+
         $( "#jobtype" ).selectmenu();
         $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
 
         //get contractors
         getContractorsDataAndBindUI()
-            .then(()=> {
-                getJobsDataAndBindUI();
-        });
+            .then(()=> { return getJobsDataAndBindUI();})
+            .then(()=> { return getPMsDataAndBindUI(); });
 
         // ----------- helper functions  -------------
         function getContractorsDataAndBindUI() {
@@ -201,6 +268,18 @@
                     contractorsData.forEach(function (contractorData) {
                         contractorsCache[contractorData.id] = contractorData;
                         addNewUserUI(contractorData.name, contractorData.email, contractorData.phone);
+                    });
+                });
+        }
+
+        function getPMsDataAndBindUI() {
+            return $.getJSON(" http://localhost:8080/pms")
+                .then((pmsData) => {
+                    $( "#pms").find("tbody" ).html("");
+
+                    console.log(pmsData);
+                    pmsData.forEach(function (pmData) {
+                        addNewPMUI(pmData);
                     });
                 });
         }
@@ -224,7 +303,14 @@
             });
         }
 
-
+        function addNewPMUI(pmData) {
+            $( "#pms").find("tbody" ).append( "<tr>" +
+                "<td>" + pmData.id + "</td>" +
+                "<td>" + pmData.name + "</td>" +
+                "<td>" + pmData.phone + "</td>" +
+                "</tr>" );
+            //pm.dialog( "close" );
+        }
 
         function addNewUserUI(username, userEmail, userphone) {
             $( "#users").find("tbody" ).append( "<tr>" +
@@ -266,6 +352,29 @@
                 success: function() {
                     getContractorsDataAndBindUI();
                     contractorDialog.dialog( "close" );
+                }
+            });
+
+            return true;
+        }
+
+        function createPMRequest() {
+            let pmReqData =
+                {
+                    "id": $("#pm-id").val(),
+                    "name":$("#pm-name").val(),
+                    "phone": $("#pm-phone").val(),
+                };
+
+            $.ajax({
+                url: 'http://localhost:8080/pms',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(pmReqData),
+                dataType: 'json',
+                success: function() {
+                    getPMsDataAndBindUI();
+                    pmDialog.dialog( "close" );
                 }
             });
 
