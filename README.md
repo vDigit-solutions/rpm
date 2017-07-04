@@ -14,6 +14,7 @@ Twilio
 1) add phone: https://www.twilio.com/console/phone-numbers/verified
 
 Todo
-1) add/delete contractors
-2) add/delete PMs
-3) job status
+1) delete contractors
+2) add
+3) delete PMs
+4) job status

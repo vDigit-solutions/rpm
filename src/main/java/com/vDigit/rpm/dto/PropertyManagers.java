@@ -1,6 +1,8 @@
 package com.vDigit.rpm.dto;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PropertyManagers {
@@ -13,6 +15,10 @@ public class PropertyManagers {
 		map.put(pm.id, pm);
 		return map;
 	}
+
+	public List<PropertyManager> getPropertyManagers() {
+	    return new ArrayList<>(propertyManagerMap.values());
+    }
 
 	public PropertyManager getPropertyManagerName(String id) {
 		return propertyManagerMap.get(id);
