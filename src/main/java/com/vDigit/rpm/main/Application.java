@@ -1,4 +1,4 @@
-package com.vDigit.rpm.web;
+package com.vDigit.rpm.main;
 
 import java.util.Date;
 
@@ -19,9 +19,10 @@ import com.vDigit.rpm.dto.JobRequest;
 @RestController
 @EnableAutoConfiguration
 @SpringBootApplication
-@ComponentScan("com.vDigit.rpm")
+@ComponentScan({ "com.vDigit.rpm" })
 @EnableMongoRepositories(basePackages = { "com.vDigit.rpm" })
-public class TestService {
+public class Application {
+
 	private static ObjectMapper objectMapper = new ObjectMapper();
 
 	@RequestMapping("/test")
@@ -31,7 +32,7 @@ public class TestService {
 	}
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(TestService.class, args);
+		SpringApplication.run(Application.class, args);
 		dumpJob();
 	}
 
