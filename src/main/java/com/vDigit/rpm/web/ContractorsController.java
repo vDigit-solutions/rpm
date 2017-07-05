@@ -23,8 +23,9 @@ public class ContractorsController {
 		return contractors.creatContractor(contractorRequest);
 	}
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test() {
-		return "Test..";
-	}
+    @RequestMapping(value = "/contractors/{contractorId}", method = RequestMethod.DELETE)
+    public @ResponseBody Contractor deletePM(@PathVariable("contractorId") String contractorId) {
+        return contractors.remove(contractorId);
+    }
+
 }

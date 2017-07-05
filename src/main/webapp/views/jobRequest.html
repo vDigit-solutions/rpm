@@ -122,6 +122,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>phone</th>
+            <th></th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -268,7 +269,7 @@
                     console.log(contractorsData);
                     contractorsData.forEach(function (contractorData) {
                         contractorsCache[contractorData.id] = contractorData;
-                        addNewUserUI(contractorData.name, contractorData.email, contractorData.phone);
+                        addNewContractorUI(contractorData);
                     });
                 });
         }
@@ -316,7 +317,8 @@
 
             $("button", row).click(()=> {
                 $.ajax({
-                    url: 'http://localhost:8080/pms/' + pmData.id,
+//                    url: 'http://localhost:8080/pms/' + pmData.id,
+                    url: '/pms/' + pmData.id,
                     type: 'DELETE',
                     success: function() {
                         row.remove();
@@ -324,21 +326,38 @@
                     }
                 });
             });
-            pmDialog.dialog( "close" );
+//            pmDialog.dialog( "close" );
         }
 
-        function addNewUserUI(username, userEmail, userphone) {
-            $( "#users").find("tbody" ).append( "<tr>" +
-                    "<td>" + username + "</td>" +
-                    "<td>" + userEmail + "</td>" +
-                    "<td>" + userphone + "</td>" +
-                    "</tr>" );
-            jobDialog.dialog( "close" );
+        function addNewContractorUI(contractorData) {
+            const row = $("<tr>" +
+                "<td>" + contractorData.name + "</td>" +
+                "<td>" + contractorData.email + "</td>" +
+                "<td>" + contractorData.phone + "</td>" +
+                "<td><button>delete</button></td>" +
+                "</tr>");
+
+            $( "#users").find("tbody" ).append(row);
+
+            $("button", row).click(()=> {
+                $.ajax({
+                    url: '/contractors/' + contractorData.id,
+                    type: 'DELETE',
+                    success: function() {
+                        contractorsCache[contractorData.id] = undefined;
+                        row.remove();
+                        jobDialog.dialog( "close" );
+                    }
+                });
+            });
+//            jobDialog.dialog( "close" );
         }
 
         function addNewJobUI(jobData, contractorsCache) {
             const date = new Date(jobData.desiredDateOfBegin);
-            const contractor = contractorsCache[jobData.currentContractorRequestId];
+
+            //TODO: admin could have deleted the contractor but a job may still reference him
+            const contractor = contractorsCache[jobData.currentContractorRequestId] || {name:"deleted", phone:"deleted"};
 
             $( "#jobs").find("tbody" ).append( "<tr>" +
                     "<td>" + (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear() + "</td>" +

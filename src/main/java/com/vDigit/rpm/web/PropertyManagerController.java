@@ -27,8 +27,7 @@ public class PropertyManagerController {
 			@RequestBody JobRequest jobRequest) {
 		// System.out.println("createJob");
 		jobRequest.getJob().setPropertyManagerId(propertyManagerId);
-		JobResponse response = pms.createJob(jobRequest);
-		return response;
+        return pms.createJob(jobRequest);
 	}
 
 	@RequestMapping(value = "/job/{propertyManagerId}", method = RequestMethod.GET)
@@ -36,10 +35,5 @@ public class PropertyManagerController {
 		JobRequest jr = new JobRequest();
 		jr.setPropertyManagerId(propertyManagerId);
 		return pms.getJobs(jr);
-	}
-
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test() {
-		return "Test..";
 	}
 }

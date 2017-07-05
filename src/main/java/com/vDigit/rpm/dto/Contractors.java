@@ -2,6 +2,7 @@ package com.vDigit.rpm.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 public class Contractors {
 	private Collection<Contractor> contractors = makePreferredContractors();
@@ -31,5 +32,19 @@ public class Contractors {
 	public Contractor creatContractor(Contractor c) {
 		contractors.add(c);
 		return c;
+	}
+
+	public Contractor remove(String contractorId) {
+		Contractor c;
+
+		for (Iterator<Contractor> it = contractors.iterator(); it.hasNext(); ) {
+			c = it.next();
+			if (c.getId().equalsIgnoreCase(contractorId)) {
+				it.remove();
+				return c;
+			}
+		}
+
+		return null;
 	}
 }
