@@ -16,7 +16,7 @@ public class Contractors {
 
 	public Contractor getContractor(String phone) {
 		for (Contractor c : contractors) {
-			if (c.getPhone().equals(phone))
+			if (c.getPhone().contains(phone) || (phone != null && phone.contains(c.getPhone())))
 				return c;
 		}
 		return null;
