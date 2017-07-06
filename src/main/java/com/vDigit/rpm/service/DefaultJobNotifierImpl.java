@@ -3,6 +3,8 @@ package com.vDigit.rpm.service;
 import java.text.MessageFormat;
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +18,8 @@ import com.vDigit.rpm.util.PhoneNotification;
 @Component
 public class DefaultJobNotifierImpl implements JobNotifier {
 
-	private Contractors contractors = new Contractors();
+	@Resource(name = "contractors")
+	private Contractors contractors;
 
 	@Autowired
 	private JobDAO jobDAO;
@@ -50,7 +53,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	}
 
 	public PhoneNotification getPhoneNotification() {
-		//return getDummyPhoneNotification();
+		// return getDummyPhoneNotification();
 		return phoneNotification;
 	}
 

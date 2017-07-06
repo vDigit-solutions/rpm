@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Contractors {
 	private Collection<Contractor> contractors = makePreferredContractors();
 
@@ -25,7 +28,8 @@ public class Contractors {
 		contractors.add(Contractor.makeNameAndPhone("102", "Sasan", "2067904659", "Sasan@rpm.com"));
 		contractors.add(Contractor.makeNameAndPhone("103", "Ramesh", "4259496967", "Ramesh@rpm.com"));
 		contractors.add(Contractor.makeNameAndPhone("100", "Siva", "4252837905", "Siva@rpm.com"));
-//		contractors.add(Contractor.makeNameAndPhone("101", "Radhika", "4253066608"));
+		// contractors.add(Contractor.makeNameAndPhone("101", "Radhika",
+		// "4253066608"));
 		return contractors;
 	}
 
@@ -37,7 +41,7 @@ public class Contractors {
 	public Contractor remove(String contractorId) {
 		Contractor c;
 
-		for (Iterator<Contractor> it = contractors.iterator(); it.hasNext(); ) {
+		for (Iterator<Contractor> it = contractors.iterator(); it.hasNext();) {
 			c = it.next();
 			if (c.getId().equalsIgnoreCase(contractorId)) {
 				it.remove();

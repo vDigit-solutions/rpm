@@ -147,7 +147,7 @@
 
 <!--JOBS List-->
 <div id="jobs-contain" class="ui-widget users-contain">
-    <h1>Current jobs:</h1> <button id="create-user">New job request</button>
+    <h1>Current jobs:</h1> <button id="create-user">New job request</button> <button id="delete-jobs">Delete Jobs</button>
     <table id="jobs" class="ui-widget ui-widget-content">
         <thead>
         <tr class="ui-widget-header ">
@@ -254,6 +254,18 @@
 
         $( "#jobtype" ).selectmenu();
         $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
+        
+        $("#delete-jobs", row).button().on( "click", function() {
+            $.ajax({
+                url: '/api/pm/jobs',
+                type: 'DELETE',
+                success: function() {
+                    //contractorsCache[contractorData.id] = undefined;
+                    //row.remove();
+                    j//obDialog.dialog( "close" );
+                }
+            });
+        });
 
         //get contractors
         getContractorsDataAndBindUI()
