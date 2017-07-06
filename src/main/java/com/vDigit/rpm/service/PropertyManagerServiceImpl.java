@@ -57,7 +57,12 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	@Override
 	public void updateJob(Job job) {
 		jobDAO.save(job);
-		
+
+	}
+
+	@Override
+	public void deleteJobs() {
+		jobDAO.deleteAll();
 	}
 
 }
