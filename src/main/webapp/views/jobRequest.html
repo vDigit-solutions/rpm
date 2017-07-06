@@ -261,6 +261,7 @@
                 url: '/api/pm/jobs',
                 type: 'DELETE',
                 success: function() {
+                	$( "#jobs").find("tbody" ).empty();
                     //contractorsCache[contractorData.id] = undefined;
                     //row.remove();
                     j//obDialog.dialog( "close" );
