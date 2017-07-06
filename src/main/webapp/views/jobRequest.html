@@ -255,7 +255,7 @@
         $( "#jobtype" ).selectmenu();
         $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
         
-        $("#delete-jobs", row).button().on( "click", function() {
+        $("#delete-jobs").button().on( "click", function() {
             $.ajax({
                 url: '/api/pm/jobs',
                 type: 'DELETE',
