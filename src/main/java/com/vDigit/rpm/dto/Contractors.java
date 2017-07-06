@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Contractors {
-	private Collection<Contractor> contractors = makePreferredContractors();
+	private static final Collection<Contractor> contractors = makePreferredContractors();
 
 	public Collection<Contractor> getContractors() {
 		return contractors;
@@ -22,7 +22,7 @@ public class Contractors {
 		return null;
 	}
 
-	private Collection<Contractor> makePreferredContractors() {
+	private static Collection<Contractor> makePreferredContractors() {
 		ArrayList<Contractor> contractors = new ArrayList<Contractor>();
 		contractors.add(Contractor.makeNameAndPhone("104", "Keith", "3104089637", "keith@rpm.com"));
 		contractors.add(Contractor.makeNameAndPhone("102", "Sasan", "2067904659", "Sasan@rpm.com"));

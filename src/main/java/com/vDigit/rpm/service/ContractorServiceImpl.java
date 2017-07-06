@@ -2,16 +2,29 @@ package com.vDigit.rpm.service;
 
 import java.text.MessageFormat;
 
-import com.vDigit.rpm.dto.*;
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.vDigit.rpm.dto.Contractor;
+import com.vDigit.rpm.dto.ContractorRequest;
+import com.vDigit.rpm.dto.Contractors;
+import com.vDigit.rpm.dto.Job;
+import com.vDigit.rpm.dto.JobRequest;
+import com.vDigit.rpm.dto.JobResponse;
+import com.vDigit.rpm.dto.PropertyManager;
+import com.vDigit.rpm.dto.PropertyManagers;
 import com.vDigit.rpm.util.PhoneNotification;
 
 @Component
 public class ContractorServiceImpl implements ContractorService {
 
-	private Contractors contractors = new Contractors();
+	@Resource(name = "contractors")
+	private Contractors contractors;
+
+	@Resource(name = "propertyManagers")
+	private PropertyManagers propertyManagers;
 
 	@Autowired
 	private PropertyManagerService pms;
@@ -41,7 +54,7 @@ public class ContractorServiceImpl implements ContractorService {
 	}
 
 	private void sendNotificationToPropertyManager(Job job, Contractor contractor) {
-		PropertyManager pm = new PropertyManagers().getPropertyManagerName(job.getPropertyManagerId());
+		PropertyManager pm = propertyManagers.getPropertyManagerName(job.getPropertyManagerId());
 		String pmName = pm.getName();
 		String pmPhone = pm.getPhone();
 		String message = "Hi {0},\n{1} is interested in doing job [{2}].\nPlease call {1} @ {3} for further information\n";
