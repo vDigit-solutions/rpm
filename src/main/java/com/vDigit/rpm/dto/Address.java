@@ -1,5 +1,7 @@
 package com.vDigit.rpm.dto;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Address {
 	public String getStreet1() {
 		return street1;
@@ -57,7 +59,21 @@ public class Address {
 	private String country;
 
 	public String toString() {
-		return street1 + " " + street2 + "\n" + city + ", " + state + " " + zip;
+		StringBuilder address = new StringBuilder(street1);
+		if (StringUtils.isNotBlank(street2)) {
+			address.append(" ").append(street2);
+		}
+		address.append("\n");
+		if (StringUtils.isNotBlank(city)) {
+			address.append(city).append(",");
+		}
+		if (StringUtils.isNotBlank(state)) {
+			address.append(state).append(" ");
+		}
+		if (StringUtils.isNotBlank(zip)) {
+			address.append(zip).append("\n");
+		}
+		return address.toString();
 	}
 
 }

@@ -2,6 +2,8 @@ package com.vDigit.rpm.service;
 
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,7 @@ import com.vDigit.rpm.util.Util;
 @Component
 public class PropertyManagerServiceImpl implements PropertyManagerService {
 
+	private static Logger logger = LoggerFactory.getLogger(PropertyManagerServiceImpl.class);
 	@Autowired
 	private JobDAO jobDAO;
 
@@ -38,7 +41,7 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 
 	@Override
 	public JobResponse getJobs(JobRequest jobRequest) {
-		System.out.println(Util.toJSON(jobRequest));
+		logger.info(Util.toJSON(jobRequest));
 		String pid = jobRequest.getPropertyManagerId();
 		String contractorRequestId = jobRequest.getContractorRequestId();
 		Collection<Job> jobs = null;

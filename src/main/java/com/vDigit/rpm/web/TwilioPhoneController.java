@@ -3,6 +3,8 @@ package com.vDigit.rpm.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,8 @@ import com.vDigit.rpm.util.PhoneNotification;
 @RequestMapping("/api/sms")
 @CrossOrigin(origins = "*")
 public class TwilioPhoneController {
+
+	private static Logger logger = LoggerFactory.getLogger(TwilioPhoneController.class);
 
 	@Autowired
 	private ContractorService contractorService;
@@ -38,7 +42,7 @@ public class TwilioPhoneController {
 		// String mid = request.getParameter("MessageSid");
 		// String msid = request.getParameter("MessagingServiceId");
 		String x = f + " -> " + body;
-		System.out.println("[TwilioPhoneController]: "+x);
+		logger.info("[TwilioPhoneController]: " + x);
 		response.setContentType("application/xml");
 
 		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {
