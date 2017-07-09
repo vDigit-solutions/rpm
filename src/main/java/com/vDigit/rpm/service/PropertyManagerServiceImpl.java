@@ -58,6 +58,16 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	}
 
 	@Override
+	public JobResponse getJobs() {
+		Collection<Job> jobs = null;
+		// Need to implement CoR
+		jobs = jobDAO.findAll();
+		JobResponse jr = new JobResponse();
+		jr.setJobs(jobs);
+		return jr;
+	}
+
+	@Override
 	public void updateJob(Job job) {
 		jobDAO.save(job);
 

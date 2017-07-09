@@ -20,6 +20,7 @@
         .ui-dialog .ui-state-error { padding: .3em; }
         .validateTips { border: 1px solid transparent; padding: 0.3em; }
         #jobtype-button {width:35%}
+        #propertyManagerId-button {width:40%}
         div.section {margin-bottom: 15px}
         button#create-user {float:right;}
         button#delete-jobs {float:right;}
@@ -39,7 +40,7 @@
 
 <!--NEW JOB dialog-->
 <div id="job-dialog-form" title="New job request">
-    <form>
+    <form id="jobDialogForm">
         <fieldset>
             <div class="section">
                 <label for="jobtype">Type:</label>
@@ -48,6 +49,13 @@
                     <option selected value="Cleaning">Cleaning</option>
                     <option value="Painting">Painting</option>
                     <option value="Re-key">Re-key Locks</option>
+                </select>
+            </div>
+            
+            <div class="section">
+                <label for="propertyManagerId">Manager:</label>
+                <select name="propertyManagerId" id="propertyManagerId">
+                	<option disabled selected>Please pick one</option>
                 </select>
             </div>
 
@@ -96,9 +104,6 @@
 <div id="pm-dialog-form" title="New PM request">
     <form>
         <fieldset>
-            <div class="section"><label for="pm-id">id:</label>
-                <input name="pm-id" id="pm-id" class="text ui-widget-content ui-corner-all">
-            </div>
             <div class="section"><label for="pm-name">name:</label>
                 <input name="pm-name" id="pm-name" class="text ui-widget-content ui-corner-all">
             </div>
@@ -149,6 +154,7 @@
     <table id="jobs" class="ui-widget ui-widget-content">
         <thead>
         <tr class="ui-widget-header ">
+        	<th>Manager</th>
             <th>Date</th>
             <th>Type</th>
             <th>Address</th>
@@ -165,6 +171,7 @@
     $( function() {
         let jobDialog, contractorDialog, pmDialog, pmForm, userForm, contractorForm;
         let contractorsCache = {};
+        let managersCache = {};
 
         // JOBS dialog and form
         jobDialog = $( "#job-dialog-form" ).dialog({
@@ -215,7 +222,7 @@
         // PMs dialog and form
         pmDialog = $( "#pm-dialog-form" ).dialog({
             autoOpen: false,
-            height: 445,
+            height: 'auto',
             width: 350,
             modal: true,
             buttons: {
@@ -251,6 +258,7 @@
         });
 
         $( "#jobtype" ).selectmenu();
+        
         $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
         
         $("#delete-jobs").button().on( "click", function() {
@@ -273,8 +281,8 @@
 
         //get contractors
         getContractorsDataAndBindUI()
-            .then(()=> { return getJobsDataAndBindUI();})
-            .then(()=> { return getPMsDataAndBindUI(); });
+            .then(()=> { return getPMsDataAndBindUI(); })
+            .then(()=> { return getJobsDataAndBindUI(); });
 
         // ----------- helper functions  -------------
         function getContractorsDataAndBindUI() {
@@ -297,13 +305,16 @@
 
                     console.log(pmsData);
                     pmsData.forEach(function (pmData) {
+                    	managersCache[pmData.id] = pmData;
                         addNewPMUI(pmData);
                     });
+                    $('#propertyManagerId option').eq(1).attr('selected', 'selected').trigger('change');
+                    $( "#propertyManagerId" ).selectmenu();
                 });
         }
 
         function getJobsDataAndBindUI() {
-            return $.getJSON("/api/pm/job/100").then((jobsData) => {
+            return $.getJSON("/api/pm/jobs").then((jobsData) => {
                 console.log(jobsData);
                 bindJobsUI(jobsData);
 
@@ -317,7 +328,7 @@
         function bindJobsUI(jobsData) {
             $( "#jobs").find("tbody" ).html("");
             jobsData.jobs.forEach(function (jobData) {
-                addNewJobUI(jobData, contractorsCache);
+                addNewJobUI(jobData, contractorsCache, managersCache);
             });
         }
 
@@ -328,7 +339,7 @@
                 "<td>" + pmData.phone + "</td>" +
                 "<td><button>delete</button></td>" +
                 "</tr>");
-
+            
             $( "#pms").find("tbody" ).append(row);
 
             $("button", row).click(()=> {
@@ -343,7 +354,15 @@
                 });
             });
 //            pmDialog.dialog( "close" );
+			$('#jobDialogForm #propertyManagerId').populate(pmData);
+			
+			
         }
+        
+        $.fn.populate = function(pmData) {
+      	  	$(this)
+      	    .append('<option value="' + pmData.id + '">' + pmData.name + '</option>');
+      	}	
 
         function addNewContractorUI(contractorData) {
             const row = $("<tr>" +
@@ -369,13 +388,16 @@
 //            jobDialog.dialog( "close" );
         }
 
-        function addNewJobUI(jobData, contractorsCache) {
+        function addNewJobUI(jobData, contractorsCache, managersCache) {
             const date = new Date(jobData.desiredDateOfBegin);
 
             //TODO: admin could have deleted the contractor but a job may still reference him
             const contractor = contractorsCache[jobData.currentContractorRequestId] || {name:"deleted", phone:"deleted"};
+            
+            const manager = managersCache[jobData.propertyManagerId] || {name:"deleted", phone:"deleted"};
 
             $( "#jobs").find("tbody" ).append( "<tr>" +
+            		"<td>" + manager.name + "</td>" +
                     "<td>" + (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear() + "</td>" +
                     "<td>" + jobData.type + "</td>" +
                     "<td>" + jobData.jobLocation + "</td>" +
@@ -432,10 +454,11 @@
         }
 
         function createJobRequest() {
+        	var managerId = $("#propertyManagerId").val();
             let jobReqData =
             {"job":
                 {
-                    "propertyManagerId":"100",
+                    "propertyManagerId":managerId,
                     "description":$("#description").val(),
                     "desiredDateOfBegin":new Date($("#jobtime").val()).getTime(),
                     "type":$("#jobtype").val(),
@@ -444,11 +467,11 @@
                                 "street1":$("#address").val()
                             }
                 },
-                "propertyManagerId":"100"
+                "propertyManagerId":managerId
             };
 
             $.ajax({
-                url: '/api/pm/job/100',
+                url: '/api/pm/jobs',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(jobReqData),

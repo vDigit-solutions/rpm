@@ -14,4 +14,6 @@ public interface PropertyManagerService {
 	void updateJob(Job job);
 
 	void deleteJobs();
+
+	JobResponse getJobs();
 }

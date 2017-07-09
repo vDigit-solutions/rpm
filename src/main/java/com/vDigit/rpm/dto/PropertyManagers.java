@@ -1,15 +1,22 @@
 package com.vDigit.rpm.dto;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Component;
+
+import com.vDigit.rpm.dao.ManagerDao;
 
 @Component
 public class PropertyManagers {
+
 	private static Map<String, PropertyManager> propertyManagerMap = makePropertyManagerMap();
+
+	@Resource
+	private ManagerDao managerDao;
 
 	private static Map<String, PropertyManager> makePropertyManagerMap() {
 		Map<String, PropertyManager> map = new LinkedHashMap<String, PropertyManager>();
@@ -20,21 +27,24 @@ public class PropertyManagers {
 	}
 
 	public List<PropertyManager> getPropertyManagers() {
-		return new ArrayList<>(propertyManagerMap.values());
+		return managerDao.findAll();
 	}
 
-	public PropertyManager getPropertyManagerName(String id) {
-		return propertyManagerMap.get(id);
+	public PropertyManager getPropertyManager(String id) {
+		return managerDao.findOne(id);
 	}
 
 	public PropertyManager createPM(PropertyManager pm) {
-		propertyManagerMap.put(pm.getId(), pm);
-		return pm;
+		// propertyManagerMap.put(pm.getId(), pm);
+		PropertyManager saved = managerDao.save(pm);
+		return saved;
 	}
 
 	public PropertyManager removePM(String pmId) {
-		PropertyManager pm = propertyManagerMap.get(pmId);
-		propertyManagerMap.remove(pmId);
+		// PropertyManager pm = propertyManagerMap.get(pmId);
+		// propertyManagerMap.remove(pmId);
+		PropertyManager pm = getPropertyManager(pmId);
+		managerDao.delete(pm);
 		return pm;
 	}
 }

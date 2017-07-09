@@ -2,24 +2,36 @@ package com.vDigit.rpm.dto;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
+
+import com.vDigit.rpm.dao.ContractorDao;
 
 @Component
 public class Contractors {
 	private static final Collection<Contractor> contractors = makePreferredContractors();
 
+	@Resource
+	private ContractorDao contractorDao;
+
 	public Collection<Contractor> getContractors() {
-		return contractors;
+		return contractorDao.findAll();
 	}
 
 	public Contractor getContractor(String phone) {
-		for (Contractor c : contractors) {
-			if (c.getPhone().contains(phone) || (phone != null && phone.contains(c.getPhone())))
-				return c;
+		/*
+		 * for (Contractor c : contractors) { if (c.getPhone().contains(phone)
+		 * || (phone != null && phone.contains(c.getPhone()))) return c; }
+		 */
+		List<Contractor> contracors = contractorDao.findByPhoneLike(phone);
+		if (CollectionUtils.isEmpty(contracors)) {
+			return null;
 		}
-		return null;
+		return contracors.iterator().next();
 	}
 
 	private static Collection<Contractor> makePreferredContractors() {
@@ -34,21 +46,20 @@ public class Contractors {
 	}
 
 	public Contractor creatContractor(Contractor c) {
-		contractors.add(Contractor.makeNameAndPhone(c.getName(), c.getPhone(), c.getEmail()));
-		return c;
+		Contractor saved = contractorDao.save(c);
+		return saved;
 	}
 
 	public Contractor remove(String contractorId) {
 		Contractor c;
 
-		for (Iterator<Contractor> it = contractors.iterator(); it.hasNext();) {
-			c = it.next();
-			if (c.getId().equalsIgnoreCase(contractorId)) {
-				it.remove();
-				return c;
-			}
-		}
-
-		return null;
+		/*
+		 * for (Iterator<Contractor> it = contractors.iterator(); it.hasNext();)
+		 * { c = it.next(); if (c.getId().equalsIgnoreCase(contractorId)) {
+		 * it.remove(); return c; } }
+		 */
+		c = contractorDao.findOne(contractorId);
+		contractorDao.delete(c);
+		return c;
 	}
 }

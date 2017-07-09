@@ -1,6 +1,11 @@
 package com.vDigit.rpm.dto;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class PropertyManager {
+	@Id
 	private String id;
 	private String phone;
 	private String name;
@@ -37,9 +42,9 @@ public class PropertyManager {
 		return pm;
 	}
 
-//	PropertyManager(String id, String name, String phone) {
-//		this.id = id;
-//		this.phone = phone;
-//		this.name = name;
-//	}
+	// PropertyManager(String id, String name, String phone) {
+	// this.id = id;
+	// this.phone = phone;
+	// this.name = name;
+	// }
 }

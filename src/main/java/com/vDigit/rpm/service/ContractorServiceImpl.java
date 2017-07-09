@@ -54,7 +54,7 @@ public class ContractorServiceImpl implements ContractorService {
 	}
 
 	private void sendNotificationToPropertyManager(Job job, Contractor contractor) {
-		PropertyManager pm = propertyManagers.getPropertyManagerName(job.getPropertyManagerId());
+		PropertyManager pm = propertyManagers.getPropertyManager(job.getPropertyManagerId());
 		String pmName = pm.getName();
 		String pmPhone = pm.getPhone();
 		String message = "Hi {0},\n{1} is interested in doing job [{2}].\nPlease call {1} @ {3} for further information\n";

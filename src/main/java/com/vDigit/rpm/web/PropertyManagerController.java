@@ -21,12 +21,14 @@ public class PropertyManagerController {
 	@Autowired
 	private PropertyManagerService pms;
 
-	@RequestMapping(value = "/job/{propertyManagerId}", method = RequestMethod.POST)
-	public @ResponseBody JobResponse createJob(@PathVariable("propertyManagerId") String propertyManagerId,
-			@RequestBody JobRequest jobRequest) {
-		// System.out.println("createJob");
-		jobRequest.getJob().setPropertyManagerId(propertyManagerId);
+	@RequestMapping(value = "/jobs", method = RequestMethod.POST)
+	public @ResponseBody JobResponse createJob(@RequestBody JobRequest jobRequest) {
 		return pms.createJob(jobRequest);
+	}
+
+	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
+	public @ResponseBody JobResponse getJobs() {
+		return pms.getJobs();
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.DELETE)
