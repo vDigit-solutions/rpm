@@ -46,7 +46,11 @@ public class Contractors {
 	}
 
 	public Contractor creatContractor(Contractor c) {
-		Contractor saved = contractorDao.save(c);
+		Contractor saved = getContractor(c.getPhone());
+		if (saved != null) {
+			c.setId(saved.getId());
+		}
+		saved = contractorDao.save(c);
 		return saved;
 	}
 

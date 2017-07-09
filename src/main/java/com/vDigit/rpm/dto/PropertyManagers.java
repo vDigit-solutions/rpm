@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.vDigit.rpm.dao.ManagerDao;
 
@@ -36,6 +37,10 @@ public class PropertyManagers {
 
 	public PropertyManager createPM(PropertyManager pm) {
 		// propertyManagerMap.put(pm.getId(), pm);
+		List<PropertyManager> manager = managerDao.findByPhoneLike(pm.getPhone());
+		if (!CollectionUtils.isEmpty(manager)) {
+			pm.setId(manager.iterator().next().getId());
+		}
 		PropertyManager saved = managerDao.save(pm);
 		return saved;
 	}
