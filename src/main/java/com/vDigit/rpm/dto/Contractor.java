@@ -1,14 +1,16 @@
 package com.vDigit.rpm.dto;
 
+import java.util.UUID;
+
 public class Contractor {
 	private String id;
 	private String name;
 	private String email;
 	private String phone;
 
-	public static Contractor makeNameAndPhone(String id, String name, String phone, String email) {
+	public static Contractor makeNameAndPhone(String name, String phone, String email) {
 		Contractor c = new Contractor();
-		c.id = id;
+		c.id = UUID.randomUUID().toString();
 		c.name = name;
 		c.phone = phone;
 		c.email = email;

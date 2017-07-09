@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>jQuery UI Dialog - Modal form</title>
+    <title>Property Management System</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
     <style>
@@ -76,9 +76,6 @@
 <div id="contractor-dialog-form" title="New contractor request">
     <form>
         <fieldset>
-            <div class="section"><label for="contractor-id">id:</label>
-                <input name="contractor-id" id="contractor-id" class="text ui-widget-content ui-corner-all">
-            </div>
             <div class="section"><label for="contractor-name">name:</label>
                 <input name="contractor-name" id="contractor-name" class="text ui-widget-content ui-corner-all">
             </div>
@@ -264,9 +261,14 @@
                 	$( "#jobs").find("tbody" ).empty();
                     //contractorsCache[contractorData.id] = undefined;
                     //row.remove();
-                    j//obDialog.dialog( "close" );
+                    //jobDialog.dialog( "close" );
                 }
             });
+        });
+        
+        $("#jobtype").on("selectmenuchange", function () {
+            var text = $(this).find("option:selected").text();
+            $('#description').val(text+" the apartment in Lynnwood ...");
         });
 
         //get contractors
