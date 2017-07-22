@@ -33,7 +33,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		if (cw != null) {
 			return;
 		}
-		Contractor c = job.getPotentialNextContractor(contractors.getContractors());
+		Contractor c = job.getPotentialNextContractor(contractors.getContractors(job.getType()));
 		if (c == null) {
 			return;
 		}
@@ -78,7 +78,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 
 	private String createMessage(Job job, Contractor c) {
 		String message = "Hi {0},\nWe have a contract work.\nWork Description:\n{1}\n\nLocation of work : \n{2}\n\nExpected Date of Start : \n{3}\n\nPlease respond with YES (if you are interested) and NO (if you are not interested).\n";
-		return MessageFormat.format(message, c.getName(), job.getDescription(), job.getJobLocation(),
+		return MessageFormat.format(message, c.getLastName(), job.getDescription(), job.getJobLocation(),
 				job.getDesiredDateOfBegin().toString());
 	}
 

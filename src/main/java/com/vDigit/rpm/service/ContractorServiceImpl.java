@@ -58,7 +58,7 @@ public class ContractorServiceImpl implements ContractorService {
 		String pmName = pm.getName();
 		String pmPhone = pm.getPhone();
 		String message = "Hi {0},\n{1} is interested in doing job [{2}].\nPlease call {1} @ {3} for further information\n";
-		String fm = MessageFormat.format(message, pmName, contractor.getName(), job.getDescription(),
+		String fm = MessageFormat.format(message, pmName, contractor.getLastName(), job.getDescription(),
 				contractor.getPhone());
 		pn.sendMessage(pmPhone, fm);
 
