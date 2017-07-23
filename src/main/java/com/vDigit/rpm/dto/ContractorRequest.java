@@ -24,4 +24,12 @@ public class ContractorRequest {
 	public void setContractorResponseForJob(String contractorResponseForJob) {
 		this.contractorResponseForJob = contractorResponseForJob;
 	}
+
+	public void setJob(Job job) {
+		this.job = job;
+	}
+
+	public Job getJob() {
+		return job;
+	}
 }

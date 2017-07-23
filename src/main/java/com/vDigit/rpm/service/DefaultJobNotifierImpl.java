@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,12 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 
 	@Resource(name = "mailNotification")
 	private MailNotification mailNotification;
+
+	@Value("${app.url:http://localhost:8080}")
+	private String appUrl;
+
+	private static final String YES = "%s/api/pm/job/%s/%s/yes";
+	private static final String NO = "%s/api/pm/job/%s/%s/no";
 
 	@Override
 	public void processJob(Job job) {
@@ -81,8 +88,8 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 			tokens.put("description", job.getDescription());
 			tokens.put("location", job.getJobLocation());
 			tokens.put("date", job.getDesiredDateOfBegin().toString());
-			tokens.put("yes", "");
-			tokens.put("no", "");
+			tokens.put("yes", String.format(YES, appUrl, job.getId(), c.getId()));
+			tokens.put("no", String.format(NO, appUrl, job.getId(), c.getId()));
 
 			// Create pattern of the format "%(name|date)%"
 			String patternString = "-(" + StringUtils.join(tokens.keySet(), "|") + ")-";

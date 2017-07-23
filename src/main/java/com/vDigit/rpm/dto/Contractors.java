@@ -46,4 +46,8 @@ public class Contractors {
 	public Collection<Contractor> getContractors(String type) {
 		return contractorDao.findByType(type);
 	}
+
+	public Contractor getContractorById(String contractorId) {
+		return contractorDao.findOne(contractorId);
+	}
 }

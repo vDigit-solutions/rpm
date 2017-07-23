@@ -44,7 +44,7 @@ public class ContractorServiceImpl implements ContractorService {
 		String phone = request.getContractorPhoneNumber();
 		String response = request.getContractorResponseForJob();
 		String contractorId = getContractorId(phone);
-		Job job = getJob(contractorId);
+		Job job = getJob(request.getJob(), contractorId);
 		job.updateContractorResponse(contractorId, response);
 		if (response.equalsIgnoreCase("No")) {
 			pms.processJob(job);
@@ -73,7 +73,10 @@ public class ContractorServiceImpl implements ContractorService {
 		return null;
 	}
 
-	private Job getJob(String contractorId) {
+	private Job getJob(Job job, String contractorId) {
+		if (job != null) {
+			return job;
+		}
 		JobRequest request = new JobRequest();
 		request.setPotentialContractorRequestId(contractorId);
 		JobResponse jr = pms.getJobs(request);
