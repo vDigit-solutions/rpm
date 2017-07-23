@@ -1,5 +1,7 @@
 package com.vDigit.rpm.web;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,17 +11,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
+import com.vDigit.rpm.service.JobService;
 import com.vDigit.rpm.service.PropertyManagerService;
 
 @RestController
 @RequestMapping("/api/pm")
 @CrossOrigin(origins = "*")
-public class PropertyManagerController {
+public class JobsController {
 
 	@Autowired
 	private PropertyManagerService pms;
+
+	@Resource(name = "jobServiceImpl")
+	private JobService jobService;
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.POST)
 	public @ResponseBody JobResponse createJob(@RequestBody JobRequest jobRequest) {
@@ -41,5 +48,12 @@ public class PropertyManagerController {
 		JobRequest jr = new JobRequest();
 		jr.setPropertyManagerId(propertyManagerId);
 		return pms.getJobs(jr);
+	}
+
+	@RequestMapping(value = "/job/{jobId}/{acceptance}", method = RequestMethod.GET)
+	public @ResponseBody String getJobs(@PathVariable("jobId") String jobId,
+			@PathVariable("acceptance") String acceptance) {
+		Job job = jobService.getJob(jobId);
+		return "";
 	}
 }

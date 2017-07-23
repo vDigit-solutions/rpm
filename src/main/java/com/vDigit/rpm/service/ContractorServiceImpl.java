@@ -13,9 +13,10 @@ import com.vDigit.rpm.dto.Contractors;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
+import com.vDigit.rpm.dto.NotificationContext;
 import com.vDigit.rpm.dto.PropertyManager;
 import com.vDigit.rpm.dto.PropertyManagers;
-import com.vDigit.rpm.util.PhoneNotification;
+import com.vDigit.rpm.util.TwilioPhoneNotification;
 
 @Component
 public class ContractorServiceImpl implements ContractorService {
@@ -29,8 +30,8 @@ public class ContractorServiceImpl implements ContractorService {
 	@Autowired
 	private PropertyManagerService pms;
 
-	@Autowired
-	private PhoneNotification pn;
+	@Resource(name = "twilioPhoneNotification")
+	private TwilioPhoneNotification pn;
 
 	@Override
 	public void notifyContractor(ContractorRequest request) {
@@ -60,7 +61,8 @@ public class ContractorServiceImpl implements ContractorService {
 		String message = "Hi {0},\n{1} is interested in doing job [{2}].\nPlease call {1} @ {3} for further information\n";
 		String fm = MessageFormat.format(message, pmName, contractor.getLastName(), job.getDescription(),
 				contractor.getPhone());
-		pn.sendMessage(pmPhone, fm);
+		NotificationContext context = new NotificationContext(null, pmPhone, fm);
+		pn.send(context);
 
 	}
 

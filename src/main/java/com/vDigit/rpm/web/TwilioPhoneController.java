@@ -1,5 +1,6 @@
 package com.vDigit.rpm.web;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.twilio.twiml.Body;
 import com.twilio.twiml.Message;
 import com.vDigit.rpm.dto.ContractorRequest;
+import com.vDigit.rpm.dto.NotificationContext;
 import com.vDigit.rpm.service.ContractorService;
-import com.vDigit.rpm.util.PhoneNotification;
+import com.vDigit.rpm.util.TwilioPhoneNotification;
 
 @RestController
 @RequestMapping("/api/sms")
@@ -27,8 +29,8 @@ public class TwilioPhoneController {
 	@Autowired
 	private ContractorService contractorService;
 
-	@Autowired
-	private PhoneNotification pn;
+	@Resource(name = "twilioPhoneNotification")
+	private TwilioPhoneNotification pn;
 
 	private String cleanPhoneNumber(String phone) {
 		return phone.replace("+1", "");
@@ -48,7 +50,8 @@ public class TwilioPhoneController {
 		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {
 			x = "Thank you for your response[" + body + "]. However, I don't understand " + body
 					+ ". Can you please respond with either Yes or No";
-			pn.sendMessage(f, x);
+			NotificationContext ctx = new NotificationContext(null, f, x);
+			pn.send(ctx);
 			return;
 		}
 		x = "Hello -> I received \"" + body + "\" from " + f + ". Thank you for your message.";
