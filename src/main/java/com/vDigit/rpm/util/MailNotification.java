@@ -30,7 +30,7 @@ public class MailNotification implements Notification<NotificationContext, Strin
 		Email to = new Email(input.getTo());
 		Content content = new Content("text/html", input.getMessage());
 		Mail mail = new Mail(from, subject, to, content);
-		mail.setTemplateId("3b1763f2-abd9-40b8-aa16-244c5061089d");
+		mail.setTemplateId("40715bb4-0633-43dc-a572-538018eaef30");
 		Request request = new Request();
 		try {
 			request.setMethod(Method.POST);
