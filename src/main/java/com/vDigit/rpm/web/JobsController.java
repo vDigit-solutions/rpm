@@ -72,7 +72,7 @@ public class JobsController {
 
 		processContractorResponse(cr);
 
-		return "thankyou";
+		return "Thank you for your response";
 	}
 
 	private void processContractorResponse(ContractorRequest request) {
