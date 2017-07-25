@@ -59,7 +59,7 @@ public class JobsController {
 		pms.deleteJobs();
 	}
 
-	@RequestMapping(value = "/job/{propertyManagerId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/jobs/{propertyManagerId}", method = RequestMethod.GET)
 	public @ResponseBody JobResponse getJobs(@PathVariable("propertyManagerId") String propertyManagerId) {
 		JobRequest jr = new JobRequest();
 		jr.setPropertyManagerId(propertyManagerId);
