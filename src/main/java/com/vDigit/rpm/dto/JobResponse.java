@@ -13,4 +13,13 @@ public class JobResponse {
 	}
 
 	private Collection<Job> jobs = new ArrayList<Job>();
+
+	public JobResponse() {
+
+	}
+
+	public JobResponse(Collection<Job> jobs) {
+		this.jobs = jobs;
+	}
+
 }

@@ -9,6 +9,14 @@ public class ContractorRequest {
 	private String contractorPhoneNumber;
 	private String contractorResponseForJob;
 
+	public void setContractor(Contractor contractor) {
+		this.contractor = contractor;
+	}
+
+	public Contractor getContractor() {
+		return contractor;
+	}
+
 	public String getContractorPhoneNumber() {
 		return contractorPhoneNumber;
 	}

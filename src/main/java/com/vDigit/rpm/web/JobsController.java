@@ -17,6 +17,7 @@ import com.vDigit.rpm.dto.Contractors;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
+import com.vDigit.rpm.dto.ScheduleRequest;
 import com.vDigit.rpm.service.ContractorService;
 import com.vDigit.rpm.service.JobService;
 import com.vDigit.rpm.service.PropertyManagerService;
@@ -43,6 +44,11 @@ public class JobsController {
 		return pms.createJob(jobRequest);
 	}
 
+	@RequestMapping(value = "/schedule/jobs", method = RequestMethod.PUT)
+	public @ResponseBody JobResponse scheduleJob(@RequestBody ScheduleRequest scheduleRequest) {
+		return pms.scheduleJob(scheduleRequest);
+	}
+
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
 	public @ResponseBody JobResponse getJobs() {
 		return pms.getJobs();
@@ -67,7 +73,7 @@ public class JobsController {
 		Contractor contractor = contractors.getContractorById(contractorId);
 		ContractorRequest cr = new ContractorRequest();
 		cr.setJob(job);
-		cr.setContractorPhoneNumber(contractor.getPhone());
+		cr.setContractor(contractor);
 		cr.setContractorResponseForJob(acceptance);
 
 		processContractorResponse(cr);
