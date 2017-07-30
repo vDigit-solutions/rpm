@@ -54,6 +54,11 @@ public class JobsController {
 		return pms.getJobs();
 	}
 
+	@RequestMapping(value = "/job/{jobId}", method = RequestMethod.GET)
+	public @ResponseBody JobResponse getJob(@PathVariable String jobId) {
+		return pms.getJobs(jobId);
+	}
+
 	@RequestMapping(value = "/jobs", method = RequestMethod.DELETE)
 	public void deleteJobs() {
 		pms.deleteJobs();

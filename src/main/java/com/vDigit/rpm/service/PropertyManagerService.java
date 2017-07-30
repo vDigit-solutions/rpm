@@ -19,4 +19,6 @@ public interface PropertyManagerService {
 	JobResponse getJobs();
 
 	JobResponse scheduleJob(ScheduleRequest scheduleRequest);
+
+	JobResponse getJobs(String jobId);
 }

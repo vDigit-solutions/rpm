@@ -1,5 +1,6 @@
 package com.vDigit.rpm.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -30,6 +31,7 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	public JobResponse createJob(JobRequest jobRequest) {
 		Job job = jobRequest.getJob();
 		job.setPropertyManagerId(jobRequest.getPropertyManagerId());
+		job.setStatus("Schedule");
 		Job j = jobDAO.save(job);
 		JobResponse jr = new JobResponse();
 		jr.getJobs().add(j);
@@ -88,6 +90,14 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		}
 		Iterable<Job> latest = jobDAO.findAll(scheduleRequest.getJobIds());
 		return new JobResponse(StreamSupport.stream(latest.spliterator(), false).collect(Collectors.toList()));
+	}
+
+	@Override
+	public JobResponse getJobs(String jobId) {
+		Job job = jobDAO.findOne(jobId);
+		Collection<Job> jobs = new ArrayList<>();
+		jobs.add(job);
+		return new JobResponse(jobs);
 	}
 
 }
