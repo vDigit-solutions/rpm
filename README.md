@@ -18,3 +18,7 @@ Todo
 2) add
 3) delete PMs
 4) job status
+
+New Angular setup
+src/main/webapp/quickstart
+  npm start
