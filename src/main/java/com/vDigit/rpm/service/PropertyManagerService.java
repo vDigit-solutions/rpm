@@ -21,4 +21,6 @@ public interface PropertyManagerService {
 	JobResponse scheduleJob(ScheduleRequest scheduleRequest);
 
 	JobResponse getJobs(String jobId);
+
+	void delete(String jobId);
 }

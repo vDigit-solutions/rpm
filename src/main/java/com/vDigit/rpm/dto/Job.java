@@ -82,6 +82,14 @@ public class Job {
 		return statusDate;
 	}
 
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
+
+	public String getPropertyName() {
+		return propertyName;
+	}
+
 	@Id
 	private String id;
 	private String propertyManagerId;
@@ -91,6 +99,8 @@ public class Job {
 	private String status;
 	// Painting, Carpet Cleaning, Electrical
 	private String type;
+	private String propertyName;
+
 	private Map<String, ContractorEntry> contractorEntries = new LinkedHashMap<String, ContractorEntry>();
 	private ContractWork contractWork;
 

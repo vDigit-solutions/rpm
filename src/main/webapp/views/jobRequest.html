@@ -9,7 +9,7 @@
     <style>
         label {display:inline-block;width: 20%;text-align: right; vertical-align: top;font-size: 0.9em; font-weight:bold;}
         input { display:inline-block;}
-        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        input.text { margin-bottom:12px; width:55%; padding: .4em; }
         input#jobtime {width:50%}
         fieldset { padding:0; border:0; margin-top:25px; }
         h1 { font-size: 1.2em; margin: .6em 0; }
@@ -52,13 +52,9 @@
                 </select>
             </div>
             
-            <div class="section">
-                <label for="propertyManagerId">Manager:</label>
-                <select name="propertyManagerId" id="propertyManagerId">
-                	<option disabled selected>Please pick one</option>
-                </select>
+ 			<div class="section"><label for="propertyName">Property Name:</label>
+                <input type="text" name="propertyName" id="propertyName" class="text ui-widget-content ui-corner-all">
             </div>
-
 
             <div class="section"><label for="jobtime">Date:</label>
                 <input type="datetime" name="jobtime" id="jobtime" class="text ui-widget-content ui-corner-all">
@@ -329,8 +325,8 @@
                     	managersCache[pmData.id] = pmData;
                         addNewPMUI(pmData);
                     });
-                    $('#propertyManagerId option').eq(1).attr('selected', 'selected').trigger('change');
-                    $( "#propertyManagerId" ).selectmenu();
+                   // $('#propertyManagerId option').eq(1).attr('selected', 'selected').trigger('change');
+                   // $( "#propertyManagerId" ).selectmenu();
                 });
         }
 
@@ -452,7 +448,7 @@
             
             $("#delete", row).click(()=> {
                 $.ajax({
-                    url: '/api/pm/jobs' + jobData.id,
+                    url: '/api/pm/job/' + jobData.id,
                     type: 'DELETE',
                     success: function() {
                         row.remove();
@@ -535,12 +531,19 @@
         }
 
         function createJobRequest() {
-        	var managerId = $("#propertyManagerId").val();
+        	
+        	var array = $.map(managersCache, function(value, index) {
+        	    return [value];
+        	});
+			console.log(array)
+        	var managerId = array[0].id;
+        	alert(managerId);
             let jobReqData =
             {"job":
                 {
                     "propertyManagerId":managerId,
                     "description":$("#description").val(),
+                    "propertyName":$("#propertyName").val(),
                     "desiredDateOfBegin":new Date($("#jobtime").val()).getTime(),
                     "type":$("#jobtype").val(),
                     "address":

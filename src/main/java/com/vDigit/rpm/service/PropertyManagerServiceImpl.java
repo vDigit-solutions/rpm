@@ -100,4 +100,9 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		return new JobResponse(jobs);
 	}
 
+	@Override
+	public void delete(String jobId) {
+		jobDAO.delete(jobId);
+	}
+
 }
