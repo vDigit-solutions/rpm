@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="4a906302-0144-4d27-9bf9-57ce0212d78f" name="DO NOT CHECKIN" comment="" />
-    <list default="true" id="a88ca876-1532-4f09-8ff5-b504abef4624" name="Default" comment="">
+    <list default="true" id="a88ca876-1532-4f09-8ff5-b504abef4624" name="Default" comment="rename heroe Detail components">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor-detail.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor-detail.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractors.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractors.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/dashboard.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/dashboard.component.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -47,8 +43,8 @@
           <file leaf-file-name="contractor.service.ts" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="693">
-                  <caret line="33" column="50" lean-forward="true" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
+                <state relative-caret-position="861">
+                  <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
                   <folding>
                     <element signature="e#90#130#0" expanded="true" />
                   </folding>
@@ -582,7 +578,7 @@
       <option name="presentableId" value="Default" />
       <updated>1501549714241</updated>
       <workItem from="1501549719827" duration="5630000" />
-      <workItem from="1501702286356" duration="6153000" />
+      <workItem from="1501702286356" duration="6175000" />
     </task>
     <task id="LOCAL-00001" summary="rename to contractor">
       <created>1501550475528</created>
@@ -668,11 +664,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501714670661</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="rename heroe Detail components">
+      <created>1501714944108</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1501714944108</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11783000" />
+    <option name="totallyTimeSpent" value="11805000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1615" y="128" width="3255" height="1946" extended-state="0" />
@@ -1168,8 +1171,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="693">
-          <caret line="33" column="50" lean-forward="true" selection-start-line="33" selection-start-column="50" selection-end-line="33" selection-end-column="50" />
+        <state relative-caret-position="861">
+          <caret line="41" column="0" lean-forward="true" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding>
             <element signature="e#90#130#0" expanded="true" />
           </folding>
