@@ -22,7 +22,10 @@ export class HeroesComponent implements OnInit{
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes().then(heroes=> this.heroes = heroes);
+    this.heroService.getHeroes().then(heroes=> {
+      console.log("Returned from Hero Service: %s", JSON.stringify(heroes));
+      this.heroes = heroes
+    });
   }
 
   onSelect(h:Contractor): void {
