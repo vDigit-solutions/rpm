@@ -7,22 +7,22 @@ import { ContractorService } from './contractor.service';
 import {Contractor} from "./contractor";
 
 @Component({
-  selector: 'hero-detail',
-  templateUrl: "./hero-detail.component.html",
-  styleUrls: ["./hero-detail.component.css"]
+  selector: 'contractor-detail',
+  templateUrl: "./contractor-detail.component.html",
+  styleUrls: ["./contractor-detail.component.css"]
 })
 
-export class HeroDetailComponent implements OnInit {
-  @Input() hero: Contractor;
+export class ContractorDetailComponent implements OnInit {
+  @Input() contractor: Contractor;
 
   ngOnInit(): void {
     this.route.paramMap
-      .switchMap((params: ParamMap) => this.heroService.getHero(+params.get('id')))
-      .subscribe(hero => this.hero = hero);
+      .switchMap((params: ParamMap) => this.contractorService.getHero(+params.get('id')))
+      .subscribe(hero => this.contractor = hero);
   }
 
   constructor(
-    private heroService: ContractorService,
+    private contractorService: ContractorService,
     private route: ActivatedRoute,
     private location: Location
   ) {}
@@ -30,6 +30,4 @@ export class HeroDetailComponent implements OnInit {
   goBack(): void {
     this.location.back();
   }
-
-
 }

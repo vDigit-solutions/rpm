@@ -4,7 +4,7 @@ import { FormsModule }   from '@angular/forms';
 import { HttpModule }    from '@angular/http';
 
 import { AppComponent }  from './app.component';
-import {HeroDetailComponent} from "./hero-detail.component";
+import {ContractorDetailComponent} from "./contractor-detail.component";
 import { ContractorsComponent } from "./contractors.component";
 import {ContractorService} from "./contractor.service";
 import {DashboardComponent} from "./dashboard.component";
@@ -20,7 +20,7 @@ import { AppRoutingModule }     from './app-routing.module';
   ],
   declarations: [
     AppComponent,
-    HeroDetailComponent,
+    ContractorDetailComponent,
     ContractorsComponent,
     DashboardComponent
   ],
