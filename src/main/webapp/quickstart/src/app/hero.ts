@@ -4,6 +4,7 @@ export class Hero {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
   vendorCompanyName: string;
   type: string;
 }
