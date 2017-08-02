@@ -17,7 +17,7 @@ export class ContractorDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap
-      .switchMap((params: ParamMap) => this.contractorService.getHero(+params.get('id')))
+      .switchMap((params: ParamMap) => this.contractorService.getContractor(+params.get('id')))
       .subscribe(hero => this.contractor = hero);
   }
 

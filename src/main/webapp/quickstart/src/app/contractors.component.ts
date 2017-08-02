@@ -22,7 +22,7 @@ export class ContractorsComponent implements OnInit{
   }
 
   getHeroes(): void {
-    this.contractorService.getHeroes().then(heroes=> {
+    this.contractorService.getContractors().then(heroes=> {
       console.log("Returned from Hero Service: %s", JSON.stringify(heroes));
       this.contractors = heroes
     });

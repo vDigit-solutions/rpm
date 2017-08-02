@@ -11,7 +11,7 @@ export class ContractorService {
 
   constructor(private http:Http) {}
 
-  getHeroes(): Promise<Contractor[]> {
+  getContractors(): Promise<Contractor[]> {
     // return new Promise(resolve => {
     //   // Simulate server latency with 2 second delay
     //   setTimeout(() => resolve(CONTRACTORS), 500);
@@ -34,8 +34,8 @@ export class ContractorService {
     return Promise.reject(error.message || error);
   }
 
-  getHero(id: number): Promise<Contractor> {
-    return this.getHeroes()
+  getContractor(id: number): Promise<Contractor> {
+    return this.getContractors()
       .then(contractors => contractors.find(contractor => contractor.id === id));
   }
 }
