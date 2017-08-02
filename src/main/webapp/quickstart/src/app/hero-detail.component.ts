@@ -4,7 +4,7 @@ import { Location }                 from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { ContractorService } from './contractor.service';
-import {Hero} from "./hero";
+import {Hero} from "./contractor";
 
 @Component({
   selector: 'hero-detail',

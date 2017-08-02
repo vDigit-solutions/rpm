@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list id="4a906302-0144-4d27-9bf9-57ce0212d78f" name="DO NOT CHECKIN" comment="" />
     <list default="true" id="a88ca876-1532-4f09-8ff5-b504abef4624" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/dashboard.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/dashboard.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/heroes.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/heroes.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -39,8 +43,8 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="hero.ts" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts">
+          <file leaf-file-name="contractor.ts" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="210">
                   <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
@@ -306,7 +310,7 @@
               <item name="quickstart" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="hero.ts" type="620a8d5e:NestingTreeNode" />
+              <item name="contractor.ts" type="620a8d5e:NestingTreeNode" />
             </path>
             <path>
               <item name="real-estate-property-management" type="b2602c69:ProjectViewProjectNode" />
@@ -520,7 +524,7 @@
       <option name="presentableId" value="Default" />
       <updated>1501549714241</updated>
       <workItem from="1501549719827" duration="5630000" />
-      <workItem from="1501702286356" duration="281000" />
+      <workItem from="1501702286356" duration="391000" />
     </task>
     <task id="LOCAL-00001" summary="rename to contractor">
       <created>1501550475528</created>
@@ -564,11 +568,18 @@
       <option name="project" value="LOCAL" />
       <updated>1501702562891</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="rename file">
+      <created>1501702656364</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1501702656364</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5911000" />
+    <option name="totallyTimeSpent" value="6021000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1884" y="107" width="3255" height="1946" extended-state="0" />
@@ -617,7 +628,8 @@
     <MESSAGE value="rename to contractor" />
     <MESSAGE value="change for contractor firstName" />
     <MESSAGE value="contractor type" />
-    <option name="LAST_COMMIT_MESSAGE" value="contractor type" />
+    <MESSAGE value="rename file" />
+    <option name="LAST_COMMIT_MESSAGE" value="rename file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -632,7 +644,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
@@ -709,6 +721,7 @@
         <state split_layout="SPLIT">
           <first_editor relative-caret-position="-3108">
             <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <folding />
           </first_editor>
           <second_editor />
         </state>
@@ -804,6 +817,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -953,7 +967,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts">
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
