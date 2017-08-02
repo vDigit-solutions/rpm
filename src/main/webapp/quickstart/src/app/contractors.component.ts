@@ -6,25 +6,25 @@ import {Router} from "@angular/router";
 
 @Component({
   selector: 'my-heroes',
-  templateUrl: "./heroes.component.html",
-  styleUrls: ["./heroes.component.css"]
+  templateUrl: "./contractors.component.html",
+  styleUrls: ["./contractors.component.css"]
 })
 
-export class HeroesComponent implements OnInit{
+export class ContractorsComponent implements OnInit{
 
   selectedHero: Contractor;
-  heroes: Contractor[];
+  contractors: Contractor[];
 
-  constructor(private heroService: ContractorService, private router: Router) {}
+  constructor(private contractorService: ContractorService, private router: Router) {}
 
   ngOnInit(): void {
     this.getHeroes();
   }
 
   getHeroes(): void {
-    this.heroService.getHeroes().then(heroes=> {
+    this.contractorService.getHeroes().then(heroes=> {
       console.log("Returned from Hero Service: %s", JSON.stringify(heroes));
-      this.heroes = heroes
+      this.contractors = heroes
     });
   }
 

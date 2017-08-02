@@ -9,12 +9,12 @@ import { ContractorService } from './contractor.service';
   styleUrls: [ './dashboard.component.css' ]
 })
 export class DashboardComponent implements OnInit {
-  heroes: Contractor[] = [];
+  contractors: Contractor[] = [];
 
-  constructor(private heroService: ContractorService) { }
+  constructor(private contractorService: ContractorService) { }
 
   ngOnInit(): void {
-    this.heroService.getHeroes()
+    this.contractorService.getHeroes()
       .then(heroes => this.heroes = heroes.slice(1, 5));
   }
 }
