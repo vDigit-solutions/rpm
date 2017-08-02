@@ -3,7 +3,7 @@ import {HEROES} from "./mock-heroes";
 import {Hero} from "./hero";
 
 @Injectable()
-export class HeroService {
+export class ContractorService {
 
   getHeroes(): Promise<Hero[]> {
     return new Promise(resolve => {

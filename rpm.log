@@ -1,0 +1,110 @@
+2017-08-02 11:46:18.358  INFO 4020 --- [restartedMain] com.vDigit.rpm.main.Application          : Starting Application on jia-dev2 with PID 4020 (/home/jia/projects/rpm/target/classes started by jia in /home/jia/projects/rpm)
+2017-08-02 11:46:18.363  INFO 4020 --- [restartedMain] com.vDigit.rpm.main.Application          : No active profile set, falling back to default profiles: default
+2017-08-02 11:46:18.450  INFO 4020 --- [restartedMain] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7c523bd1: startup date [Wed Aug 02 11:46:18 PDT 2017]; root of context hierarchy
+2017-08-02 11:46:19.480  INFO 4020 --- [restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-08-02 11:46:19.486  INFO 4020 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2017-08-02 11:46:19.487  INFO 4020 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-08-02 11:46:19.524  INFO 4020 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-08-02 11:46:19.524  INFO 4020 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1084 ms
+2017-08-02 11:46:19.591  INFO 4020 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-08-02 11:46:19.593  INFO 4020 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-08-02 11:46:19.593  INFO 4020 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-08-02 11:46:19.593  INFO 4020 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-08-02 11:46:19.594  INFO 4020 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-08-02 11:46:19.742  INFO 4020 --- [restartedMain] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2017-08-02 11:46:19.763  INFO 4020 --- [cluster-ClusterId{value='59821dfb6c19d10fb48a627d', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Exception in monitor thread while connecting to server localhost:27017
+
+com.mongodb.MongoSocketOpenException: Exception opening socket
+	at com.mongodb.connection.SocketStream.open(SocketStream.java:63) ~[mongodb-driver-core-3.4.2.jar:na]
+	at com.mongodb.connection.InternalStreamConnection.open(InternalStreamConnection.java:115) ~[mongodb-driver-core-3.4.2.jar:na]
+	at com.mongodb.connection.DefaultServerMonitor$ServerMonitorRunnable.run(DefaultServerMonitor.java:113) ~[mongodb-driver-core-3.4.2.jar:na]
+	at java.lang.Thread.run(Thread.java:748) [na:1.8.0_131]
+Caused by: java.net.ConnectException: Connection refused (Connection refused)
+	at java.net.PlainSocketImpl.socketConnect(Native Method) ~[na:1.8.0_131]
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350) ~[na:1.8.0_131]
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206) ~[na:1.8.0_131]
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188) ~[na:1.8.0_131]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392) ~[na:1.8.0_131]
+	at java.net.Socket.connect(Socket.java:589) ~[na:1.8.0_131]
+	at com.mongodb.connection.SocketStreamHelper.initialize(SocketStreamHelper.java:57) ~[mongodb-driver-core-3.4.2.jar:na]
+	at com.mongodb.connection.SocketStream.open(SocketStream.java:58) ~[mongodb-driver-core-3.4.2.jar:na]
+	... 3 common frames omitted
+
+2017-08-02 11:46:20.152  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7c523bd1: startup date [Wed Aug 02 11:46:18 PDT 2017]; root of context hierarchy
+2017-08-02 11:46:20.194  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto java.lang.String com.vDigit.rpm.main.Application.test()
+2017-08-02 11:46:20.196  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.vDigit.rpm.service.controller.IndexController.jobRequest()
+2017-08-02 11:46:20.197  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/contractors],methods=[GET]}" onto public java.util.Collection<com.vDigit.rpm.dto.Contractor> com.vDigit.rpm.web.ContractorsController.getContractors()
+2017-08-02 11:46:20.198  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/contractors/{contractorId}],methods=[DELETE]}" onto public com.vDigit.rpm.dto.Contractor com.vDigit.rpm.web.ContractorsController.deletePM(java.lang.String)
+2017-08-02 11:46:20.198  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/contractors],methods=[POST]}" onto public com.vDigit.rpm.dto.Contractor com.vDigit.rpm.web.ContractorsController.createContractor(com.vDigit.rpm.dto.Contractor)
+2017-08-02 11:46:20.200  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs],methods=[GET]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.getJobs()
+2017-08-02 11:46:20.200  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs/{propertyManagerId}],methods=[GET]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.getJobs(java.lang.String)
+2017-08-02 11:46:20.200  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/job/{jobId}/{contractorId}/{acceptance}],methods=[GET]}" onto public java.lang.String com.vDigit.rpm.web.JobsController.getJobs(java.lang.String,java.lang.String,java.lang.String)
+2017-08-02 11:46:20.201  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs],methods=[POST]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.createJob(com.vDigit.rpm.dto.JobRequest)
+2017-08-02 11:46:20.201  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs],methods=[DELETE]}" onto public void com.vDigit.rpm.web.JobsController.deleteJobs()
+2017-08-02 11:46:20.201  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/schedule/jobs],methods=[PUT]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.scheduleJob(com.vDigit.rpm.dto.ScheduleRequest)
+2017-08-02 11:46:20.201  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/job/{jobId}],methods=[GET]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.getJob(java.lang.String)
+2017-08-02 11:46:20.202  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pms],methods=[POST]}" onto public com.vDigit.rpm.dto.PropertyManager com.vDigit.rpm.web.PMsController.createPM(com.vDigit.rpm.dto.PropertyManager)
+2017-08-02 11:46:20.202  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pms],methods=[GET]}" onto public java.util.List<com.vDigit.rpm.dto.PropertyManager> com.vDigit.rpm.web.PMsController.getPMs()
+2017-08-02 11:46:20.202  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pms/{pmId}],methods=[DELETE]}" onto public com.vDigit.rpm.dto.PropertyManager com.vDigit.rpm.web.PMsController.deletePM(java.lang.String)
+2017-08-02 11:46:20.204  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/sms/job],methods=[POST]}" onto public void com.vDigit.rpm.web.TwilioPhoneController.receiveMessage(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-08-02 11:46:20.206  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-08-02 11:46:20.206  INFO 4020 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-08-02 11:46:20.223  INFO 4020 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-08-02 11:46:20.223  INFO 4020 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-08-02 11:46:20.242  INFO 4020 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-08-02 11:46:20.314  INFO 4020 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2017-08-02 11:46:20.341  INFO 4020 --- [restartedMain] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-08-02 11:46:20.350  INFO 4020 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2017-08-02 11:46:20.372  INFO 4020 --- [restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-08-02 11:46:20.376  INFO 4020 --- [restartedMain] com.vDigit.rpm.main.Application          : Started Application in 2.336 seconds (JVM running for 2.9)
+2017-08-02 11:46:51.388  INFO 4020 --- [Thread-13] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7c523bd1: startup date [Wed Aug 02 11:46:18 PDT 2017]; root of context hierarchy
+2017-08-02 11:46:51.390  INFO 4020 --- [Thread-13] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2017-08-02 11:47:16.496  INFO 4290 --- [restartedMain] com.vDigit.rpm.main.Application          : Starting Application on jia-dev2 with PID 4290 (/home/jia/projects/rpm/target/classes started by jia in /home/jia/projects/rpm)
+2017-08-02 11:47:16.497  INFO 4290 --- [restartedMain] com.vDigit.rpm.main.Application          : No active profile set, falling back to default profiles: default
+2017-08-02 11:47:16.541  INFO 4290 --- [restartedMain] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7d3aadef: startup date [Wed Aug 02 11:47:16 PDT 2017]; root of context hierarchy
+2017-08-02 11:47:17.615  INFO 4290 --- [restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-08-02 11:47:17.622  INFO 4290 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2017-08-02 11:47:17.623  INFO 4290 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.15
+2017-08-02 11:47:17.660  INFO 4290 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-08-02 11:47:17.661  INFO 4290 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1122 ms
+2017-08-02 11:47:17.727  INFO 4290 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-08-02 11:47:17.729  INFO 4290 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-08-02 11:47:17.730  INFO 4290 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-08-02 11:47:17.730  INFO 4290 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-08-02 11:47:17.730  INFO 4290 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-08-02 11:47:17.860  INFO 4290 --- [restartedMain] org.mongodb.driver.cluster               : Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+2017-08-02 11:47:17.889  INFO 4290 --- [cluster-ClusterId{value='59821e356c19d110c2d59150', description='null'}-localhost:27017] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:1, serverValue:1}] to localhost:27017
+2017-08-02 11:47:17.891  INFO 4290 --- [cluster-ClusterId{value='59821e356c19d110c2d59150', description='null'}-localhost:27017] org.mongodb.driver.cluster               : Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 4, 6]}, minWireVersion=0, maxWireVersion=5, maxDocumentSize=16777216, roundTripTimeNanos=547085}
+2017-08-02 11:47:18.241  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7d3aadef: startup date [Wed Aug 02 11:47:16 PDT 2017]; root of context hierarchy
+2017-08-02 11:47:18.283  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/test]}" onto java.lang.String com.vDigit.rpm.main.Application.test()
+2017-08-02 11:47:18.284  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.vDigit.rpm.service.controller.IndexController.jobRequest()
+2017-08-02 11:47:18.285  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/contractors],methods=[GET]}" onto public java.util.Collection<com.vDigit.rpm.dto.Contractor> com.vDigit.rpm.web.ContractorsController.getContractors()
+2017-08-02 11:47:18.286  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/contractors/{contractorId}],methods=[DELETE]}" onto public com.vDigit.rpm.dto.Contractor com.vDigit.rpm.web.ContractorsController.deletePM(java.lang.String)
+2017-08-02 11:47:18.286  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/contractors],methods=[POST]}" onto public com.vDigit.rpm.dto.Contractor com.vDigit.rpm.web.ContractorsController.createContractor(com.vDigit.rpm.dto.Contractor)
+2017-08-02 11:47:18.288  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs],methods=[GET]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.getJobs()
+2017-08-02 11:47:18.288  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs/{propertyManagerId}],methods=[GET]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.getJobs(java.lang.String)
+2017-08-02 11:47:18.288  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/job/{jobId}/{contractorId}/{acceptance}],methods=[GET]}" onto public java.lang.String com.vDigit.rpm.web.JobsController.getJobs(java.lang.String,java.lang.String,java.lang.String)
+2017-08-02 11:47:18.289  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs],methods=[POST]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.createJob(com.vDigit.rpm.dto.JobRequest)
+2017-08-02 11:47:18.289  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/jobs],methods=[DELETE]}" onto public void com.vDigit.rpm.web.JobsController.deleteJobs()
+2017-08-02 11:47:18.289  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/schedule/jobs],methods=[PUT]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.scheduleJob(com.vDigit.rpm.dto.ScheduleRequest)
+2017-08-02 11:47:18.289  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/pm/job/{jobId}],methods=[GET]}" onto public com.vDigit.rpm.dto.JobResponse com.vDigit.rpm.web.JobsController.getJob(java.lang.String)
+2017-08-02 11:47:18.290  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pms],methods=[POST]}" onto public com.vDigit.rpm.dto.PropertyManager com.vDigit.rpm.web.PMsController.createPM(com.vDigit.rpm.dto.PropertyManager)
+2017-08-02 11:47:18.290  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pms/{pmId}],methods=[DELETE]}" onto public com.vDigit.rpm.dto.PropertyManager com.vDigit.rpm.web.PMsController.deletePM(java.lang.String)
+2017-08-02 11:47:18.290  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pms],methods=[GET]}" onto public java.util.List<com.vDigit.rpm.dto.PropertyManager> com.vDigit.rpm.web.PMsController.getPMs()
+2017-08-02 11:47:18.292  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/sms/job],methods=[POST]}" onto public void com.vDigit.rpm.web.TwilioPhoneController.receiveMessage(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-08-02 11:47:18.294  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-08-02 11:47:18.295  INFO 4290 --- [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-08-02 11:47:18.311  INFO 4290 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-08-02 11:47:18.311  INFO 4290 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-08-02 11:47:18.330  INFO 4290 --- [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-08-02 11:47:18.403  INFO 4290 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2017-08-02 11:47:18.431  INFO 4290 --- [restartedMain] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-08-02 11:47:18.440  INFO 4290 --- [restartedMain] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2017-08-02 11:47:18.459  INFO 4290 --- [restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-08-02 11:47:18.462  INFO 4290 --- [restartedMain] com.vDigit.rpm.main.Application          : Started Application in 2.148 seconds (JVM running for 2.638)
+2017-08-02 11:48:34.946  INFO 4290 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-08-02 11:48:34.946  INFO 4290 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-08-02 11:48:35.025  INFO 4290 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 79 ms
+2017-08-02 11:48:35.409  INFO 4290 --- [http-nio-8080-exec-2] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:2, serverValue:2}] to localhost:27017
+2017-08-02 12:00:00.000  INFO 4290 --- [pool-1-thread-1] c.v.rpm.service.JobSchedulerService      : Scheduler started...
+2017-08-02 12:00:00.006  INFO 4290 --- [pool-1-thread-1] c.v.rpm.service.JobSchedulerService      : Scheduler no jobs found...

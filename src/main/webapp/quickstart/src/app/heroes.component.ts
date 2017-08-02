@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Hero} from "./hero";
-import { HeroService } from './hero.service';
+import { ContractorService } from './contractor.service';
 import {Router} from "@angular/router";
 
 
@@ -15,7 +15,7 @@ export class HeroesComponent implements OnInit{
   selectedHero: Hero;
   heroes: Hero[];
 
-  constructor(private heroService: HeroService, private router: Router) {}
+  constructor(private heroService: ContractorService, private router: Router) {}
 
   ngOnInit(): void {
     this.getHeroes();
