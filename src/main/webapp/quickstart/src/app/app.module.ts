@@ -5,7 +5,7 @@ import { HttpModule }    from '@angular/http';
 
 import { AppComponent }  from './app.component';
 import {HeroDetailComponent} from "./hero-detail.component";
-import { HeroesComponent } from "./heroes.component";
+import { HeroesComponent } from "./contractors.component";
 import {ContractorService} from "./contractor.service";
 import {DashboardComponent} from "./dashboard.component";
 

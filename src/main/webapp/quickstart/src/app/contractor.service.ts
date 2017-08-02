@@ -21,9 +21,10 @@ export class ContractorService {
 
     return this.http.get(this.contractorsServiceUrl)
       .toPromise()
-      .then(resp=> {
-        console.log("contractos response is:%s", JSON.stringify( resp));
-        return  resp.json() as Contractor[];
+      .then(resp => {
+          console.log("contractos response is:%s", JSON.stringify(resp));
+          return resp.json() as Contractor[];
+        }
       )
       .catch(this.handleError);
   }
