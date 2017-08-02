@@ -4,7 +4,7 @@ import { Location }                 from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 
 import { ContractorService } from './contractor.service';
-import {Hero} from "./contractor";
+import {Contractor} from "./contractor";
 
 @Component({
   selector: 'hero-detail',
@@ -13,7 +13,7 @@ import {Hero} from "./contractor";
 })
 
 export class HeroDetailComponent implements OnInit {
-  @Input() hero: Hero;
+  @Input() hero: Contractor;
 
   ngOnInit(): void {
     this.route.paramMap

@@ -3,10 +3,14 @@
   <component name="ChangeListManager">
     <list id="4a906302-0144-4d27-9bf9-57ce0212d78f" name="DO NOT CHECKIN" comment="" />
     <list default="true" id="a88ca876-1532-4f09-8ff5-b504abef4624" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.js" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/dashboard.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/dashboard.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.componenet.js" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.componenet.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.component.js" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.component.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.service.js" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.service.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/heroes.component.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/heroes.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts" afterPath="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts" />
     </list>
@@ -43,7 +47,7 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="contractor.ts" pinned="false" current-in-tab="true">
+          <file leaf-file-name="contractor.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="210">
@@ -56,8 +60,8 @@
           <file leaf-file-name="contractor.service.ts" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="357">
-                  <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+                <state relative-caret-position="294">
+                  <caret line="16" column="54" lean-forward="false" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
                   <folding />
                 </state>
               </provider>
@@ -108,6 +112,16 @@
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="210">
                   <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="mock-heroes.ts" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="42">
+                  <caret line="2" column="16" lean-forward="false" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -178,8 +192,10 @@
         <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/dashboard.component.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero-detail.component.html" />
         <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.service.ts" />
-        <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts" />
         <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/hero.ts" />
+        <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts" />
+        <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts" />
+        <option value="$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts" />
       </list>
     </option>
   </component>
@@ -524,7 +540,7 @@
       <option name="presentableId" value="Default" />
       <updated>1501549714241</updated>
       <workItem from="1501549719827" duration="5630000" />
-      <workItem from="1501702286356" duration="391000" />
+      <workItem from="1501702286356" duration="482000" />
     </task>
     <task id="LOCAL-00001" summary="rename to contractor">
       <created>1501550475528</created>
@@ -579,7 +595,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="6021000" />
+    <option name="totallyTimeSpent" value="6112000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1884" y="107" width="3255" height="1946" extended-state="0" />
@@ -951,26 +967,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        <state relative-caret-position="294">
+          <caret line="16" column="54" lean-forward="false" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/mock-heroes.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/quickstart/src/app/contractor.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="42">
+          <caret line="2" column="16" lean-forward="false" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
           <folding />
         </state>
       </provider>

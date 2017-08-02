@@ -1,5 +1,5 @@
 
-export class Hero {
+export class Contractor {
   id: number;
   firstName: string;
   lastName: string;

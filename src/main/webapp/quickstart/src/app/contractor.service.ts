@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import {HEROES} from "./mock-heroes";
-import {Hero} from "./contractor";
+import {CONTRACTORS} from "./mock-heroes";
+import {Contractor} from "./contractor";
 
 @Injectable()
 export class ContractorService {
 
-  getHeroes(): Promise<Hero[]> {
+  getHeroes(): Promise<Contractor[]> {
     return new Promise(resolve => {
       // Simulate server latency with 2 second delay
-      setTimeout(() => resolve(HEROES), 500);
+      setTimeout(() => resolve(CONTRACTORS), 500);
     });
   }
 
-  getHero(id: number): Promise<Hero> {
+  getHero(id: number): Promise<Contractor> {
     return this.getHeroes()
-      .then(heroes => heroes.find(hero => hero.id === id));
+      .then(contractors => contractors.find(contractor => contractor.id === id));
   }
 }

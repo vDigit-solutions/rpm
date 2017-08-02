@@ -1,6 +1,6 @@
-import {Hero} from "./contractor";
+import {Contractor} from "./contractor";
 
-export const HEROES: Hero[] =[
+export const CONTRACTORS: Contractor[] =[
   {id: 11, firstName: 'Mr. Nice', lastName:"", email:"", phone:"",type:"",vendorCompanyName:""},
   {id: 12, firstName: 'Narco', lastName:"", email:"", phone:"",type:"",vendorCompanyName:""},
   {id: 13, firstName: 'Bombasto', lastName:"", email:"", phone:"",type:"",vendorCompanyName:""},
