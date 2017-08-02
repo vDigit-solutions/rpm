@@ -23,10 +23,7 @@ export class ContractorService {
       .toPromise()
       .then(resp=> {
         console.log("contractos response is:%s", JSON.stringify( resp));
-        var raw = resp.json();
-        var contractors =  raw as Contractor[];
-        return contractors;
-
+        return  resp.json() as Contractor[];
       )
       .catch(this.handleError);
   }
