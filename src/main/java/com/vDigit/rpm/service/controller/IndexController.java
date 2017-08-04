@@ -12,6 +12,6 @@ public class IndexController {
 
 	@RequestMapping("/angular")
 	public String index() {
-		return "index";
+		return "quickstart/src/index";
 	}
 }
