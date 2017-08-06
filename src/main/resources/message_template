@@ -1,6 +1,27 @@
 <div>
 Hi -name-,
-  <p>We have a contract work. <br>
-  Work Description: <br> -description- <br>Location of work : -location- <br>Expected Date of Start : -date- <br>Please click for <a href="-yes-">YES</a> (if you are interested) and <a href="-no-">NO</a> (if you are not interested).
-  </p>
+	<p>
+		We have a -type- job for you on -date-.
+	</p>
+	<div>
+		<div>Property Information:</div>
+		<div>-propertyName-</div>
+		<div>-location-</div>
+		<div>-description-</div>
+	</div>
+	<p>
+	Date: -date-
+	</p>
+	<div>
+		Please click <a href="-yes-">YES</a> (if you want this job) or <a href="-no-">NO</a> (if you are not interested).
+	</div>
+	<br>
+	<div>
+		<div>
+			Thanks
+		</div>
+		<div>
+			-manager-
+		</div>
+	</div>
 </div>

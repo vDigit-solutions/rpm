@@ -51,7 +51,7 @@ public class TwilioPhoneController {
 		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {
 			x = "Thank you for your response[" + body + "]. However, I don't understand " + body
 					+ ". Can you please respond with either Yes or No";
-			NotificationContext ctx = new NotificationContext(null, f, x);
+			NotificationContext ctx = new NotificationContext(null, f, x, null);
 			pn.send(ctx);
 			return;
 		}

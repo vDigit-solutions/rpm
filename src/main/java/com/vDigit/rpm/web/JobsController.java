@@ -27,6 +27,10 @@ import com.vDigit.rpm.service.PropertyManagerService;
 @CrossOrigin(origins = "*")
 public class JobsController {
 
+	private static final String YES_RESPONSE = "Thank you for your reply. You are scheduled to %s: %s %s %s";
+
+	private static final String NO_RESPONSE = "Thanks for responding.  We will see you next time.";
+
 	@Autowired
 	private PropertyManagerService pms;
 
@@ -87,8 +91,11 @@ public class JobsController {
 		cr.setContractorResponseForJob(acceptance);
 
 		processContractorResponse(cr);
-
-		return "Thank you for your response";
+		if (acceptance.equalsIgnoreCase("yes")) {
+			return String.format(YES_RESPONSE, job.getType(), job.getPropertyName(),
+					job.getDesiredDateOfBegin().toString(), contractor.getVendorCompanyName());
+		}
+		return NO_RESPONSE;
 	}
 
 	private void processContractorResponse(ContractorRequest request) {
