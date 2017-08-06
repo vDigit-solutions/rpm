@@ -61,7 +61,8 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		jce.setId(c.getId());
 		jce.setNotificationSentDate(new Date());
 		job.addContractorEntry(jce);
-
+		job.setStatus("In Progress");
+		job.setStatusDate(new Date());
 		// We need to do a CoR or observer pattern here..
 		jobDAO.save(job);
 		notifyContractor(job, c);

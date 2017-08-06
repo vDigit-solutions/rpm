@@ -9,4 +9,9 @@ public class IndexController {
 	public String jobRequest() {
 		return "jobRequest";
 	}
+
+	@RequestMapping("/angular")
+	public String index() {
+		return "index";
+	}
 }

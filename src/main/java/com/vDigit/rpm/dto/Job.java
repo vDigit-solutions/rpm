@@ -66,13 +66,41 @@ public class Job {
 		this.contractWork = contractWork;
 	}
 
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
+	}
+
+	public Date getStatusDate() {
+		return statusDate;
+	}
+
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
+
+	public String getPropertyName() {
+		return propertyName;
+	}
+
 	@Id
 	private String id;
 	private String propertyManagerId;
 	private String description;
 	private Date desiredDateOfBegin;
+	private Date statusDate;
+	private String status;
 	// Painting, Carpet Cleaning, Electrical
 	private String type;
+	private String propertyName;
+
 	private Map<String, ContractorEntry> contractorEntries = new LinkedHashMap<String, ContractorEntry>();
 	private ContractWork contractWork;
 

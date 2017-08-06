@@ -9,7 +9,7 @@
     <style>
         label {display:inline-block;width: 20%;text-align: right; vertical-align: top;font-size: 0.9em; font-weight:bold;}
         input { display:inline-block;}
-        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        input.text { margin-bottom:12px; width:55%; padding: .4em; }
         input#jobtime {width:50%}
         fieldset { padding:0; border:0; margin-top:25px; }
         h1 { font-size: 1.2em; margin: .6em 0; }
@@ -52,13 +52,9 @@
                 </select>
             </div>
             
-            <div class="section">
-                <label for="propertyManagerId">Manager:</label>
-                <select name="propertyManagerId" id="propertyManagerId">
-                	<option disabled selected>Please pick one</option>
-                </select>
+ 			<div class="section"><label for="propertyName">Property Name:</label>
+                <input type="text" name="propertyName" id="propertyName" class="text ui-widget-content ui-corner-all">
             </div>
-
 
             <div class="section"><label for="jobtime">Date:</label>
                 <input type="datetime" name="jobtime" id="jobtime" class="text ui-widget-content ui-corner-all">
@@ -70,7 +66,7 @@
             </div>
 
 
-            <div class="section"><label for="description">Decription:</label>
+            <div class="section"><label for="description">Property Details:</label>
                 <textarea name="description" id="description" cols="30" rows="4" class="text ui-widget-content ui-corner-all">Clean the apartment in Lynnwood ...</textarea>
             </div>
 
@@ -84,14 +80,30 @@
 <div id="contractor-dialog-form" title="New contractor request">
     <form>
         <fieldset>
-            <div class="section"><label for="contractor-name">name:</label>
-                <input name="contractor-name" id="contractor-name" class="text ui-widget-content ui-corner-all">
+            <div class="section"><label for="contractor-name">First Name:</label>
+                <input name="contractor-name" id="contractor-first-name" class="text ui-widget-content ui-corner-all">
+            </div>
+             <div class="section"><label for="contractor-name">Last Name:</label>
+                <input name="contractor-name" id="contractor-last-name" class="text ui-widget-content ui-corner-all">
             </div>
             <div class="section"><label for="contractor-phone">phone:</label>
                 <input name="contractor-phone" id="contractor-phone" class="text ui-widget-content ui-corner-all">
             </div>
             <div class="section"><label for="contractor-email">email:</label>
                 <input name="contractor-email" id="contractor-email" class="text ui-widget-content ui-corner-all">
+            </div>
+            <div class="section"><label for="contractor-vendorCompanyName">Company Name:</label>
+                <input name="contractor-vendorCompanyName" id="contractor-vendorCompanyName" class="text ui-widget-content ui-corner-all">
+            </div>
+            
+            <div class="section">
+                <label for="contractor-type">Type:</label>
+                <select name="contractor-type" id="contractor-type">
+                    <option disabled selected>Please pick one</option>
+                    <option selected value="Cleaning">Cleaning</option>
+                    <option value="Painting">Painting</option>
+                    <option value="Re-key">Re-key Locks</option>
+                </select>
             </div>
 
             <!-- Allow form submission with keyboard without duplicating the dialog button -->
@@ -122,9 +134,12 @@
     <table id="users" class="ui-widget ui-widget-content">
         <thead>
         <tr class="ui-widget-header ">
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Email</th>
             <th>phone</th>
+            <th>Type</th>
+            <th>Company Name</th>
             <th></th>
         </tr>
         </thead>
@@ -160,6 +175,8 @@
             <th>Address</th>
             <th>Contractor</th>
             <th>Description</th>
+            <th>Status</th>
+            <th></th>
         </tr>
         </thead>
         <tbody></tbody>
@@ -308,8 +325,8 @@
                     	managersCache[pmData.id] = pmData;
                         addNewPMUI(pmData);
                     });
-                    $('#propertyManagerId option').eq(1).attr('selected', 'selected').trigger('change');
-                    $( "#propertyManagerId" ).selectmenu();
+                   // $('#propertyManagerId option').eq(1).attr('selected', 'selected').trigger('change');
+                   // $( "#propertyManagerId" ).selectmenu();
                 });
         }
 
@@ -322,6 +339,14 @@
 //                setTimeout(function(){
 //                    window.location.reload(1);
 //                }, 7000);
+            });
+        }
+        
+        function addJobsDataAndBindUI(jobId) {
+            return $.getJSON("/api/pm/job/"+jobId).then((jobsData) => {
+            	jobsData.jobs.forEach(function (jobData) {
+                	addNewJobUI(jobData, contractorsCache, managersCache);
+            	});
             });
         }
 
@@ -366,9 +391,12 @@
 
         function addNewContractorUI(contractorData) {
             const row = $("<tr>" +
-                "<td>" + contractorData.name + "</td>" +
+                "<td>" + contractorData.firstName + "</td>" +
+                "<td>" + contractorData.lastName + "</td>" +
                 "<td>" + contractorData.email + "</td>" +
                 "<td>" + contractorData.phone + "</td>" +
+                "<td>" + contractorData.type + "</td>" +
+                "<td>" + contractorData.vendorCompanyName + "</td>" +
                 "<td><button>delete</button></td>" +
                 "</tr>");
 
@@ -392,27 +420,76 @@
             const date = new Date(jobData.desiredDateOfBegin);
 
             //TODO: admin could have deleted the contractor but a job may still reference him
-            const contractor = contractorsCache[jobData.currentContractorRequestId] || {name:"deleted", phone:"deleted"};
+            const contractor = contractorsCache[jobData.currentContractorRequestId] || {lastName:"deleted", phone:"deleted"};
             
             const manager = managersCache[jobData.propertyManagerId] || {name:"deleted", phone:"deleted"};
-
-            $( "#jobs").find("tbody" ).append( "<tr>" +
+            var status = "";
+            if(jobData.status === 'Schedule' ){
+            	status = "<button id='schedule'>Schedule</button>";
+            }else{
+            	status = jobData.status;
+            }
+			
+            var contractorDetails = "";
+            if(jobData.currentContractorRequestId != null){
+            	contractorDetails = contractor.lastName+ "<br>" + contractor.phone ;
+            }
+            const row = $("<tr>" +
             		"<td>" + manager.name + "</td>" +
                     "<td>" + (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear() + "</td>" +
                     "<td>" + jobData.type + "</td>" +
                     "<td>" + jobData.jobLocation + "</td>" +
-                    "<td>" + contractor.name+ "<br>" + contractor.phone+ "</td>" +
+                    "<td>" + contractorDetails + "</td>" +
                     "<td>" + jobData.description + "</td>" +
-                    "</tr>" );
+                    "<td>" + status + "</td>" +
+                    "<td><button id='delete'>delete</button></td>" +
+                    "</tr>");
+            $( "#jobs").find("tbody" ).append( row );
+            
+            $("#delete", row).click(()=> {
+                $.ajax({
+                    url: '/api/pm/job/' + jobData.id,
+                    type: 'DELETE',
+                    success: function() {
+                        row.remove();
+                        jobDialog.dialog( "close" );
+                    }
+                });
+            });
+            
+            $("#schedule", row).click(()=> {
+            	
+            	let jobIds =
+                {
+                    "jobIds": [ jobData.id ]
+                };
+            	$.ajax({
+                    url: '/api/pm/schedule/jobs',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(jobIds),
+                    dataType: 'json',
+                    success: function(jobsData) {
+                    	row.remove();
+                    	jobsData.jobs.forEach(function (jobData) {
+                    		addJobsDataAndBindUI(jobData.id)
+                    	});
+                    	jobDialog.dialog( "close" );
+                    }
+                });
+            });
         }
 
         function createContractorRequest() {
             let contractorReqData =
                 {
                     "id": $("#contractor-id").val(),
-                    "name":$("#contractor-name").val(),
+                    "firstName":$("#contractor-first-name").val(),
+                    "lastName":$("#contractor-last-name").val(),
                     "phone": $("#contractor-phone").val(),
-                    "email": $("#contractor-email").val()
+                    "email": $("#contractor-email").val(),
+                    "type": $("#contractor-type").val(),
+                    "vendorCompanyName": $("#contractor-vendorCompanyName").val()
                 };
 
             $.ajax({
@@ -454,12 +531,18 @@
         }
 
         function createJobRequest() {
-        	var managerId = $("#propertyManagerId").val();
+        	
+        	var array = $.map(managersCache, function(value, index) {
+        	    return [value];
+        	});
+			console.log(array)
+        	var managerId = array[0].id;
             let jobReqData =
             {"job":
                 {
                     "propertyManagerId":managerId,
                     "description":$("#description").val(),
+                    "propertyName":$("#propertyName").val(),
                     "desiredDateOfBegin":new Date($("#jobtime").val()).getTime(),
                     "type":$("#jobtype").val(),
                     "address":

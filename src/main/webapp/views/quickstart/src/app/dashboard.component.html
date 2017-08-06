@@ -1,0 +1,8 @@
+<h3>Current Jobs</h3>
+<div class="grid grid-pad">
+  <a *ngFor="let contractor of contractors" [routerLink]="['/detail', contractor.id]" class="col-1-4">
+    <div class="module hero">
+      <h4>{{contractor.firstName}}</h4>
+    </div>
+  </a>
+</div>

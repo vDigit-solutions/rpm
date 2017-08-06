@@ -1,6 +1,7 @@
 package com.vDigit.rpm.service;
 
 import java.text.MessageFormat;
+import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -43,14 +44,16 @@ public class ContractorServiceImpl implements ContractorService {
 	public void processContractorResponse(ContractorRequest request) {
 		String phone = request.getContractorPhoneNumber();
 		String response = request.getContractorResponseForJob();
-		String contractorId = getContractorId(phone);
-		Job job = getJob(request.getJob(), contractorId);
-		job.updateContractorResponse(contractorId, response);
+		Contractor contractor = getContractorId(request.getContractor(), phone);
+		Job job = getJob(request.getJob(), contractor.getId());
+		job.updateContractorResponse(contractor.getId(), response);
 		if (response.equalsIgnoreCase("No")) {
 			pms.processJob(job);
-		} else {
+		} else if (response.equalsIgnoreCase("yes")) {
+			job.setStatusDate(new Date());
+			job.setStatus("Booked");
 			pms.updateJob(job);
-			sendNotificationToPropertyManager(job, contractors.getContractor(phone));
+			sendNotificationToPropertyManager(job, contractor);
 		}
 	}
 
@@ -66,10 +69,13 @@ public class ContractorServiceImpl implements ContractorService {
 
 	}
 
-	private String getContractorId(String phone) {
+	private Contractor getContractorId(Contractor contractor, String phone) {
+		if (contractor != null) {
+			return contractor;
+		}
 		Contractor c = contractors.getContractor(phone);
 		if (c != null)
-			return c.getId();
+			return c;
 		return null;
 	}
 

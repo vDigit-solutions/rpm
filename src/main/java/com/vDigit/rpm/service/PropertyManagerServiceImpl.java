@@ -1,6 +1,9 @@
 package com.vDigit.rpm.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +14,7 @@ import com.vDigit.rpm.dao.JobDAO;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
+import com.vDigit.rpm.dto.ScheduleRequest;
 import com.vDigit.rpm.util.Util;
 
 @Component
@@ -25,13 +29,13 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 
 	@Override
 	public JobResponse createJob(JobRequest jobRequest) {
-
 		Job job = jobRequest.getJob();
 		job.setPropertyManagerId(jobRequest.getPropertyManagerId());
+		job.setStatus("Schedule");
 		Job j = jobDAO.save(job);
 		JobResponse jr = new JobResponse();
 		jr.getJobs().add(j);
-		new Thread(() -> processJob(j)).start();
+		// new Thread(() -> processJob(j)).start();
 		return jr;
 	}
 
@@ -76,6 +80,29 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	@Override
 	public void deleteJobs() {
 		jobDAO.deleteAll();
+	}
+
+	@Override
+	public JobResponse scheduleJob(ScheduleRequest scheduleRequest) {
+		Iterable<Job> jobs = jobDAO.findAll(scheduleRequest.getJobIds());
+		for (Job job : jobs) {
+			new Thread(() -> processJob(job)).start();
+		}
+		Iterable<Job> latest = jobDAO.findAll(scheduleRequest.getJobIds());
+		return new JobResponse(StreamSupport.stream(latest.spliterator(), false).collect(Collectors.toList()));
+	}
+
+	@Override
+	public JobResponse getJobs(String jobId) {
+		Job job = jobDAO.findOne(jobId);
+		Collection<Job> jobs = new ArrayList<>();
+		jobs.add(job);
+		return new JobResponse(jobs);
+	}
+
+	@Override
+	public void delete(String jobId) {
+		jobDAO.delete(jobId);
 	}
 
 }
