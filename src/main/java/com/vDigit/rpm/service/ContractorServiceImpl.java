@@ -93,7 +93,7 @@ public class ContractorServiceImpl implements ContractorService {
 		tokens.put("firstName", contractor.getFirstName());
 		tokens.put("phone", contractor.getPhone());
 
-		String message = templateMessageReader.read("pm_confirmatiob_template", tokens, REGEX);
+		String message = templateMessageReader.read("pm_confirmation_template", tokens, REGEX);
 		NotificationContext context = new NotificationContext(null, pmPhone, message, null);
 		pn.send(context);
 
