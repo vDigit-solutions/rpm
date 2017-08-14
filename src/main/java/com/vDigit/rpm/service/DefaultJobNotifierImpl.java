@@ -131,7 +131,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	}
 
 	private ContractorPhoneCodeJob createJobPhoneMapping(Job job, Contractor c) {
-		ContractorPhoneCodeJob mapping = new ContractorPhoneCodeJob(job.getId(), c.getId());
+		ContractorPhoneCodeJob mapping = new ContractorPhoneCodeJob(c.getId(), job.getId());
 		List<Integer> vals = new ArrayList<>();
 		for (int i = 0; i < 2; i++) {
 			Integer code = generateCode();

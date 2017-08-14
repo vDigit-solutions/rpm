@@ -76,8 +76,11 @@ public class TwilioPhoneController {
 		ContractorPhoneCodeJob phoneJobMapping = mapping.iterator().next();
 		contractorPhoneCodeJobMappingDao.delete(phoneJobMapping);
 		ContractorRequest cr = new ContractorRequest();
+
 		cr.setContractor(contractors.getContractorById(phoneJobMapping.getContractorId()));
+		logger.info("ContractorId:: " + phoneJobMapping.getContractorId());
 		cr.setJob(jobService.getJob(phoneJobMapping.getJobId()));
+		logger.info("JobId:: " + phoneJobMapping.getJobId());
 		cr.setContractorResponseForJob(phoneJobMapping.getYes() == code ? "yes" : "no");
 		processContractorResponse(cr);
 	}
