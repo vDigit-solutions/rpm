@@ -1,22 +1,28 @@
 package com.vDigit.rpm.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twilio.twiml.Body;
-import com.twilio.twiml.Message;
+import com.vDigit.rpm.dao.ContractorPhoneCodeJobMappingDao;
+import com.vDigit.rpm.dto.ContractorPhoneCodeJob;
 import com.vDigit.rpm.dto.ContractorRequest;
+import com.vDigit.rpm.dto.Contractors;
 import com.vDigit.rpm.dto.NotificationContext;
 import com.vDigit.rpm.service.ContractorService;
+import com.vDigit.rpm.service.JobService;
 import com.vDigit.rpm.util.TwilioPhoneNotification;
 
 @RestController
@@ -30,8 +36,17 @@ public class TwilioPhoneController {
 	@Autowired
 	private ContractorService contractorService;
 
+	@Resource(name = "contractors")
+	private Contractors contractors;
+
 	@Resource(name = "twilioPhoneNotification")
 	private TwilioPhoneNotification pn;
+
+	@Resource(name = "jobServiceImpl")
+	private JobService jobService;
+
+	@Resource(name = "contractorPhoneCodeJobMappingDao")
+	private ContractorPhoneCodeJobMappingDao contractorPhoneCodeJobMappingDao;
 
 	private String cleanPhoneNumber(String phone) {
 		return phone.replace("+1", "");
@@ -47,32 +62,32 @@ public class TwilioPhoneController {
 		String x = f + " -> " + body;
 		logger.info("[TwilioPhoneController]: " + x);
 		response.setContentType("application/xml");
-
-		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {
-			x = "Thank you for your response[" + body + "]. However, I don't understand " + body
-					+ ". Can you please respond with either Yes or No";
-			NotificationContext ctx = new NotificationContext(null, f, x, null);
-			pn.send(ctx);
+		if (!NumberUtils.isNumber(body)) {
+			wrongResponseCode(f, body);
 			return;
 		}
-		x = "Hello -> I received \"" + body + "\" from " + f + ". Thank you for your message.";
-		Message message = new Message.Builder().body(new Body(x)).build();
+		int code = Integer.parseInt(body);
+		List<ContractorPhoneCodeJob> mapping = contractorPhoneCodeJobMappingDao.findByYesOrNo(code, code);
 
-		// MessagingResponse twiml = new
-		// MessagingResponse.Builder().message(message).build();
-
+		if (CollectionUtils.isEmpty(mapping)) {
+			wrongResponseCode(f, body);
+			return;
+		}
+		ContractorPhoneCodeJob phoneJobMapping = mapping.iterator().next();
+		contractorPhoneCodeJobMappingDao.delete(phoneJobMapping);
 		ContractorRequest cr = new ContractorRequest();
-		cr.setContractorPhoneNumber(f);
-		cr.setContractorResponseForJob(body);
-
+		cr.setContractor(contractors.getContractorById(phoneJobMapping.getContractorId()));
+		cr.setJob(jobService.getJob(phoneJobMapping.getJobId()));
+		cr.setContractorResponseForJob(phoneJobMapping.getYes() == code ? "yes" : "no");
 		processContractorResponse(cr);
+	}
 
-		/*
-		 * try { response.getWriter().print(twiml.toXml()); } catch
-		 * (TwiMLException e) { e.printStackTrace(); }
-		 */
-		// return twiml.toXml();
-
+	private void wrongResponseCode(String f, String body) {
+		String x;
+		x = "Thank you for your response[" + body + "]. However, I don't understand " + body
+				+ ". Can you please respond with either Yes or No";
+		NotificationContext ctx = new NotificationContext(null, f, x, null);
+		pn.send(ctx);
 	}
 
 	private void processContractorResponse(ContractorRequest request) {

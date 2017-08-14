@@ -48,7 +48,7 @@ public class JobConfirmationNotifier {
 		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
 		tokens.put("propertyManager", propertyManager.getName());
 		String msg = templateMessageReader.read(template, tokens, REGEX);
-		notifyContractor(contractor, msg, "Wrok Order Conformation");
+		notifyContractor(contractor, msg, "Wrok Order Confirmation");
 	}
 
 	private void notifyContractor(Contractor c, String message, String subject) {
