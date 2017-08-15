@@ -84,6 +84,10 @@ public class TwilioPhoneController {
 		Job job = jobService.getJob(phoneJobMapping.getJobId());
 		logger.info("JobId:: " + phoneJobMapping.getJobId());
 
+		if (job == null) {
+			noJobFound(f, body);
+		}
+
 		ContractorEntry entry = job.getContractorEntry(phoneJobMapping.getContractorId());
 		String resp = entry.getResponse();
 
@@ -98,7 +102,9 @@ public class TwilioPhoneController {
 		ContractorRequest cr = new ContractorRequest();
 		cr.setJob(job);
 		cr.setContractor(contractor);
-		cr.setContractorResponseForJob(phoneJobMapping.getYes() == code ? "yes" : "no");
+		String respsoneCode = phoneJobMapping.getYes() == code ? "yes" : "no";
+		logger.info("Response :" + respsoneCode);
+		cr.setContractorResponseForJob(respsoneCode);
 		processContractorResponse(cr);
 	}
 
@@ -106,6 +112,13 @@ public class TwilioPhoneController {
 		String x;
 		x = "Thank you for your response[" + body + "]. However, I don't understand " + body
 				+ ". Either this job already occupied/deleted";
+		NotificationContext ctx = new NotificationContext(null, f, x, null);
+		pn.send(ctx);
+	}
+
+	private void noJobFound(String f, String body) {
+		String x;
+		x = "Thank you for your response[" + body + "]. However, either this job already occupied/deleted";
 		NotificationContext ctx = new NotificationContext(null, f, x, null);
 		pn.send(ctx);
 	}

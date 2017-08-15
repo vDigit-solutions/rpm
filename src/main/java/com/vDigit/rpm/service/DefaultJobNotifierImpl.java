@@ -121,7 +121,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	private String createMessage(Job job, Contractor c) {
 		ContractorPhoneCodeJob codeMapping = createJobPhoneMapping(job, c);
 		ContractorPhoneCodeJob obj = contractorPhoneCodeJobMappingDao.save(codeMapping);
-		logger.info("ContractorPhoneCodeJob id: {0}, jobId: {1}, contactorId: {2}, Yes: {3}, No: {4}", obj.getId(),
+		logger.info("ContractorPhoneCodeJob id: {}, jobId: {}, contactorId: {}, Yes: {}, No: {}", obj.getId(),
 				obj.getJobId(), obj.getContractorId(), obj.getYes(), obj.getNo());
 		String message = "Hi {0},\nWe have a contract work.\nWork Description:\n{1}\n\nLocation of work : \n{2}\n\nExpected Date of Start : \n{3}\n\nPlease respond with "
 				+ codeMapping.getYes() + " (if you are interested) and " + codeMapping.getNo()

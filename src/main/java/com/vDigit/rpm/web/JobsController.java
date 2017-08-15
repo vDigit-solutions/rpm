@@ -3,6 +3,8 @@ package com.vDigit.rpm.web;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,7 @@ import com.vDigit.rpm.service.PropertyManagerService;
 @RequestMapping("/api/pm")
 @CrossOrigin(origins = "*")
 public class JobsController {
+	private static final Logger logger = LoggerFactory.getLogger(JobsController.class);
 
 	private static final String RESENDING_JOB_CONFIRMATION = "Thanks for responding. However, you have %s the job";
 
@@ -104,7 +107,7 @@ public class JobsController {
 		cr.setJob(job);
 		cr.setContractor(contractor);
 		cr.setContractorResponseForJob(acceptance);
-
+		logger.info("JobId: {}, ContractorId: {}, Response: {}", jobId, contractorId, acceptance);
 		processContractorResponse(cr);
 		if (acceptance.equalsIgnoreCase("yes")) {
 			return String.format(YES_RESPONSE, job.getType(), job.getPropertyName(),

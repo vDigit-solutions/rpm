@@ -23,4 +23,8 @@ public interface PropertyManagerService {
 	JobResponse getJobs(String jobId);
 
 	void delete(String jobId);
+
+	void deleteJobMapping(String jobId);
+
+	void deleteJobMapping(String jobId, String contractorId);
 }

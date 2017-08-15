@@ -57,6 +57,7 @@ public class ContractorServiceImpl implements ContractorService {
 		Contractor contractor = getContractorId(request.getContractor(), phone);
 		Job job = getJob(request.getJob(), contractor.getId());
 		job.updateContractorResponse(contractor.getId(), response);
+
 		if (response.equalsIgnoreCase("No")) {
 			confirmationTemplate = "contractor_declained_template";
 			pms.processJob(job);
@@ -67,7 +68,7 @@ public class ContractorServiceImpl implements ContractorService {
 			pms.updateJob(job);
 			sendNotificationToPropertyManager(job, contractor);
 		}
-
+		pms.deleteJobMapping(job.getId(), contractor.getId());
 		sendConfirmationToContractor(confirmationTemplate, job, contractor);
 	}
 

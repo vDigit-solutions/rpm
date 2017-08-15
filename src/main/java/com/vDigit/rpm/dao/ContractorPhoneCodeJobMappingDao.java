@@ -10,4 +10,8 @@ public interface ContractorPhoneCodeJobMappingDao extends MongoRepository<Contra
 
 	List<ContractorPhoneCodeJob> findByYesOrNo(Integer yes, Integer code);
 
+	List<ContractorPhoneCodeJob> findByJobId(String jobId);
+
+	List<ContractorPhoneCodeJob> findByJobIdAndContractorId(String jobId, String contractorId);
+
 }
