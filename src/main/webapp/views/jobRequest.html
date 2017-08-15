@@ -9,8 +9,8 @@
     <style>
         label {display:inline-block;width: 20%;text-align: right; vertical-align: top;font-size: 0.9em; font-weight:bold;}
         input { display:inline-block;}
-        input.text { margin-bottom:12px; width:55%; padding: .4em; }
-        input#jobtime {width:50%}
+        input.text { margin-bottom:12px; width:46%; padding: .4em; }
+        input#jobtime {width:46%}
         fieldset { padding:0; border:0; margin-top:25px; }
         h1 { font-size: 1.2em; margin: .6em 0; }
         div.users-contain { margin: 20px 0; }
@@ -52,7 +52,7 @@
                 </select>
             </div>
             
- 			<div class="section"><label for="propertyName">Property Name & Unit Number :</label>
+ 			<div class="section"><label for="propertyName">Property Name & Unit #</label>
                 <input type="text" name="propertyName" id="propertyName" class="text ui-widget-content ui-corner-all">
             </div>
 
@@ -191,7 +191,7 @@
         jobDialog = $( "#job-dialog-form" ).dialog({
             autoOpen: false,
             height: 445,
-            width: 350,
+            width: 570,
             modal: true,
             buttons: {
                 "Create job request": createJobRequest,

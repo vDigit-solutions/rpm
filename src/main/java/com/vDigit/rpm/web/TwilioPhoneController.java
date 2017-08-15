@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +18,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vDigit.rpm.dao.ContractorPhoneCodeJobMappingDao;
+import com.vDigit.rpm.dto.Contractor;
 import com.vDigit.rpm.dto.ContractorPhoneCodeJob;
 import com.vDigit.rpm.dto.ContractorRequest;
 import com.vDigit.rpm.dto.Contractors;
+import com.vDigit.rpm.dto.Job;
+import com.vDigit.rpm.dto.Job.ContractorEntry;
 import com.vDigit.rpm.dto.NotificationContext;
 import com.vDigit.rpm.service.ContractorService;
 import com.vDigit.rpm.service.JobService;
@@ -29,6 +33,8 @@ import com.vDigit.rpm.util.TwilioPhoneNotification;
 @RequestMapping("/api/sms")
 @CrossOrigin(origins = "*")
 public class TwilioPhoneController {
+
+	private static final String RESENDING_JOB_CONFIRMATION = "Thank you for your response. However, you have already %s the job.";
 
 	// Test
 	private static Logger logger = LoggerFactory.getLogger(TwilioPhoneController.class);
@@ -75,12 +81,23 @@ public class TwilioPhoneController {
 		}
 		ContractorPhoneCodeJob phoneJobMapping = mapping.iterator().next();
 		contractorPhoneCodeJobMappingDao.delete(phoneJobMapping);
-		ContractorRequest cr = new ContractorRequest();
-
-		cr.setContractor(contractors.getContractorById(phoneJobMapping.getContractorId()));
-		logger.info("ContractorId:: " + phoneJobMapping.getContractorId());
-		cr.setJob(jobService.getJob(phoneJobMapping.getJobId()));
+		Job job = jobService.getJob(phoneJobMapping.getJobId());
 		logger.info("JobId:: " + phoneJobMapping.getJobId());
+
+		ContractorEntry entry = job.getContractorEntry(phoneJobMapping.getContractorId());
+		String resp = entry.getResponse();
+
+		if (StringUtils.isNotBlank(resp)) {
+			resendingJobConfirmation(f, resp.equalsIgnoreCase("yes") ? "accepted" : "declined");
+			return;
+		}
+
+		Contractor contractor = contractors.getContractorById(phoneJobMapping.getContractorId());
+		logger.info("ContractorId:: " + phoneJobMapping.getContractorId());
+
+		ContractorRequest cr = new ContractorRequest();
+		cr.setJob(job);
+		cr.setContractor(contractor);
 		cr.setContractorResponseForJob(phoneJobMapping.getYes() == code ? "yes" : "no");
 		processContractorResponse(cr);
 	}
@@ -88,8 +105,14 @@ public class TwilioPhoneController {
 	private void wrongResponseCode(String f, String body) {
 		String x;
 		x = "Thank you for your response[" + body + "]. However, I don't understand " + body
-				+ ". Can you please respond with either Yes or No";
+				+ ". Either this job already occupied/deleted";
 		NotificationContext ctx = new NotificationContext(null, f, x, null);
+		pn.send(ctx);
+	}
+
+	private void resendingJobConfirmation(String f, String body) {
+		NotificationContext ctx = new NotificationContext(null, f, String.format(RESENDING_JOB_CONFIRMATION, body),
+				null);
 		pn.send(ctx);
 	}
 
