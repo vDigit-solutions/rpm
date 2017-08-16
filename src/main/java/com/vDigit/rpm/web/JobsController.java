@@ -2,6 +2,9 @@ package com.vDigit.rpm.web;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +18,7 @@ import com.vDigit.rpm.dto.Contractor;
 import com.vDigit.rpm.dto.ContractorRequest;
 import com.vDigit.rpm.dto.Contractors;
 import com.vDigit.rpm.dto.Job;
+import com.vDigit.rpm.dto.Job.ContractorEntry;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
 import com.vDigit.rpm.dto.ScheduleRequest;
@@ -26,6 +30,13 @@ import com.vDigit.rpm.service.PropertyManagerService;
 @RequestMapping("/api/pm")
 @CrossOrigin(origins = "*")
 public class JobsController {
+	private static final Logger logger = LoggerFactory.getLogger(JobsController.class);
+
+	private static final String RESENDING_JOB_CONFIRMATION = "Thanks for responding. However, you have %s the job";
+
+	private static final String YES_RESPONSE = "Thank you for your reply. You are scheduled to %s: %s %s %s";
+
+	private static final String NO_RESPONSE = "Thanks for responding.  We will see you next time.";
 
 	@Autowired
 	private PropertyManagerService pms;
@@ -80,15 +91,29 @@ public class JobsController {
 	public @ResponseBody String getJobs(@PathVariable("jobId") String jobId,
 			@PathVariable("contractorId") String contractorId, @PathVariable("acceptance") String acceptance) {
 		Job job = jobService.getJob(jobId);
+		if (job == null) {
+			return "Not able to find a job for a given request.";
+		}
 		Contractor contractor = contractors.getContractorById(contractorId);
+		ContractorEntry entry = job.getContractorEntry(contractorId);
+		if (entry != null) {
+			String resp = entry.getResponse();
+			if (StringUtils.isNotBlank(resp)) {
+				return String.format(RESENDING_JOB_CONFIRMATION,
+						resp.equalsIgnoreCase("yes") ? "accepted" : "declined");
+			}
+		}
 		ContractorRequest cr = new ContractorRequest();
 		cr.setJob(job);
 		cr.setContractor(contractor);
 		cr.setContractorResponseForJob(acceptance);
-
+		logger.info("JobId: {}, ContractorId: {}, Response: {}", jobId, contractorId, acceptance);
 		processContractorResponse(cr);
-
-		return "Thank you for your response";
+		if (acceptance.equalsIgnoreCase("yes")) {
+			return String.format(YES_RESPONSE, job.getType(), job.getPropertyName(),
+					job.getDesiredDateOfBegin().toString(), contractor.getVendorCompanyName());
+		}
+		return NO_RESPONSE;
 	}
 
 	private void processContractorResponse(ContractorRequest request) {

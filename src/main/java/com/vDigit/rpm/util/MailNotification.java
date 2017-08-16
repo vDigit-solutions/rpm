@@ -26,10 +26,9 @@ public class MailNotification implements Notification<NotificationContext, Strin
 	@Override
 	public String send(NotificationContext input) {
 		Email from = new Email("donotreply@rpm.com");
-		String subject = "We have a work order for you";
 		Email to = new Email(input.getTo());
 		Content content = new Content("text/html", input.getMessage());
-		Mail mail = new Mail(from, subject, to, content);
+		Mail mail = new Mail(from, input.getSubject(), to, content);
 		mail.setTemplateId("8061b6c4-4969-474e-b9ce-013a9164a265");
 		Request request = new Request();
 		try {

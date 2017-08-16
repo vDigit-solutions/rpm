@@ -2,15 +2,21 @@ package com.vDigit.rpm.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
+import com.vDigit.rpm.dao.ContractorPhoneCodeJobMappingDao;
 import com.vDigit.rpm.dao.JobDAO;
+import com.vDigit.rpm.dto.ContractorPhoneCodeJob;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
@@ -26,6 +32,9 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 
 	@Autowired
 	private JobNotifier jobNotifier;
+
+	@Resource(name = "contractorPhoneCodeJobMappingDao")
+	private ContractorPhoneCodeJobMappingDao contractorPhoneCodeJobMappingDao;
 
 	@Override
 	public JobResponse createJob(JobRequest jobRequest) {
@@ -103,6 +112,29 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	@Override
 	public void delete(String jobId) {
 		jobDAO.delete(jobId);
+		deleteJobMapping(jobId);
+	}
+
+	@Override
+	public void deleteJobMapping(String jobId) {
+		List<ContractorPhoneCodeJob> jobMappings = contractorPhoneCodeJobMappingDao.findByJobId(jobId);
+		delete(jobMappings);
+	}
+
+	private void delete(List<ContractorPhoneCodeJob> jobMappings) {
+		if (CollectionUtils.isEmpty(jobMappings)) {
+			return;
+		}
+		for (ContractorPhoneCodeJob contractorPhoneCodeJob : jobMappings) {
+			contractorPhoneCodeJobMappingDao.delete(contractorPhoneCodeJob);
+		}
+	}
+
+	@Override
+	public void deleteJobMapping(String jobId, String contractorId) {
+		List<ContractorPhoneCodeJob> jobMappings = contractorPhoneCodeJobMappingDao.findByJobIdAndContractorId(jobId,
+				contractorId);
+		delete(jobMappings);
 	}
 
 }

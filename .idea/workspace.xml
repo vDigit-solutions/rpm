@@ -2,7 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list id="4a906302-0144-4d27-9bf9-57ce0212d78f" name="DO NOT CHECKIN" comment="" />
-    <list default="true" id="a88ca876-1532-4f09-8ff5-b504abef4624" name="Default" comment="rename heroe Detail components" />
+    <list default="true" id="a88ca876-1532-4f09-8ff5-b504abef4624" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/dao/ContractorPhoneCodeJobMappingDao.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/dto/ContractorPhoneCodeJob.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/JobConfirmationNotifier.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/TemplateMessageReader.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/contractor_accepted_template" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/contractor_declained_template" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/pm_confirmation_template" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/views/quickstart/src/styles.css" afterPath="$PROJECT_DIR$/src/main/resources/static/css/styles.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/views/quickstart/src/systemjs-angular-loader.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/systemjs-angular-loader.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/views/quickstart/src/systemjs.config.extras.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/systemjs.config.extras.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webapp/views/quickstart/src/systemjs.config.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/systemjs.config.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/dto/ContractWork.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/dto/ContractWork.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/dto/NotificationContext.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/dto/NotificationContext.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/ContractorServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/ContractorServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/DefaultJobNotifierImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/DefaultJobNotifierImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/JobSchedulerService.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/JobSchedulerService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/PropertyManagerService.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/PropertyManagerService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/PropertyManagerServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/service/PropertyManagerServiceImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/util/MailNotification.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/util/MailNotification.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/util/Util.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/util/Util.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/web/JobsController.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/web/JobsController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/web/TwilioPhoneController.java" afterPath="$PROJECT_DIR$/src/main/java/com/vDigit/rpm/web/TwilioPhoneController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/message_template" afterPath="$PROJECT_DIR$/src/main/resources/message_template" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webapp/views/jobRequest.html" afterPath="$PROJECT_DIR$/src/main/webapp/views/jobRequest.html" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -88,17 +114,35 @@
           <file leaf-file-name="jobRequest.html" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/main/webapp/views/jobRequest.html">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="6909">
-                  <caret line="329" column="4" lean-forward="false" selection-start-line="329" selection-start-column="4" selection-end-line="329" selection-end-column="4" />
+                <state relative-caret-position="6846">
+                  <caret line="326" column="4" lean-forward="false" selection-start-line="326" selection-start-column="4" selection-end-line="326" selection-end-column="4" />
                   <folding>
-                    <marker date="1502920630406" expanded="true" signature="7875:21435" ph="{...}" />
-                    <marker date="1502920630406" expanded="true" signature="20197:21429" ph="{...}" />
-                    <marker date="1502920630406" expanded="true" signature="20446:21004" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-                    <marker date="1502920630406" expanded="true" signature="20470:20943" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-                    <marker date="1502920630406" expanded="true" signature="20633:20943" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-                    <marker date="1502920630406" expanded="true" signature="20832:20925" ph="{...}" />
-                    <marker date="1502920630406" expanded="true" signature="21026:21391" ph="{&quot;url&quot;: '/api/pm/jobs'...}" />
-                    <marker date="1502920630406" expanded="true" signature="21264:21377" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="17049:18393" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="17049:21333" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="17049:21345" ph="..." />
+                    <marker date="1502920675726" expanded="true" signature="17313:17618" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="17338:17602" ph="{&quot;type&quot;: 'DELETE'...}" />
+                    <marker date="1502920675726" expanded="true" signature="17470:17584" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="17677:18381" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="17735:17799" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="17821:18365" ph="{&quot;url&quot;: '/api/pm/schedule/jobs'...}" />
+                    <marker date="1502920675726" expanded="true" signature="18095:18347" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="18194:18273" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="18438:19398" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="18492:18953" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="18975:19360" ph="{&quot;url&quot;: '/contractors'...}" />
+                    <marker date="1502920675726" expanded="true" signature="19220:19346" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="19435:20057" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="19481:19644" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="19666:20019" ph="{&quot;url&quot;: '/pms'...}" />
+                    <marker date="1502920675726" expanded="true" signature="19895:20005" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="20095:21327" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="20344:20902" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+                    <marker date="1502920675726" expanded="true" signature="20368:20841" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+                    <marker date="1502920675726" expanded="true" signature="20531:20841" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+                    <marker date="1502920675726" expanded="true" signature="20730:20823" ph="{...}" />
+                    <marker date="1502920675726" expanded="true" signature="20924:21289" ph="{&quot;url&quot;: '/api/pm/jobs'...}" />
+                    <marker date="1502920675726" expanded="true" signature="21162:21275" ph="{...}" />
                   </folding>
                 </state>
               </provider>
@@ -108,7 +152,7 @@
             <entry file="file://$PROJECT_DIR$/src/main/java/com/vDigit/rpm/main/Application.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="861">
-                  <caret line="58" column="25" lean-forward="true" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
+                  <caret line="58" column="25" lean-forward="false" selection-start-line="58" selection-start-column="25" selection-end-line="58" selection-end-column="25" />
                   <folding />
                 </state>
               </provider>
@@ -608,7 +652,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14137000" />
+    <option name="totallyTimeSpent" value="14273000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="3840" height="2164" extended-state="6" />
@@ -623,10 +667,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27232364" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946378" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947233" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16596082" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -659,10 +705,8 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25402597" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27252626" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946378" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947233" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5277372" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32946378" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -683,7 +727,8 @@
     <MESSAGE value="rename contractor file" />
     <MESSAGE value="fix dashboard contractor limits" />
     <MESSAGE value="rename heroe Detail components" />
-    <option name="LAST_COMMIT_MESSAGE" value="rename heroe Detail components" />
+    <MESSAGE value="get latest" />
+    <option name="LAST_COMMIT_MESSAGE" value="get latest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -698,14 +743,32 @@
         <state relative-caret-position="4347">
           <caret line="207" column="14" lean-forward="false" selection-start-line="207" selection-start-column="14" selection-end-line="207" selection-end-column="14" />
           <folding>
-            <marker date="1502920630406" expanded="true" signature="7875:21435" ph="{...}" />
-            <marker date="1502920630406" expanded="true" signature="20197:21429" ph="{...}" />
-            <marker date="1502920630406" expanded="true" signature="20446:21004" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-            <marker date="1502920630406" expanded="true" signature="20470:20943" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-            <marker date="1502920630406" expanded="true" signature="20633:20943" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-            <marker date="1502920630406" expanded="true" signature="20832:20925" ph="{...}" />
-            <marker date="1502920630406" expanded="true" signature="21026:21391" ph="{&quot;url&quot;: '/api/pm/jobs'...}" />
-            <marker date="1502920630406" expanded="true" signature="21264:21377" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17049:18393" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17049:21333" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17049:21345" ph="..." />
+            <marker date="1502920675726" expanded="true" signature="17313:17618" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17338:17602" ph="{&quot;type&quot;: 'DELETE'...}" />
+            <marker date="1502920675726" expanded="true" signature="17470:17584" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17677:18381" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17735:17799" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17821:18365" ph="{&quot;url&quot;: '/api/pm/schedule/jobs'...}" />
+            <marker date="1502920675726" expanded="true" signature="18095:18347" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18194:18273" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18438:19398" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18492:18953" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18975:19360" ph="{&quot;url&quot;: '/contractors'...}" />
+            <marker date="1502920675726" expanded="true" signature="19220:19346" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="19435:20057" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="19481:19644" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="19666:20019" ph="{&quot;url&quot;: '/pms'...}" />
+            <marker date="1502920675726" expanded="true" signature="19895:20005" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="20095:21327" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="20344:20902" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+            <marker date="1502920675726" expanded="true" signature="20368:20841" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+            <marker date="1502920675726" expanded="true" signature="20531:20841" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+            <marker date="1502920675726" expanded="true" signature="20730:20823" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="20924:21289" ph="{&quot;url&quot;: '/api/pm/jobs'...}" />
+            <marker date="1502920675726" expanded="true" signature="21162:21275" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -757,17 +820,35 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/views/jobRequest.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6909">
-          <caret line="329" column="4" lean-forward="false" selection-start-line="329" selection-start-column="4" selection-end-line="329" selection-end-column="4" />
+        <state relative-caret-position="6846">
+          <caret line="326" column="4" lean-forward="false" selection-start-line="326" selection-start-column="4" selection-end-line="326" selection-end-column="4" />
           <folding>
-            <marker date="1502920630406" expanded="true" signature="7875:21435" ph="{...}" />
-            <marker date="1502920630406" expanded="true" signature="20197:21429" ph="{...}" />
-            <marker date="1502920630406" expanded="true" signature="20446:21004" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-            <marker date="1502920630406" expanded="true" signature="20470:20943" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-            <marker date="1502920630406" expanded="true" signature="20633:20943" ph="{&quot;propertyManagerId&quot;: managerId...}" />
-            <marker date="1502920630406" expanded="true" signature="20832:20925" ph="{...}" />
-            <marker date="1502920630406" expanded="true" signature="21026:21391" ph="{&quot;url&quot;: '/api/pm/jobs'...}" />
-            <marker date="1502920630406" expanded="true" signature="21264:21377" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17049:18393" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17049:21333" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17049:21345" ph="..." />
+            <marker date="1502920675726" expanded="true" signature="17313:17618" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17338:17602" ph="{&quot;type&quot;: 'DELETE'...}" />
+            <marker date="1502920675726" expanded="true" signature="17470:17584" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17677:18381" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17735:17799" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="17821:18365" ph="{&quot;url&quot;: '/api/pm/schedule/jobs'...}" />
+            <marker date="1502920675726" expanded="true" signature="18095:18347" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18194:18273" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18438:19398" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18492:18953" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="18975:19360" ph="{&quot;url&quot;: '/contractors'...}" />
+            <marker date="1502920675726" expanded="true" signature="19220:19346" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="19435:20057" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="19481:19644" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="19666:20019" ph="{&quot;url&quot;: '/pms'...}" />
+            <marker date="1502920675726" expanded="true" signature="19895:20005" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="20095:21327" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="20344:20902" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+            <marker date="1502920675726" expanded="true" signature="20368:20841" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+            <marker date="1502920675726" expanded="true" signature="20531:20841" ph="{&quot;propertyManagerId&quot;: managerId...}" />
+            <marker date="1502920675726" expanded="true" signature="20730:20823" ph="{...}" />
+            <marker date="1502920675726" expanded="true" signature="20924:21289" ph="{&quot;url&quot;: '/api/pm/jobs'...}" />
+            <marker date="1502920675726" expanded="true" signature="21162:21275" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -817,6 +898,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
           <caret line="2" column="22" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
