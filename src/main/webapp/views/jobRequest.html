@@ -283,7 +283,7 @@
 
         $( "#jobtype" ).selectmenu();
         
-        $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
+        $( "#jobtime" ).datepicker({minDate:0}).datepicker("setDate", new Date());
         
         $("#delete-jobs").button().on( "click", function() {
             $.ajax({
