@@ -186,6 +186,7 @@
         let jobDialog, contractorDialog, pmDialog, pmForm, userForm, contractorForm;
         let contractorsCache = {};
         let managersCache = {};
+        let dialogOpen = false;
 
         // JOBS dialog and form
         jobDialog = $( "#job-dialog-form" ).dialog({
@@ -196,10 +197,12 @@
             buttons: {
                 "Create job request": createJobRequest,
                 Cancel: function() {
+                    dialogOpen = false;
                     jobDialog.dialog( "close" );
                 }
             },
             close: function() {
+                dialogOpen = false;
                 userForm[ 0 ].reset();
                 //allFields.removeClass( "ui-state-error" );
             }
@@ -219,10 +222,12 @@
             buttons: {
                 "Create a contractor": createContractorRequest,
                 Cancel: function() {
+                    dialogOpen = false;
                     contractorDialog.dialog( "close" );
                 }
             },
             close: function() {
+                dialogOpen = false;
                 contractorForm[ 0 ].reset();
                 //allFields.removeClass( "ui-state-error" );
             }
@@ -242,10 +247,12 @@
             buttons: {
                 "Create a PM": createPMRequest,
                 Cancel: function() {
+                    dialogOpen = false;
                     pmDialog.dialog( "close" );
                 }
             },
             close: function() {
+                dialogOpen = false;
                 pmForm[ 0 ].reset();
                 //allFields.removeClass( "ui-state-error" );
             }
@@ -258,16 +265,19 @@
 
         //create Job button
         $( "#create-user" ).button().on( "click", function() {
+            dialogOpen = true;
             jobDialog.dialog( "open" );
         });
 
         //create Contractor button
         $( "#create-contractor" ).button().on( "click", function() {
+            dialogOpen = true;
             contractorDialog.dialog( "open" );
         });
 
         //create PM button
         $( "#create-pm" ).button().on( "click", function() {
+            dialogOpen = true;
             pmDialog.dialog( "open" );
         });
 
@@ -332,10 +342,7 @@
                 console.log(jobsData);
                 bindJobsUI(jobsData);
 
-                // auto refresh page every 7 sec
-//                setTimeout(function(){
-//                    window.location.reload(1);
-//                }, 7000);
+
             });
         }
         
@@ -531,7 +538,6 @@
         	});
 			console.log(array)
         	var managerId = array[0].id;
-        	alert(managerId);
             let jobReqData =
             {"job":
                 {
@@ -563,6 +569,13 @@
 
             return true;
         }
+
+
+        setInterval(function(){
+            if (!dialogOpen) {
+                window.location.reload(1);
+            }
+        }, 10*60*1000); // refresh very 10 min
     } );
 </script>
 </body>
