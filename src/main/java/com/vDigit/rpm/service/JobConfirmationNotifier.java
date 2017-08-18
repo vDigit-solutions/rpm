@@ -53,7 +53,7 @@ public class JobConfirmationNotifier {
 		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
 		tokens.put("propertyManager", propertyManager.getName());
 		String msg = templateMessageReader.read(template, tokens, REGEX);
-		notifyContractor(contractor, msg, contractor.getType() + " contarct work Confirmation");
+		notifyContractor(contractor, msg, contractor.getType() + " contract work confirmation");
 	}
 
 	private void notifyContractor(Contractor c, String message, String subject) {
