@@ -1,17 +1,10 @@
+<div><div>-name-, Thank you for your response.  This is confirming that you have declined the -type- job on -today- for:</div>
 <div>
-	<div>
-		-name-, Thank you for your response.  This is confirming that you have declined the -type- job on -today- for:
-	</div>
-	<div>
-		<div>-propertyName-</div>
-		<div>-address-</div>
-		<div>-description-</div>
-	</div>
-	<div>
-		Date: -date-
-	</div>
-	<div>
-		<div>Thanks</div>
-		<div>-propertyManager-</div>
-	</div>
-</div>
+<div>-propertyName-</div>
+<div>-address-</div>
+<div>-description-</div></div>
+<div>
+Date: -date-
+</div><div>
+<div>Thanks</div>
+<div>-propertyManager-</div></div></div>

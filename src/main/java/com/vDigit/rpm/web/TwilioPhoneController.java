@@ -68,15 +68,19 @@ public class TwilioPhoneController {
 		String x = f + " -> " + body;
 		logger.info("[TwilioPhoneController]: " + x);
 		response.setContentType("application/xml");
-		if (!NumberUtils.isNumber(body)) {
-			wrongResponseCode(f, body);
+		if (StringUtils.isBlank(body)) {
 			return;
 		}
-		int code = Integer.parseInt(body);
+		String responseCode = body.trim();
+		if (!NumberUtils.isNumber(responseCode)) {
+			wrongResponseCode(f, responseCode);
+			return;
+		}
+		int code = Integer.parseInt(responseCode);
 		List<ContractorPhoneCodeJob> mapping = contractorPhoneCodeJobMappingDao.findByYesOrNo(code, code);
 
 		if (CollectionUtils.isEmpty(mapping)) {
-			wrongResponseCode(f, body);
+			wrongResponseCode(f, responseCode);
 			return;
 		}
 		ContractorPhoneCodeJob phoneJobMapping = mapping.iterator().next();
@@ -85,7 +89,7 @@ public class TwilioPhoneController {
 		logger.info("JobId:: " + phoneJobMapping.getJobId());
 
 		if (job == null) {
-			noJobFound(f, body);
+			noJobFound(f, responseCode);
 		}
 
 		ContractorEntry entry = job.getContractorEntry(phoneJobMapping.getContractorId());

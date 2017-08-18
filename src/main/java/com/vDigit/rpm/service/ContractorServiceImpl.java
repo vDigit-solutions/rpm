@@ -1,5 +1,7 @@
 package com.vDigit.rpm.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,8 @@ import com.vDigit.rpm.util.TwilioPhoneNotification;
 public class ContractorServiceImpl implements ContractorService {
 
 	private static final String REGEX = "-(%s)-";
+
+	private final DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
 	@Resource(name = "contractors")
 	private Contractors contractors;
@@ -79,18 +83,13 @@ public class ContractorServiceImpl implements ContractorService {
 	private void sendNotificationToPropertyManager(Job job, Contractor contractor) {
 		PropertyManager pm = propertyManagers.getPropertyManager(job.getPropertyManagerId());
 		String pmPhone = pm.getPhone();
-		/*
-		 * String message =
-		 * "Hi {0},\n{1} is interested in doing job [{2}].\nPlease call {1} @ {3} for further information\n"
-		 * ; String fm = MessageFormat.format(message, pmName,
-		 * contractor.getFirstName(), job.getDescription(),
-		 * contractor.getPhone());
-		 */
+
 		Map<String, String> tokens = new HashMap<>();
 		tokens.put("name", pm.getName());
 		tokens.put("vendorCompanyName", contractor.getVendorCompanyName());
-		tokens.put("propertyname", job.getPropertyName());
-		tokens.put("date", job.getDesiredDateOfBegin().toString());
+		tokens.put("type", contractor.getType());
+		tokens.put("propertyName", job.getPropertyName());
+		tokens.put("date", format.format(job.getDesiredDateOfBegin()));
 		tokens.put("firstName", contractor.getFirstName());
 		tokens.put("phone", contractor.getPhone());
 

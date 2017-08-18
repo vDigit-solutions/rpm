@@ -1,6 +1,29 @@
+<div>From -propertyName-</div>
 <div>
 Hi -name-,
-  <p>We have a contract work. <br>
-  Work Description: <br> -description- <br>Location of work : -location- <br>Expected Date of Start : -date- <br>Please click for <a href="-yes-">YES</a> (if you are interested) and <a href="-no-">NO</a> (if you are not interested).
-  </p>
+	<p>
+		We have a -type- job for you on -date-.
+	</p>
+	<div>
+		<div>Property Information:</div>
+		<div>-propertyName-</div>
+		<div>-location-</div>
+		<div>-description-</div>
+	</div>
+	<p>
+	Date: -date-
+	</p>
+	<div>
+		<div>To Accept click on <a href="-yes-">YES</a></div>
+		<div>To Decline click on <a href="-no-">NO</a></div>
+	</div>
+	<div>
+		<div>
+			Thanks
+		</div>
+		<div>
+			-manager-
+		</div>
+		<div><a href="-unsubscribe-">Unsubscribe</a></div>
+	</div>
 </div>

@@ -1,3 +1,4 @@
+<div>From -propertyName-</div>
 <div>
 Hi -name-,
 	<p>
@@ -13,9 +14,9 @@ Hi -name-,
 	Date: -date-
 	</p>
 	<div>
-		Please click <a href="-yes-">YES</a> (if you want this job) or <a href="-no-">NO</a> (if you are not interested).
+		<div>To Accept click on <a href="-yes-">YES</a></div>
+		<div>To Decline click on <a href="-no-">NO</a></div>
 	</div>
-	<br>
 	<div>
 		<div>
 			Thanks
@@ -23,5 +24,6 @@ Hi -name-,
 		<div>
 			-manager-
 		</div>
+		<div><a href="-unsubscribe-">Unsubscribe</a></div>
 	</div>
 </div>

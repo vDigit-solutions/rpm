@@ -1,7 +1,6 @@
 package com.vDigit.rpm.service;
 
 import java.text.DateFormat;
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,6 +34,7 @@ import com.vDigit.rpm.util.TwilioPhoneNotification;
 @Component
 public class DefaultJobNotifierImpl implements JobNotifier {
 
+	private static final String SUBJECT = "We have a %s work for you";
 	private static final String YES = "%s/api/pm/job/%s/%s/yes";
 	private static final String NO = "%s/api/pm/job/%s/%s/no";
 
@@ -95,15 +95,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	}
 
 	private void notifyContractor(Job job, Contractor c) {
-		String subject = "We have a work order for you";
-		NotificationContext sms = new NotificationContext(null, c.getPhone(), createMessage(job, c), subject);
-		twilioPhoneNotification.send(sms);
-
-		NotificationContext mail = new NotificationContext(null, c.getEmail(), createEmailMessage(job, c), subject);
-		mailNotification.send(mail);
-	}
-
-	private String createEmailMessage(Job job, Contractor c) {
+		String subject = String.format(SUBJECT, c.getType());
 		Map<String, String> tokens = new HashMap<>();
 		tokens.put("name", c.getLastName());
 		tokens.put("type", job.getType());
@@ -111,23 +103,35 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		tokens.put("description", job.getDescription());
 		tokens.put("location", job.getJobLocation());
 		tokens.put("date", format.format(job.getDesiredDateOfBegin()));
+
+		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
+		tokens.put("manager", propertyManager.getName());
+		NotificationContext sms = new NotificationContext(null, c.getPhone(), createMessage(tokens, job, c), subject);
+		twilioPhoneNotification.send(sms);
+
+		NotificationContext mail = new NotificationContext(null, c.getEmail(), createEmailMessage(tokens, job, c),
+				subject);
+		mailNotification.send(mail);
+	}
+
+	private String createEmailMessage(Map<String, String> tokens, Job job, Contractor c) {
 		tokens.put("yes", String.format(YES, appUrl, job.getId(), c.getId()));
 		tokens.put("no", String.format(NO, appUrl, job.getId(), c.getId()));
+		tokens.put("unsubscribe", String.format(UNSUBSCRIBE, appUrl, c.getId()));
 		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
 		tokens.put("manager", propertyManager.getName());
 		return templateMessageReader.read("message_template", tokens, REGEX);
 	}
 
-	private String createMessage(Job job, Contractor c) {
+	private String createMessage(Map<String, String> tokens, Job job, Contractor c) {
+
 		ContractorPhoneCodeJob codeMapping = createJobPhoneMapping(job, c);
 		ContractorPhoneCodeJob obj = contractorPhoneCodeJobMappingDao.save(codeMapping);
+		tokens.put("yes", obj.getYes() + "");
+		tokens.put("no", obj.getNo() + "");
 		logger.info("ContractorPhoneCodeJob id: {}, jobId: {}, contactorId: {}, Yes: {}, No: {}", obj.getId(),
 				obj.getJobId(), obj.getContractorId(), obj.getYes(), obj.getNo());
-		String message = "Hi {0},\nWe have a contract work.\nWork Description:\n{1}\n\nLocation of work : \n{2}\n\nExpected Date of Start : \n{3}\n\nPlease respond with "
-				+ codeMapping.getYes() + " (if you are interested) and " + codeMapping.getNo()
-				+ " (if you are not interested).\n";
-		return MessageFormat.format(message, c.getFirstName(), job.getDescription(), job.getJobLocation(),
-				job.getDesiredDateOfBegin().toString());
+		return templateMessageReader.read("sms_template", tokens, REGEX);
 	}
 
 	private ContractorPhoneCodeJob createJobPhoneMapping(Job job, Contractor c) {

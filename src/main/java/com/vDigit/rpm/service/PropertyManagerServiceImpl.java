@@ -89,6 +89,7 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	@Override
 	public void deleteJobs() {
 		jobDAO.deleteAll();
+		contractorPhoneCodeJobMappingDao.deleteAll();
 	}
 
 	@Override
