@@ -97,7 +97,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	private void notifyContractor(Job job, Contractor c) {
 		String subject = String.format(SUBJECT, c.getType());
 		Map<String, String> tokens = new HashMap<>();
-		tokens.put("name", c.getLastName());
+		tokens.put("name", c.getFirstName());
 		tokens.put("type", job.getType());
 		tokens.put("propertyName", job.getPropertyName());
 		tokens.put("description", job.getDescription());
