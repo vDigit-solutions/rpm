@@ -1,22 +1,32 @@
 package com.vDigit.rpm.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.twilio.twiml.Body;
-import com.twilio.twiml.Message;
+import com.vDigit.rpm.dao.ContractorPhoneCodeJobMappingDao;
+import com.vDigit.rpm.dto.Contractor;
+import com.vDigit.rpm.dto.ContractorPhoneCodeJob;
 import com.vDigit.rpm.dto.ContractorRequest;
+import com.vDigit.rpm.dto.Contractors;
+import com.vDigit.rpm.dto.Job;
+import com.vDigit.rpm.dto.Job.ContractorEntry;
 import com.vDigit.rpm.dto.NotificationContext;
 import com.vDigit.rpm.service.ContractorService;
+import com.vDigit.rpm.service.JobService;
 import com.vDigit.rpm.util.TwilioPhoneNotification;
 
 @RestController
@@ -24,14 +34,25 @@ import com.vDigit.rpm.util.TwilioPhoneNotification;
 @CrossOrigin(origins = "*")
 public class TwilioPhoneController {
 
+	private static final String RESENDING_JOB_CONFIRMATION = "Thank you for your response. However, you have already %s the job.";
+
 	// Test
 	private static Logger logger = LoggerFactory.getLogger(TwilioPhoneController.class);
 
 	@Autowired
 	private ContractorService contractorService;
 
+	@Resource(name = "contractors")
+	private Contractors contractors;
+
 	@Resource(name = "twilioPhoneNotification")
 	private TwilioPhoneNotification pn;
+
+	@Resource(name = "jobServiceImpl")
+	private JobService jobService;
+
+	@Resource(name = "contractorPhoneCodeJobMappingDao")
+	private ContractorPhoneCodeJobMappingDao contractorPhoneCodeJobMappingDao;
 
 	private String cleanPhoneNumber(String phone) {
 		return phone.replace("+1", "");
@@ -47,32 +68,69 @@ public class TwilioPhoneController {
 		String x = f + " -> " + body;
 		logger.info("[TwilioPhoneController]: " + x);
 		response.setContentType("application/xml");
-
-		if (!(body.equalsIgnoreCase("YES") || body.equalsIgnoreCase("NO"))) {
-			x = "Thank you for your response[" + body + "]. However, I don't understand " + body
-					+ ". Can you please respond with either Yes or No";
-			NotificationContext ctx = new NotificationContext(null, f, x, null);
-			pn.send(ctx);
+		if (StringUtils.isBlank(body)) {
 			return;
 		}
-		x = "Hello -> I received \"" + body + "\" from " + f + ". Thank you for your message.";
-		Message message = new Message.Builder().body(new Body(x)).build();
+		String responseCode = body.trim();
+		if (!NumberUtils.isNumber(responseCode)) {
+			wrongResponseCode(f, responseCode);
+			return;
+		}
+		int code = Integer.parseInt(responseCode);
+		List<ContractorPhoneCodeJob> mapping = contractorPhoneCodeJobMappingDao.findByYesOrNo(code, code);
 
-		// MessagingResponse twiml = new
-		// MessagingResponse.Builder().message(message).build();
+		if (CollectionUtils.isEmpty(mapping)) {
+			wrongResponseCode(f, responseCode);
+			return;
+		}
+		ContractorPhoneCodeJob phoneJobMapping = mapping.iterator().next();
+		contractorPhoneCodeJobMappingDao.delete(phoneJobMapping);
+		Job job = jobService.getJob(phoneJobMapping.getJobId());
+		logger.info("JobId:: " + phoneJobMapping.getJobId());
+
+		if (job == null) {
+			noJobFound(f, responseCode);
+		}
+
+		ContractorEntry entry = job.getContractorEntry(phoneJobMapping.getContractorId());
+		String resp = entry.getResponse();
+
+		if (StringUtils.isNotBlank(resp)) {
+			resendingJobConfirmation(f, resp.equalsIgnoreCase("yes") ? "accepted" : "declined");
+			return;
+		}
+
+		Contractor contractor = contractors.getContractorById(phoneJobMapping.getContractorId());
+		logger.info("ContractorId:: " + phoneJobMapping.getContractorId());
 
 		ContractorRequest cr = new ContractorRequest();
-		cr.setContractorPhoneNumber(f);
-		cr.setContractorResponseForJob(body);
-
+		cr.setJob(job);
+		cr.setContractor(contractor);
+		String respsoneCode = phoneJobMapping.getYes() == code ? "yes" : "no";
+		logger.info("Response :" + respsoneCode);
+		cr.setContractorResponseForJob(respsoneCode);
 		processContractorResponse(cr);
+	}
 
-		/*
-		 * try { response.getWriter().print(twiml.toXml()); } catch
-		 * (TwiMLException e) { e.printStackTrace(); }
-		 */
-		// return twiml.toXml();
+	private void wrongResponseCode(String f, String body) {
+		String x;
+		x = "Thank you for your response[" + body + "]. However, I don't understand " + body
+				+ ". Either this job already occupied/deleted";
+		NotificationContext ctx = new NotificationContext(null, f, x, null);
+		pn.send(ctx);
+	}
 
+	private void noJobFound(String f, String body) {
+		String x;
+		x = "Thank you for your response[" + body + "]. However, either this job already occupied/deleted";
+		NotificationContext ctx = new NotificationContext(null, f, x, null);
+		pn.send(ctx);
+	}
+
+	private void resendingJobConfirmation(String f, String body) {
+		NotificationContext ctx = new NotificationContext(null, f, String.format(RESENDING_JOB_CONFIRMATION, body),
+				null);
+		pn.send(ctx);
 	}
 
 	private void processContractorResponse(ContractorRequest request) {

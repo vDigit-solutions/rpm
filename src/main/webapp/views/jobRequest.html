@@ -9,8 +9,8 @@
     <style>
         label {display:inline-block;width: 20%;text-align: right; vertical-align: top;font-size: 0.9em; font-weight:bold;}
         input { display:inline-block;}
-        input.text { margin-bottom:12px; width:55%; padding: .4em; }
-        input#jobtime {width:50%}
+        input.text { margin-bottom:12px; width:46%; padding: .4em; }
+        input#jobtime {width:46%}
         fieldset { padding:0; border:0; margin-top:25px; }
         h1 { font-size: 1.2em; margin: .6em 0; }
         div.users-contain { margin: 20px 0; }
@@ -52,7 +52,7 @@
                 </select>
             </div>
             
- 			<div class="section"><label for="propertyName">Property Name & Unit Number :</label>
+ 			<div class="section"><label for="propertyName">Property Name & Unit #</label>
                 <input type="text" name="propertyName" id="propertyName" class="text ui-widget-content ui-corner-all">
             </div>
 
@@ -186,20 +186,23 @@
         let jobDialog, contractorDialog, pmDialog, pmForm, userForm, contractorForm;
         let contractorsCache = {};
         let managersCache = {};
+        let dialogOpen = false;
 
         // JOBS dialog and form
         jobDialog = $( "#job-dialog-form" ).dialog({
             autoOpen: false,
             height: 445,
-            width: 350,
+            width: 570,
             modal: true,
             buttons: {
                 "Create job request": createJobRequest,
                 Cancel: function() {
+                    dialogOpen = false;
                     jobDialog.dialog( "close" );
                 }
             },
             close: function() {
+                dialogOpen = false;
                 userForm[ 0 ].reset();
                 //allFields.removeClass( "ui-state-error" );
             }
@@ -219,10 +222,12 @@
             buttons: {
                 "Create a contractor": createContractorRequest,
                 Cancel: function() {
+                    dialogOpen = false;
                     contractorDialog.dialog( "close" );
                 }
             },
             close: function() {
+                dialogOpen = false;
                 contractorForm[ 0 ].reset();
                 //allFields.removeClass( "ui-state-error" );
             }
@@ -242,10 +247,12 @@
             buttons: {
                 "Create a PM": createPMRequest,
                 Cancel: function() {
+                    dialogOpen = false;
                     pmDialog.dialog( "close" );
                 }
             },
             close: function() {
+                dialogOpen = false;
                 pmForm[ 0 ].reset();
                 //allFields.removeClass( "ui-state-error" );
             }
@@ -258,22 +265,25 @@
 
         //create Job button
         $( "#create-user" ).button().on( "click", function() {
+            dialogOpen = true;
             jobDialog.dialog( "open" );
         });
 
         //create Contractor button
         $( "#create-contractor" ).button().on( "click", function() {
+            dialogOpen = true;
             contractorDialog.dialog( "open" );
         });
 
         //create PM button
         $( "#create-pm" ).button().on( "click", function() {
+            dialogOpen = true;
             pmDialog.dialog( "open" );
         });
 
         $( "#jobtype" ).selectmenu();
         
-        $( "#jobtime" ).datepicker().datepicker("setDate", new Date());
+        $( "#jobtime" ).datepicker({minDate:0}).datepicker("setDate", new Date());
         
         $("#delete-jobs").button().on( "click", function() {
             $.ajax({
@@ -332,10 +342,7 @@
                 console.log(jobsData);
                 bindJobsUI(jobsData);
 
-                // auto refresh page every 7 sec
-//                setTimeout(function(){
-//                    window.location.reload(1);
-//                }, 7000);
+
             });
         }
         
@@ -562,6 +569,13 @@
 
             return true;
         }
+
+
+        setInterval(function(){
+            if (!dialogOpen) {
+                window.location.reload(1);
+            }
+        }, 10*60*1000); // refresh very 10 min
     } );
 </script>
 </body>

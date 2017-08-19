@@ -23,6 +23,8 @@ public class NotificationContext {
 		this.subject = subject;
 	}
 
+	private ContractorPhoneCodeJob contractorPhoneCodeJob;
+
 	public NotificationContext(String from, String to, String message, String subject) {
 		this.from = from;
 		this.to = to;
@@ -32,6 +34,14 @@ public class NotificationContext {
 	
 	public NotificationContext(){
 		
+	}
+
+	public void setContractorPhoneCodeJob(ContractorPhoneCodeJob contractorPhoneCodeJob) {
+		this.contractorPhoneCodeJob = contractorPhoneCodeJob;
+	}
+
+	public ContractorPhoneCodeJob getContractorPhoneCodeJob() {
+		return contractorPhoneCodeJob;
 	}
 
 	public String getSubject() {

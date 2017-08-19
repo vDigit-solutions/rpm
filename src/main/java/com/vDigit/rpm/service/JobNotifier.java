@@ -3,5 +3,7 @@ package com.vDigit.rpm.service;
 import com.vDigit.rpm.dto.Job;
 
 public interface JobNotifier {
-	public void processJob(Job job);
+	static final String UNSUBSCRIBE = "%s/api/contractor/unsubscribe/%s";
+
+	void processJob(Job job);
 }

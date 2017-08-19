@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="real-estate-property-management:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="real-estate-property-management-0.1.0.war">
+      <element id="artifact" artifact-name="real-estate-property-management:war exploded" />
+    </root>
+  </artifact>
+</component>

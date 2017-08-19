@@ -34,13 +34,13 @@ public class JobSchedulerService {
 	@Autowired
 	private JobDAO jobDAO;
 
-	@Scheduled(cron = "0 0 */1 * * MON-FRI")
+	@Scheduled(cron = "0 0 */1 * * ?")
 	// @Scheduled(cron = "0 0 */1 * * ?")
 	public void schedule() {
 		logger.info("Scheduler started...");
 		Calendar cal = Calendar.getInstance();
-		// cal.add(Calendar.DATE, -1);
-		cal.add(Calendar.HOUR, -1);
+		cal.add(Calendar.DATE, -1);
+		// cal.add(Calendar.HOUR_OF_DAY, -1);
 		List<Job> jobs = jobDAO.findByStatusAndStatusDateLessThanEqual("In Progress", cal.getTime());
 		if (CollectionUtils.isEmpty(jobs)) {
 			logger.info("Scheduler no jobs found...");
@@ -54,6 +54,7 @@ public class JobSchedulerService {
 			cr.setJob(job);
 			cr.setContractor(contractors.getContractorById(contractorEntry.getId()));
 			cr.setContractorResponseForJob("no");
+			logger.info("JobId: {}, ContractorId: {}, Response: no", job.getId(), contractorEntry.getId());
 			contractorService.processContractorResponse(cr);
 		}
 		logger.info("Scheduler finished...");
