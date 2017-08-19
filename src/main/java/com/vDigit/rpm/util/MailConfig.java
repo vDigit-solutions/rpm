@@ -9,7 +9,7 @@ import com.sendgrid.SendGrid;
 
 @Configuration
 public class MailConfig {
-	@Value("${app.key:U0cublpuOTFRNG5RMHFlNmJnQlZneUhwUS42eTlTSWVyTVhiZkpLRDJsZExyM0E5dTNKRXlPUU1UdjhmOXIwenpSejBB}")
+	@Value("${app.key:U0cuSmwwNmxQbjJUdi1hZ0kxZmNBWlU3dy41dDJwelBYbVlsbHVZY3MyV1NPRUd6VWlxU21yMUp4SHRfc3hfYTVPQ2tF}")
 	private String appKey;
 
 	@Bean
