@@ -5,8 +5,23 @@ public class NotificationContext {
 	private String from;
 	private String to;
 	private String message;
-
 	private String subject;
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 
 	private ContractorPhoneCodeJob contractorPhoneCodeJob;
 
@@ -15,6 +30,10 @@ public class NotificationContext {
 		this.to = to;
 		this.message = message;
 		this.subject = subject;
+	}
+	
+	public NotificationContext(){
+		
 	}
 
 	public void setContractorPhoneCodeJob(ContractorPhoneCodeJob contractorPhoneCodeJob) {
