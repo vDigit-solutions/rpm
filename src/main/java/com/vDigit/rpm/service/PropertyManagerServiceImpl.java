@@ -2,6 +2,7 @@ package com.vDigit.rpm.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -76,7 +77,9 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		// Need to implement CoR
 		jobs = jobDAO.findAll();
 		JobResponse jr = new JobResponse();
-		jr.setJobs(jobs);
+		List<Job> j = new ArrayList<>(jobs);
+		Collections.reverse(j);
+		jr.setJobs(j);
 		return jr;
 	}
 

@@ -1,5 +1,8 @@
 package com.vDigit.rpm.web;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +34,8 @@ import com.vDigit.rpm.service.PropertyManagerService;
 @CrossOrigin(origins = "*")
 public class JobsController {
 	private static final Logger logger = LoggerFactory.getLogger(JobsController.class);
+
+	private final DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
 	private static final String RESENDING_JOB_CONFIRMATION = "Thanks for responding. However, you have %s the job";
 
@@ -111,7 +116,7 @@ public class JobsController {
 		processContractorResponse(cr);
 		if (acceptance.equalsIgnoreCase("yes")) {
 			return String.format(YES_RESPONSE, job.getType(), job.getPropertyName(),
-					job.getDesiredDateOfBegin().toString(), contractor.getVendorCompanyName());
+					format.format(job.getDesiredDateOfBegin()), contractor.getVendorCompanyName());
 		}
 		return NO_RESPONSE;
 	}
