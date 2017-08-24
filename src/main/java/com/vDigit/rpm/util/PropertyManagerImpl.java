@@ -36,9 +36,9 @@ public class PropertyManagerImpl implements PropertyManager {
 	}
 
 	public void setProperties(Properties p) {
-		setTwilioAccountSID(p.getProperty("twilioAccountSID"));
-		setTwilioAuthToken(p.getProperty("twilioAuthToken"));
-		setTwilioPhone(p.getProperty("twilioPhone"));
+		setTwilioAccountSID(p.getProperty("tas"));
+		setTwilioAuthToken(p.getProperty("tat"));
+		setTwilioPhone(p.getProperty("tp"));
 	}
 
 	public String toString() {
