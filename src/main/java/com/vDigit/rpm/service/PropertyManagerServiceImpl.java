@@ -3,6 +3,8 @@ package com.vDigit.rpm.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -78,7 +80,18 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		jobs = jobDAO.findAll();
 		JobResponse jr = new JobResponse();
 		List<Job> j = new ArrayList<>(jobs);
-		Collections.reverse(j);
+		Collections.sort(j, new Comparator<Job>() {
+
+			@Override
+			public int compare(Job o1, Job o2) {
+				Date createdDate1 = o1.getCreatedDate();
+				Date createdDate2 = o2.getCreatedDate();
+				if (createdDate1 == null || createdDate2 == null) {
+					return -1;
+				}
+				return createdDate1.compareTo(createdDate2);
+			}
+		});
 		jr.setJobs(j);
 		return jr;
 	}

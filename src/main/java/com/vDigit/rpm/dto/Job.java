@@ -5,104 +5,176 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Job {
-	public String getId() {
-		return id;
+	public static class ContractorEntry {
+		String id;
+
+		Date notificationSentDate;
+
+		String response;
+
+		public String getId() {
+			return id;
+		}
+
+		public Date getNotificationSentDate() {
+			return notificationSentDate;
+		}
+
+		public String getResponse() {
+			return response;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public void setNotificationSentDate(Date notificationSentDate) {
+			this.notificationSentDate = notificationSentDate;
+		}
+
+		public void setResponse(String response) {
+			this.response = response;
+		}
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	private Address address;
+
+	private Map<String, ContractorEntry> contractorEntries = new LinkedHashMap<String, ContractorEntry>();
+
+	private ContractWork contractWork;
+
+	@CreatedDate
+	private Date createdDate;
+
+	// This can be replaced with ContractorEntry
+	private String currentContractorRequestId;
+
+	private String description;
+
+	private Date desiredDateOfBegin;
+
+	@Id
+	private String id;
+
+	private String propertyManagerId;
+
+	private String propertyName;
+
+	private String status;
+
+	private Date statusDate;
+
+	// Painting, Carpet Cleaning, Electrical
+	private String type;
+
+	public Job() {
 	}
 
-	public String getPropertyManagerId() {
-		return propertyManagerId;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
-	public void setPropertyManagerId(String propertyManagerId) {
-		this.propertyManagerId = propertyManagerId;
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
-	public String getDescription() {
-		return description;
+	public void addContractorEntry(ContractorEntry jce) {
+		contractorEntries.put(jce.getId(), jce);
+		this.currentContractorRequestId = jce.getId();
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Date getDesiredDateOfBegin() {
-		return desiredDateOfBegin;
-	}
-
-	public void setDesiredDateOfBegin(Date desiredDateOfBegin) {
-		this.desiredDateOfBegin = desiredDateOfBegin;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
+	public Address getAddress() {
+		return address;
 	}
 
 	public Map<String, ContractorEntry> getContractorEntries() {
 		return contractorEntries;
 	}
 
-	public void setContractorEntries(Map<String, ContractorEntry> contractorEntries) {
-		this.contractorEntries = contractorEntries;
+	public ContractorEntry getContractorEntry(String id) {
+		return contractorEntries.get(id);
 	}
 
 	public ContractWork getContractWork() {
 		return contractWork;
 	}
 
-	public void setContractWork(ContractWork contractWork) {
-		this.contractWork = contractWork;
+	public String getCurrentContractorRequestId() {
+		if (currentContractorRequestId != null) {
+			return currentContractorRequestId;
+		}
+		return getLastContractorId();
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public String getDescription() {
+		return description;
 	}
 
-	public String getStatus() {
-		return status;
+	public Date getDesiredDateOfBegin() {
+		return desiredDateOfBegin;
 	}
 
-	public void setStatusDate(Date statusDate) {
-		this.statusDate = statusDate;
+	public String getId() {
+		return id;
 	}
 
-	public Date getStatusDate() {
-		return statusDate;
+	public String getJobLocation() {
+		if (getAddress() != null) {
+			return getAddress().toString();
+		}
+		return "No Location specified";
 	}
 
-	public void setPropertyName(String propertyName) {
-		this.propertyName = propertyName;
+	private String getLastContractorId() {
+		String x = null;
+		for (String id : getContractorEntries().keySet()) {
+			x = id;
+		}
+		return x;
+	}
+
+	public Contractor getPotentialNextContractor(Collection<Contractor> preferredContractors) {
+		for (Contractor c : preferredContractors) {
+			if (contractorEntries.containsKey(c.getId()))
+				continue;
+			return c;
+		}
+		return null;
+	}
+
+	public String getPropertyManagerId() {
+		return propertyManagerId;
 	}
 
 	public String getPropertyName() {
 		return propertyName;
 	}
 
-	@Id
-	private String id;
-	private String propertyManagerId;
-	private String description;
-	private Date desiredDateOfBegin;
-	private Date statusDate;
-	private String status;
-	// Painting, Carpet Cleaning, Electrical
-	private String type;
-	private String propertyName;
+	public String getStatus() {
+		return status;
+	}
 
-	private Map<String, ContractorEntry> contractorEntries = new LinkedHashMap<String, ContractorEntry>();
-	private ContractWork contractWork;
+	public Date getStatusDate() {
+		return statusDate;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public void setContractorEntries(Map<String, ContractorEntry> contractorEntries) {
+		this.contractorEntries = contractorEntries;
+	}
 
 	public void setContractorResponse(String id, String response) {
 		ContractorEntry ce = contractorEntries.get(id);
@@ -115,94 +187,44 @@ public class Job {
 		ce.response = response;
 	}
 
-	public static class ContractorEntry {
-		public String getId() {
-			return id;
-		}
-
-		public void setId(String id) {
-			this.id = id;
-		}
-
-		public String getResponse() {
-			return response;
-		}
-
-		public void setResponse(String response) {
-			this.response = response;
-		}
-
-		public Date getNotificationSentDate() {
-			return notificationSentDate;
-		}
-
-		public void setNotificationSentDate(Date notificationSentDate) {
-			this.notificationSentDate = notificationSentDate;
-		}
-
-		String id;
-		String response;
-		Date notificationSentDate;
-	}
-
-	public Job() {
-	}
-
-	public Contractor getPotentialNextContractor(Collection<Contractor> preferredContractors) {
-		for (Contractor c : preferredContractors) {
-			if (contractorEntries.containsKey(c.getId()))
-				continue;
-			return c;
-		}
-		return null;
-	}
-
-	public void addContractorEntry(ContractorEntry jce) {
-		contractorEntries.put(jce.getId(), jce);
-		this.currentContractorRequestId = jce.getId();
-	}
-
-	public ContractorEntry getContractorEntry(String id) {
-		return contractorEntries.get(id);
-	}
-
-	private Address address;
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public String getJobLocation() {
-		if (getAddress() != null) {
-			return getAddress().toString();
-		}
-		return "No Location specified";
-	}
-
-	// This can be replaced with ContractorEntry
-	private String currentContractorRequestId;
-
-	public String getCurrentContractorRequestId() {
-		if (currentContractorRequestId != null) {
-			return currentContractorRequestId;
-		}
-		return getLastContractorId();
-	}
-
-	private String getLastContractorId() {
-		String x = null;
-		for (String id : getContractorEntries().keySet()) {
-			x = id;
-		}
-		return x;
+	public void setContractWork(ContractWork contractWork) {
+		this.contractWork = contractWork;
 	}
 
 	public void setCurrentContractorRequestId(String currentContractorRequestId) {
 		this.currentContractorRequestId = currentContractorRequestId;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setDesiredDateOfBegin(Date desiredDateOfBegin) {
+		this.desiredDateOfBegin = desiredDateOfBegin;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setPropertyManagerId(String propertyManagerId) {
+		this.propertyManagerId = propertyManagerId;
+	}
+
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void setStatusDate(Date statusDate) {
+		this.statusDate = statusDate;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public void updateContractorResponse(String contractorId, String response) {
