@@ -1,5 +1,7 @@
 package com.vDigit.rpm.util;
 
+import java.net.InetAddress;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
@@ -15,4 +17,22 @@ public class Util {
 		}
 
 	}
+
+	public static String getServerName() {
+		return getUserName() + "-" + getHostName();
+	}
+
+	public static String getUserName() {
+		return System.getProperty("user.name");
+	}
+
+	private static String getHostName() {
+		try {
+			return InetAddress.getLocalHost().getHostName();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "NULL HOST";
+		}
+	}
+
 }
