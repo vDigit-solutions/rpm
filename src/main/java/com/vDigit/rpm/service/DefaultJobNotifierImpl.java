@@ -111,6 +111,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 
 		NotificationContext mail = new NotificationContext(null, c.getEmail(), createEmailMessage(tokens, job, c),
 				subject);
+		mail.setJobId(job.getId());
 		mailNotification.send(mail);
 	}
 
@@ -158,6 +159,26 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	private Integer phoneJobCodeGenerator() {
 		int range = maximum - minimum + 1;
 		return random.nextInt(range) + minimum;
+	}
+
+	@Override
+	public void processManagerConfirmation(Job job, Contractor contractor) {
+		PropertyManager pm = propertyManagers.getPropertyManager(job.getPropertyManagerId());
+		String pmPhone = pm.getPhone();
+
+		Map<String, String> tokens = new HashMap<>();
+		tokens.put("name", pm.getName());
+		tokens.put("vendorCompanyName", contractor.getVendorCompanyName());
+		tokens.put("type", contractor.getType());
+		tokens.put("propertyName", job.getPropertyName());
+		tokens.put("date", format.format(job.getDesiredDateOfBegin()));
+		tokens.put("firstName", contractor.getFirstName());
+		tokens.put("phone", contractor.getPhone());
+
+		String message = templateMessageReader.read("pm_confirmation_template", tokens, REGEX);
+		NotificationContext context = new NotificationContext(null, pmPhone, message, null);
+		twilioPhoneNotification.send(context);
+
 	}
 
 }

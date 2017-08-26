@@ -34,7 +34,19 @@ import com.vDigit.rpm.util.TwilioPhoneNotification;
 @CrossOrigin(origins = "*")
 public class TwilioPhoneController {
 
+	private static final String _1 = "+1";
+
+	private static final String DECLINED = "declined";
+
+	private static final String ACCEPTED = "accepted";
+
+	private static final String NO = "no";
+
+	private static final String YES = "yes";
+
 	private static final String RESENDING_JOB_CONFIRMATION = "Thank you for your response. However, you have already %s the job.";
+
+	private static final String WRONG_JOB_CODE = "Thank you for your response[%s]. However, this job is no longer avaliable or has been booked.";
 
 	// Test
 	private static Logger logger = LoggerFactory.getLogger(TwilioPhoneController.class);
@@ -55,7 +67,7 @@ public class TwilioPhoneController {
 	private ContractorPhoneCodeJobMappingDao contractorPhoneCodeJobMappingDao;
 
 	private String cleanPhoneNumber(String phone) {
-		return phone.replace("+1", "");
+		return phone.replace(_1, "");
 	}
 
 	@RequestMapping(value = "/job", method = RequestMethod.POST)
@@ -96,7 +108,7 @@ public class TwilioPhoneController {
 		String resp = entry.getResponse();
 
 		if (StringUtils.isNotBlank(resp)) {
-			resendingJobConfirmation(f, resp.equalsIgnoreCase("yes") ? "accepted" : "declined");
+			resendingJobConfirmation(f, resp.equalsIgnoreCase(YES) ? ACCEPTED : DECLINED);
 			return;
 		}
 
@@ -106,23 +118,20 @@ public class TwilioPhoneController {
 		ContractorRequest cr = new ContractorRequest();
 		cr.setJob(job);
 		cr.setContractor(contractor);
-		String respsoneCode = phoneJobMapping.getYes() == code ? "yes" : "no";
+		String respsoneCode = phoneJobMapping.getYes() == code ? YES : NO;
 		logger.info("Response :" + respsoneCode);
 		cr.setContractorResponseForJob(respsoneCode);
 		processContractorResponse(cr);
 	}
 
 	private void wrongResponseCode(String f, String body) {
-		String x;
-		x = "Thank you for your response[" + body + "]. However, I don't understand " + body
-				+ ". Either this job already occupied/deleted";
+		String x = String.format(WRONG_JOB_CODE, body);
 		NotificationContext ctx = new NotificationContext(null, f, x, null);
 		pn.send(ctx);
 	}
 
 	private void noJobFound(String f, String body) {
-		String x;
-		x = "Thank you for your response[" + body + "]. However, either this job already occupied/deleted";
+		String x = String.format(WRONG_JOB_CODE, body);
 		NotificationContext ctx = new NotificationContext(null, f, x, null);
 		pn.send(ctx);
 	}
@@ -134,6 +143,6 @@ public class TwilioPhoneController {
 	}
 
 	private void processContractorResponse(ContractorRequest request) {
-		new Thread(() -> contractorService.processContractorResponse(request)).start();
+		contractorService.processContractorResponse(request);
 	}
 }

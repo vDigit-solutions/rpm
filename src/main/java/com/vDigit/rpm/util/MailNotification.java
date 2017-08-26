@@ -36,7 +36,7 @@ public class MailNotification implements Notification<NotificationContext, Strin
 			request.setEndpoint("mail/send");
 			request.setBody(mail.build());
 			Response response = sendGrid.api(request);
-			logger.info(response.getStatusCode() + "");
+			logger.info("JobId:{}, resp:{}", input.getJobId(), response.getStatusCode());
 			return response.getStatusCode() + "";
 		} catch (IOException ex) {
 			logger.error("Exception while sending email..", ex);

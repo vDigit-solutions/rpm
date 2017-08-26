@@ -1,10 +1,6 @@
 package com.vDigit.rpm.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -17,17 +13,10 @@ import com.vDigit.rpm.dto.Contractors;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
-import com.vDigit.rpm.dto.NotificationContext;
-import com.vDigit.rpm.dto.PropertyManager;
 import com.vDigit.rpm.dto.PropertyManagers;
-import com.vDigit.rpm.util.TwilioPhoneNotification;
 
 @Component
 public class ContractorServiceImpl implements ContractorService {
-
-	private static final String REGEX = "-(%s)-";
-
-	private final DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
 	@Resource(name = "contractors")
 	private Contractors contractors;
@@ -37,12 +26,6 @@ public class ContractorServiceImpl implements ContractorService {
 
 	@Autowired
 	private PropertyManagerService pms;
-
-	@Resource(name = "twilioPhoneNotification")
-	private TwilioPhoneNotification pn;
-
-	@Resource(name = "templateMessageReader")
-	private TemplateMessageReader templateMessageReader;
 
 	@Resource(name = "jobConfirmationNotifier")
 	private JobConfirmationNotifier jobConfirmationNotifier;
@@ -69,8 +52,7 @@ public class ContractorServiceImpl implements ContractorService {
 			confirmationTemplate = "contractor_accepted_template";
 			job.setStatusDate(new Date());
 			job.setStatus("Booked");
-			pms.updateJob(job);
-			sendNotificationToPropertyManager(job, contractor);
+			pms.updateJob(job, contractor);
 		}
 		pms.deleteJobMapping(job.getId(), contractor.getId());
 		sendConfirmationToContractor(confirmationTemplate, job, contractor);
@@ -78,25 +60,6 @@ public class ContractorServiceImpl implements ContractorService {
 
 	private void sendConfirmationToContractor(String confirmationTemplate, Job job, Contractor contractor) {
 		jobConfirmationNotifier.process(confirmationTemplate, job, contractor);
-	}
-
-	private void sendNotificationToPropertyManager(Job job, Contractor contractor) {
-		PropertyManager pm = propertyManagers.getPropertyManager(job.getPropertyManagerId());
-		String pmPhone = pm.getPhone();
-
-		Map<String, String> tokens = new HashMap<>();
-		tokens.put("name", pm.getName());
-		tokens.put("vendorCompanyName", contractor.getVendorCompanyName());
-		tokens.put("type", contractor.getType());
-		tokens.put("propertyName", job.getPropertyName());
-		tokens.put("date", format.format(job.getDesiredDateOfBegin()));
-		tokens.put("firstName", contractor.getFirstName());
-		tokens.put("phone", contractor.getPhone());
-
-		String message = templateMessageReader.read("pm_confirmation_template", tokens, REGEX);
-		NotificationContext context = new NotificationContext(null, pmPhone, message, null);
-		pn.send(context);
-
 	}
 
 	private Contractor getContractorId(Contractor contractor, String phone) {

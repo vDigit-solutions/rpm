@@ -23,7 +23,9 @@ import com.vDigit.rpm.util.TwilioPhoneNotification;
 @Component
 public class JobConfirmationNotifier {
 	private static final String UNSUBSCRIBE_DIV = "<div><a href=\"%s\">Unsubscribe</a></div>";
+
 	private static final String REGEX = "-(%s)-";
+
 	@Resource(name = "templateMessageReader")
 	private TemplateMessageReader templateMessageReader;
 
@@ -53,16 +55,17 @@ public class JobConfirmationNotifier {
 		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
 		tokens.put("propertyManager", propertyManager.getName());
 		String msg = templateMessageReader.read(template, tokens, REGEX);
-		notifyContractor(contractor, msg, contractor.getType() + " contract work confirmation");
+		notifyContractor(job, contractor, msg, contractor.getType() + " contract work confirmation");
 	}
 
-	private void notifyContractor(Contractor c, String message, String subject) {
+	private void notifyContractor(Job job, Contractor c, String message, String subject) {
 		String phoneMsg = message.replaceAll("<div>", "").replaceAll("</div>", "");
 		NotificationContext sms = new NotificationContext(null, c.getPhone(), phoneMsg, subject);
 		twilioPhoneNotification.send(sms);
 		String url = String.format(JobNotifier.UNSUBSCRIBE, appUrl, c.getId());
 		String emailMsg = message + String.format(UNSUBSCRIBE_DIV, url);
 		NotificationContext mail = new NotificationContext(null, c.getEmail(), emailMsg, subject);
+		mail.setJobId(job.getId());
 		mailNotification.send(mail);
 	}
 

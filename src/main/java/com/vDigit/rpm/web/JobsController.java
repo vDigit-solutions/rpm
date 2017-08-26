@@ -33,6 +33,12 @@ import com.vDigit.rpm.service.PropertyManagerService;
 @RequestMapping("/api/pm")
 @CrossOrigin(origins = "*")
 public class JobsController {
+	private static final String DECLINED = "declined";
+
+	private static final String ACCEPTED = "accepted";
+
+	private static final String YES = "yes";
+
 	private static final Logger logger = LoggerFactory.getLogger(JobsController.class);
 
 	private final DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
@@ -42,6 +48,8 @@ public class JobsController {
 	private static final String YES_RESPONSE = "Thank you for your reply. You are scheduled to %s: %s %s %s";
 
 	private static final String NO_RESPONSE = "Thanks for responding.  We will see you next time.";
+
+	private static final String WRONG_JOB_CODE = "Thank you for your response[%s]. However, this job is no longer avaliable or has been booked.";
 
 	@Autowired
 	private PropertyManagerService pms;
@@ -97,15 +105,14 @@ public class JobsController {
 			@PathVariable("contractorId") String contractorId, @PathVariable("acceptance") String acceptance) {
 		Job job = jobService.getJob(jobId);
 		if (job == null) {
-			return "Not able to find a job for a given request.";
+			return String.format(WRONG_JOB_CODE, acceptance);
 		}
 		Contractor contractor = contractors.getContractorById(contractorId);
 		ContractorEntry entry = job.getContractorEntry(contractorId);
 		if (entry != null) {
 			String resp = entry.getResponse();
 			if (StringUtils.isNotBlank(resp)) {
-				return String.format(RESENDING_JOB_CONFIRMATION,
-						resp.equalsIgnoreCase("yes") ? "accepted" : "declined");
+				return String.format(RESENDING_JOB_CONFIRMATION, resp.equalsIgnoreCase(YES) ? ACCEPTED : DECLINED);
 			}
 		}
 		ContractorRequest cr = new ContractorRequest();
@@ -114,7 +121,7 @@ public class JobsController {
 		cr.setContractorResponseForJob(acceptance);
 		logger.info("JobId: {}, ContractorId: {}, Response: {}", jobId, contractorId, acceptance);
 		processContractorResponse(cr);
-		if (acceptance.equalsIgnoreCase("yes")) {
+		if (acceptance.equalsIgnoreCase(YES)) {
 			return String.format(YES_RESPONSE, job.getType(), job.getPropertyName(),
 					format.format(job.getDesiredDateOfBegin()), contractor.getVendorCompanyName());
 		}
@@ -122,7 +129,7 @@ public class JobsController {
 	}
 
 	private void processContractorResponse(ContractorRequest request) {
-		new Thread(() -> contractorService.processContractorResponse(request)).start();
+		contractorService.processContractorResponse(request);
 	}
 
 }

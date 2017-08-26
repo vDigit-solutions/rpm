@@ -3,11 +3,10 @@ package com.vDigit.rpm.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.annotation.Resource;
 
@@ -19,11 +18,14 @@ import org.springframework.util.CollectionUtils;
 
 import com.vDigit.rpm.dao.ContractorPhoneCodeJobMappingDao;
 import com.vDigit.rpm.dao.JobDAO;
+import com.vDigit.rpm.dto.Contractor;
 import com.vDigit.rpm.dto.ContractorPhoneCodeJob;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
+import com.vDigit.rpm.dto.PropertyManagers;
 import com.vDigit.rpm.dto.ScheduleRequest;
+import com.vDigit.rpm.util.CreatedDateComparator;
 import com.vDigit.rpm.util.Util;
 
 @Component
@@ -39,6 +41,11 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	@Resource(name = "contractorPhoneCodeJobMappingDao")
 	private ContractorPhoneCodeJobMappingDao contractorPhoneCodeJobMappingDao;
 
+	@Resource(name = "propertyManagers")
+	private PropertyManagers propertyManagers;
+
+	private ExecutorService executor = Executors.newCachedThreadPool();
+
 	@Override
 	public JobResponse createJob(JobRequest jobRequest) {
 		Job job = jobRequest.getJob();
@@ -52,7 +59,41 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	}
 
 	public void processJob(Job job) {
-		jobNotifier.processJob(job);
+		executor.submit(new JobProcessor(job));
+	}
+
+	class JobProcessor implements Callable<Void> {
+
+		private Job job;
+
+		public JobProcessor(Job job) {
+			this.job = job;
+		}
+
+		@Override
+		public Void call() throws Exception {
+			jobNotifier.processJob(job);
+			return null;
+		}
+
+	}
+
+	class ManagerConfirmationProcessor implements Callable<Void> {
+
+		private final Job job;
+		private final Contractor contractor;
+
+		public ManagerConfirmationProcessor(Job job, Contractor contractor) {
+			this.job = job;
+			this.contractor = contractor;
+		}
+
+		@Override
+		public Void call() throws Exception {
+			jobNotifier.processManagerConfirmation(job, contractor);
+			return null;
+		}
+
 	}
 
 	@Override
@@ -80,26 +121,15 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		jobs = jobDAO.findAll();
 		JobResponse jr = new JobResponse();
 		List<Job> j = new ArrayList<>(jobs);
-		Collections.sort(j, new Comparator<Job>() {
-
-			@Override
-			public int compare(Job o1, Job o2) {
-				Date createdDate1 = o1.getCreatedDate();
-				Date createdDate2 = o2.getCreatedDate();
-				if (createdDate1 == null || createdDate2 == null) {
-					return -1;
-				}
-				return createdDate1.compareTo(createdDate2);
-			}
-		});
+		Collections.sort(j, new CreatedDateComparator());
 		jr.setJobs(j);
 		return jr;
 	}
 
 	@Override
-	public void updateJob(Job job) {
+	public void updateJob(Job job, Contractor contractor) {
 		jobDAO.save(job);
-
+		executor.submit(new ManagerConfirmationProcessor(job, contractor));
 	}
 
 	@Override
@@ -112,10 +142,13 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	public JobResponse scheduleJob(ScheduleRequest scheduleRequest) {
 		Iterable<Job> jobs = jobDAO.findAll(scheduleRequest.getJobIds());
 		for (Job job : jobs) {
-			new Thread(() -> processJob(job)).start();
+			executor.submit(new JobProcessor(job));
 		}
 		Iterable<Job> latest = jobDAO.findAll(scheduleRequest.getJobIds());
-		return new JobResponse(StreamSupport.stream(latest.spliterator(), false).collect(Collectors.toList()));
+		List<Job> j = new ArrayList<>();
+		latest.forEach(j::add);
+		Collections.sort(j, new CreatedDateComparator());
+		return new JobResponse(j);
 	}
 
 	@Override
