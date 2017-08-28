@@ -29,10 +29,13 @@ import com.vDigit.rpm.dto.NotificationContext;
 import com.vDigit.rpm.dto.PropertyManager;
 import com.vDigit.rpm.dto.PropertyManagers;
 import com.vDigit.rpm.util.MailNotification;
+import com.vDigit.rpm.util.PropertyManagerFactory;
 import com.vDigit.rpm.util.TwilioPhoneNotification;
 
 @Component
 public class DefaultJobNotifierImpl implements JobNotifier {
+
+	private com.vDigit.rpm.util.PropertyManager PROPERTY_MANAGER = PropertyManagerFactory.getPropertyManager();
 
 	private static final String SUBJECT = "We have a %s work for you";
 	private static final String YES = "%s/api/pm/job/%s/%s/yes";
@@ -96,6 +99,29 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 
 	private void notifyContractor(Job job, Contractor c) {
 		String subject = String.format(SUBJECT, c.getType());
+		Map<String, String> tokens = createContext(job, c);
+		sendSMSIfConfigured(job, c, subject, tokens);
+		sendEmail(job, c, subject, tokens);
+	}
+
+	protected void sendEmail(Job job, Contractor c, String subject, Map<String, String> tokens) {
+		NotificationContext mail = new NotificationContext(null, c.getEmail(), createEmailMessage(tokens, job, c),
+				subject);
+		mail.setJobId(job.getId());
+		mailNotification.send(mail);
+	}
+
+	protected void sendSMSIfConfigured(Job job, Contractor c, String subject, Map<String, String> tokens) {
+		if ("false".equalsIgnoreCase(PROPERTY_MANAGER.getPhoneNotifications())) {
+			return;
+		}
+		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
+		tokens.put("manager.phone", propertyManager.getPhone());
+		NotificationContext sms = new NotificationContext(null, c.getPhone(), createMessage(tokens, job, c), subject);
+		twilioPhoneNotification.send(sms);
+	}
+
+	protected Map<String, String> createContext(Job job, Contractor c) {
 		Map<String, String> tokens = new HashMap<>();
 		tokens.put("name", c.getFirstName());
 		tokens.put("type", job.getType());
@@ -103,16 +129,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		tokens.put("description", job.getDescription());
 		tokens.put("location", job.getJobLocation());
 		tokens.put("date", format.format(job.getDesiredDateOfBegin()));
-
-		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
-		tokens.put("manager.phone", propertyManager.getPhone());
-		NotificationContext sms = new NotificationContext(null, c.getPhone(), createMessage(tokens, job, c), subject);
-		twilioPhoneNotification.send(sms);
-
-		NotificationContext mail = new NotificationContext(null, c.getEmail(), createEmailMessage(tokens, job, c),
-				subject);
-		mail.setJobId(job.getId());
-		mailNotification.send(mail);
+		return tokens;
 	}
 
 	private String createEmailMessage(Map<String, String> tokens, Job job, Contractor c) {

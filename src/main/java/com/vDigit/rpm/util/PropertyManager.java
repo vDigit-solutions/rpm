@@ -12,4 +12,8 @@ public interface PropertyManager {
 	String getTwilioAuthToken();
 
 	void setTwilioAuthToken(String token);
+
+	String getPhoneNotifications();
+
+	void setPhoneNotifications(String pn);
 }

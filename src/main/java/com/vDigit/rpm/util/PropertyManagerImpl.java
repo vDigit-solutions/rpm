@@ -6,6 +6,7 @@ public class PropertyManagerImpl implements PropertyManager {
 	private String twilioAccountSID;
 	private String twilioPhone;
 	private String twilioAuthToken;
+	private String phoneNotifications="true";
 
 	public String getTwilioAccountSID() {
 		return twilioAccountSID;
@@ -39,9 +40,20 @@ public class PropertyManagerImpl implements PropertyManager {
 		setTwilioAccountSID(p.getProperty("tas"));
 		setTwilioAuthToken(p.getProperty("tat"));
 		setTwilioPhone(p.getProperty("tp"));
+		setPhoneNotifications(p.getProperty("phoneNotifications"));
 	}
 
 	public String toString() {
 		return Util.toJSON(this);
+	}
+
+	@Override
+	public String getPhoneNotifications() {
+		return phoneNotifications;
+	}
+
+	@Override
+	public void setPhoneNotifications(String pn) {
+		this.phoneNotifications = pn;
 	}
 }
