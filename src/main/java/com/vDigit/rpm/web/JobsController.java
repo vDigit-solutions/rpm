@@ -28,6 +28,7 @@ import com.vDigit.rpm.dto.ScheduleRequest;
 import com.vDigit.rpm.service.ContractorService;
 import com.vDigit.rpm.service.JobService;
 import com.vDigit.rpm.service.PropertyManagerService;
+import com.vDigit.rpm.util.Util;
 
 @RestController
 @RequestMapping("/api/pm")
@@ -70,6 +71,7 @@ public class JobsController {
 
 	@RequestMapping(value = "/schedule/jobs", method = RequestMethod.PUT)
 	public @ResponseBody JobResponse scheduleJob(@RequestBody ScheduleRequest scheduleRequest) {
+		logger.info("Schedule Job -> " + Util.toJSON(scheduleRequest));
 		return pms.scheduleJob(scheduleRequest);
 	}
 

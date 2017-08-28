@@ -1,93 +1,155 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>jQuery UI Dialog - Modal form</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
-    <style>
-        label {display:inline-block;width: 20%;text-align: right; vertical-align: top;font-size: 0.9em; font-weight:bold;}
-        input { display:inline-block;}
-        input.text { margin-bottom:12px; width:95%; padding: .4em; }
-        input#jobtime {width:50%}
-        fieldset { padding:0; border:0; margin-top:25px; }
-        h1 { font-size: 1.2em; margin: .6em 0; }
-        div#users-contain { width: 350px; margin: 20px 0; }
-        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-        .ui-dialog .ui-state-error { padding: .3em; }
-        .validateTips { border: 1px solid transparent; padding: 0.3em; }
-        #jobtype-button {width:35%}
-        div.section {margin-bottom: 15px}
-    </style>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Dialog - Modal form</title>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!--<link rel="stylesheet" href="/resources/demos/style.css">-->
+<style>
+label {
+	display: inline-block;
+	width: 20%;
+	text-align: right;
+	vertical-align: top;
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
+input {
+	display: inline-block;
+}
+
+input.text {
+	margin-bottom: 12px;
+	width: 95%;
+	padding: .4em;
+}
+
+input#jobtime {
+	width: 50%
+}
+
+fieldset {
+	padding: 0;
+	border: 0;
+	margin-top: 25px;
+}
+
+h1 {
+	font-size: 1.2em;
+	margin: .6em 0;
+}
+
+div#users-contain {
+	width: 350px;
+	margin: 20px 0;
+}
+
+div#users-contain table {
+	margin: 1em 0;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+div#users-contain table td, div#users-contain table th {
+	border: 1px solid #eee;
+	padding: .6em 10px;
+	text-align: left;
+}
+
+.ui-dialog .ui-state-error {
+	padding: .3em;
+}
+
+.validateTips {
+	border: 1px solid transparent;
+	padding: 0.3em;
+}
+
+#jobtype-button {
+	width: 35%
+}
+
+div.section {
+	margin-bottom: 15px
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 </head>
 <body>
 
-<div id="dialog-form" title="New job request">
-    <form>
-        <fieldset>
-            <!--<label for="name">Name</label>-->
-            <!--<input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">-->
-            <!--<label for="email">Email</label>-->
-            <!--<input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">-->
-            <!--<label for="phone">Phone</label>-->
-            <!--<input type="phone" name="phone" id="phone" value="xxxxxxx" class="text ui-widget-content ui-corner-all">-->
+	<div id="dialog-form" title="New Job Request">
+		<form>
+			<fieldset>
+				<!--<label for="name">Name</label>-->
+				<!--<input type="text" name="name" id="name" value="Jane Smith" class="text ui-widget-content ui-corner-all">-->
+				<!--<label for="email">Email</label>-->
+				<!--<input type="text" name="email" id="email" value="jane@smith.com" class="text ui-widget-content ui-corner-all">-->
+				<!--<label for="phone">Phone</label>-->
+				<!--<input type="phone" name="phone" id="phone" value="xxxxxxx" class="text ui-widget-content ui-corner-all">-->
 
-            <div class="section">
-                <label for="jobtype">Type:</label>
-                <select name="jobtype" id="jobtype">
-                    <option disabled selected>Please pick one</option>
-                    <option selected value="Cleaning">Cleaning</option>
-                    <option value="Painting">Painting</option>
-                    <option value="Re-key">Re-key Locks</option>
-                </select>
-            </div>
-
-
-            <div class="section"><label for="jobtime">Date:</label>
-                <input type="datetime" name="jobtime" id="jobtime" class="text ui-widget-content ui-corner-all">
-            </div>
+				<div class="section">
+					<label for="jobtype">Type:</label> <select name="jobtype"
+						id="jobtype">
+						<option disabled selected>Please pick one</option>
+						<option selected value="Cleaning">Cleaning</option>
+						<option value="Painting">Painting</option>
+						<option value="Re-key">Re-key Locks</option>
+					</select>
+				</div>
 
 
-            <div class="section"><label for="address">Address:</label>
-                <textarea name="address" id="address" rows="2" class="text ui-widget-content ui-corner-all">605 5th Ave Unit A, Seattle, WA 98104</textarea>
-            </div>
+				<div class="section">
+					<label for="jobtime">Date:</label> <input type="datetime"
+						name="jobtime" id="jobtime"
+						class="text ui-widget-content ui-corner-all">
+				</div>
 
 
-            <div class="section"><label for="decription">Decription:</label>
-                <textarea name="decription" id="decription" cols="30" rows="4" class="text ui-widget-content ui-corner-all">Clean the apartment in Lynnwood ...</textarea>
-            </div>
+				<div class="section">
+					<label for="address">Address:</label>
+					<textarea name="address" id="address" rows="2"
+						class="text ui-widget-content ui-corner-all">605 5th Ave Unit A, Seattle, WA 98104</textarea>
+				</div>
+
+
+				<div class="section">
+					<label for="decription">Decription:</label>
+					<textarea name="decription" id="decription" cols="30" rows="4"
+						class="text ui-widget-content ui-corner-all">Clean the apartment in Lynnwood ...</textarea>
+				</div>
 
 
 
 
 
-            <!-- Allow form submission with keyboard without duplicating the dialog button -->
-            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-        </fieldset>
-    </form>
-</div>
+				<!-- Allow form submission with keyboard without duplicating the dialog button -->
+				<input type="submit" tabindex="-1"
+					style="position: absolute; top: -1000px">
+			</fieldset>
+		</form>
+	</div>
 
-<div id="users-contain" class="ui-widget">
-    <h1>Contractors:</h1>
-    <table id="users" class="ui-widget ui-widget-content">
-        <thead>
-        <tr class="ui-widget-header ">
-            <th>Name</th>
-            <th>Email</th>
-            <th>phone</th>
-        </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-<button id="create-user">New job request</button>
+	<div id="users-contain" class="ui-widget">
+		<h1>Contractors:</h1>
+		<table id="users" class="ui-widget ui-widget-content">
+			<thead>
+				<tr class="ui-widget-header ">
+					<th>Name</th>
+					<th>Email</th>
+					<th>phone</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<button id="create-user">New Job Request</button>
 
-<script>
+	<script>
     $( function() {
         let dialog, form,
 

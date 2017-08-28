@@ -9,7 +9,7 @@ public class TwilioPhoneNotificationTest {
 	public void test() {
 		TwilioPhoneNotification tn = new TwilioPhoneNotification();
 		NotificationContext nc = new NotificationContext();
-		nc.setMessage("Hello");
+		nc.setMessage("Hi Reesha - How are you. Are you being good at home by yourself. Love you ->Bye");
 		nc.setTo("4252837905");
 		tn.send(nc);
 	}

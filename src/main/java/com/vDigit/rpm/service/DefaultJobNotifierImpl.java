@@ -105,7 +105,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		tokens.put("date", format.format(job.getDesiredDateOfBegin()));
 
 		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
-		tokens.put("manager", propertyManager.getName());
+		tokens.put("manager.phone", propertyManager.getPhone());
 		NotificationContext sms = new NotificationContext(null, c.getPhone(), createMessage(tokens, job, c), subject);
 		twilioPhoneNotification.send(sms);
 
@@ -121,6 +121,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		tokens.put("unsubscribe", String.format(UNSUBSCRIBE, appUrl, c.getId()));
 		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
 		tokens.put("manager", propertyManager.getName());
+		tokens.put("manager_phone", propertyManager.getPhone());
 		return templateMessageReader.read("message_template", tokens, REGEX);
 	}
 
