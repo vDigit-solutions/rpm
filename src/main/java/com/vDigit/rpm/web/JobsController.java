@@ -75,6 +75,12 @@ public class JobsController {
 		return pms.scheduleJob(scheduleRequest);
 	}
 
+	@RequestMapping(value = "/reschedule/jobs", method = RequestMethod.PUT)
+	public @ResponseBody JobResponse rescheduleJob(@RequestBody ScheduleRequest scheduleRequest) {
+		logger.info("Reschedule Job -> " + Util.toJSON(scheduleRequest));
+		return pms.scheduleJob(scheduleRequest);
+	}
+
 	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
 	public @ResponseBody JobResponse getJobs() {
 		return pms.getJobs();

@@ -428,8 +428,10 @@
             
             const manager = managersCache[jobData.propertyManagerId] || {name:"deleted", phone:"deleted"};
             var status = "";
-            if(jobData.status === 'Schedule' ){
+            if (jobData.status === 'Schedule' ) {
             	status = "<button id='schedule'>Schedule</button>";
+            } else if (jobData.status === 'Reschedule') {
+            	status = "<button id='reschedule'>Reschedule</button>";
             }else{
             	status = jobData.status;
             }
@@ -466,6 +468,28 @@
                 };
             	$.ajax({
                     url: '/api/pm/schedule/jobs',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(jobIds),
+                    dataType: 'json',
+                    success: function(jobsData) {
+                    	row.remove();
+                    	jobsData.jobs.forEach(function (jobData) {
+                    		addJobsDataAndBindUI(jobData.id)
+                    	});
+                    	jobDialog.dialog( "close" );
+                    }
+                });
+            });
+            
+			$("#reschedule", row).click(()=> {
+            	
+            	let jobIds =
+                {
+                    "jobIds": [ jobData.id ]
+                };
+            	$.ajax({
+                    url: '/api/pm/reschedule/jobs',
                     type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(jobIds),
