@@ -78,10 +78,6 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 
 	@Override
 	public void processJob(Job job) {
-		ContractWork cw = job.getContractWork();
-		if (cw != null) {
-			return;
-		}
 		Contractor c = job.getPotentialNextContractor(contractors.getContractors(job.getType()));
 		if (c == null) {
 			return;

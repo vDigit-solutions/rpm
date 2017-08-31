@@ -47,8 +47,6 @@ public class Job {
 
 	private Map<String, ContractorEntry> contractorEntries = new LinkedHashMap<String, ContractorEntry>();
 
-	private ContractWork contractWork;
-
 	@CreatedDate
 	private Date createdDate;
 
@@ -99,10 +97,6 @@ public class Job {
 
 	public ContractorEntry getContractorEntry(String id) {
 		return contractorEntries.get(id);
-	}
-
-	public ContractWork getContractWork() {
-		return contractWork;
 	}
 
 	public String getCurrentContractorRequestId() {
@@ -187,10 +181,6 @@ public class Job {
 		ce.response = response;
 	}
 
-	public void setContractWork(ContractWork contractWork) {
-		this.contractWork = contractWork;
-	}
-
 	public void setCurrentContractorRequestId(String currentContractorRequestId) {
 		this.currentContractorRequestId = currentContractorRequestId;
 	}
@@ -231,7 +221,15 @@ public class Job {
 		ContractorEntry ce = contractorEntries.get(contractorId);
 		if (ce != null)
 			ce.response = response;
-
 	}
 
+	public String getDisplayableStatus() {
+		return displayableStatus;
+	}
+
+	public void setDisplayableStatus(String d) {
+		this.displayableStatus = d;
+	}
+
+	private String displayableStatus;
 }
