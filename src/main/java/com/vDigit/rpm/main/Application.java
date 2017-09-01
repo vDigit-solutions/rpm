@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +23,7 @@ import com.vDigit.rpm.dto.JobRequest;
 @SpringBootApplication
 @EnableScheduling
 @ComponentScan({ "com.vDigit.rpm" })
+@EnableMongoAuditing
 @EnableMongoRepositories(basePackages = { "com.vDigit.rpm" })
 public class Application {
 

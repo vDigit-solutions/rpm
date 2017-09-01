@@ -11,12 +11,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Job {
-	public static class ContractorEntry {
-		String id;
+	public class ContractorEntry {
+		private String id;
 
-		Date notificationSentDate;
+		private Date notificationSentDate;
 
-		String response;
+		private String response;
 
 		public String getId() {
 			return id;
@@ -219,8 +219,9 @@ public class Job {
 
 	public void updateContractorResponse(String contractorId, String response) {
 		ContractorEntry ce = contractorEntries.get(contractorId);
-		if (ce != null)
-			ce.response = response;
+		if (ce != null) {
+			ce.setResponse(response);
+		}
 	}
 
 	public String getDisplayableStatus() {
