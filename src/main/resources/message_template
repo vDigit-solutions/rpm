@@ -14,6 +14,7 @@ Hi -name-,
 	Date: -date-
 	</p>
 	<div>
+		<div>(This offer expires in 24 hours)</div>
 		<div>To Accept click on <a href="-yes-">YES</a></div>
 		<div>To Decline click on <a href="-no-">NO</a></div>
 	</div>

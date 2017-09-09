@@ -55,6 +55,7 @@ public class JobSchedulerService {
 			if (StringUtils.isNotBlank(contractorEntry.getResponse())) {
 				job.setStatus("Reschedule");
 				job.setContractorEntries(new LinkedHashMap<>());
+				job.setCurrentContractorRequestId(null);
 				jobDAO.save(job);
 				logger.info("JobId: {}, updated status to Reschedule", job.getId());
 				continue;
