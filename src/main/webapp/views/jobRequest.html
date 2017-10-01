@@ -503,11 +503,20 @@ div#pm-dialog-form input {
             });
         }
 
-        function bindJobsUI(jobsData) {
+        function bindJobsUI(jobs) {
             $( "#jobs").find("tbody" ).html("");
-            jobsData.jobs.forEach(function (jobData) {
-                addNewJobUI(jobData, contractorsCache, managersCache);
+            
+            $.each(jobs.data, function (index, value){
+            		const row = $("<tr>" +
+            		 "<td colspan='6' ><div>" + index + "</div></td>" +
+                    "</tr>");
+            		$( "#jobs").find("tbody" ).append( row );
+            		$.each(value, function (index, v) {
+  					console.log(v);
+  					addNewJobUI(v, contractorsCache, managersCache);
+				});
             });
+            
         }
 
         function addNewPMUI(pmData) {
