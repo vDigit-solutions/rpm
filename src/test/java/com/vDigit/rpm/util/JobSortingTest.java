@@ -43,6 +43,7 @@ public class JobSortingTest {
 		assertEquals("2", j.get(0).getId());
 		assertEquals("1", j.get(1).getId());
 		assertEquals("3", j.get(2).getId());
+		
 	}
 
 }
