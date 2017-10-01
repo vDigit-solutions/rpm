@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -113,6 +115,7 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		}
 		JobResponse jr = new JobResponse();
 		jr.setJobs(jobs);
+		jr.setData(getJobData(new ArrayList<>(jobs)));
 		return jr;
 	}
 
@@ -125,7 +128,22 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		List<Job> j = new ArrayList<>(jobs);
 		Collections.sort(j, new CreatedDateComparator());
 		jr.setJobs(j);
+		jr.setData(getJobData(j));
 		return jr;
+	}
+
+	private Map<String, List<Job>> getJobData(List<Job> j) {
+		Map<String, List<Job>> data = new LinkedHashMap<>();
+		for (Job job : j) {
+			String propertyName = job.getPropertyName();
+			List<Job> jobData = data.get(propertyName);
+			if (jobData == null) {
+				jobData = new ArrayList<>();
+				data.put(propertyName, jobData);
+			}
+			jobData.add(job);
+		}
+		return data;
 	}
 
 	@Override
@@ -150,15 +168,19 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		List<Job> j = new ArrayList<>();
 		latest.forEach(j::add);
 		Collections.sort(j, new CreatedDateComparator());
-		return new JobResponse(j);
+		JobResponse jr = new JobResponse(j);
+		jr.setData(getJobData(j));
+		return jr;
 	}
 
 	@Override
 	public JobResponse getJobs(String jobId) {
 		Job job = jobDAO.findOne(jobId);
-		Collection<Job> jobs = new ArrayList<>();
+		List<Job> jobs = new ArrayList<>();
 		jobs.add(job);
-		return new JobResponse(jobs);
+		JobResponse jr = new JobResponse(jobs);
+		jr.setData(getJobData(jobs));
+		return jr;
 	}
 
 	@Override
