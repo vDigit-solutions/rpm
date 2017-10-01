@@ -14,9 +14,5 @@ public class IndexController {
 	public String index() {
 		return "quickstart/src/index";
 	}
-	
-	@RequestMapping("/vehicleImages")	
-	public String images(){
-		return "images";
-	}
+
 }
