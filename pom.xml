@@ -22,9 +22,9 @@
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/net.bull.javamelody/javamelody-spring-boot-starter -->
 		<dependency>
-		    <groupId>net.bull.javamelody</groupId>
-		    <artifactId>javamelody-spring-boot-starter</artifactId>
-		    <version>${javamelody.version}</version>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-spring-boot-starter</artifactId>
+			<version>${javamelody.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -35,15 +35,20 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache-extras.beanshell</groupId>
+			<artifactId>bsh</artifactId>
+			<version>2.0b5</version>
+		</dependency>
+		<dependency>
 			<groupId>com.twilio.sdk</groupId>
 			<artifactId>twilio</artifactId>
 			<version>(7.0,7.9)</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
 		<dependency>
-		    <groupId>com.sendgrid</groupId>
-		    <artifactId>sendgrid-java</artifactId>
-		    <version>4.0.1</version>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -55,9 +60,9 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-		    <groupId>commons-lang</groupId>
-		    <artifactId>commons-lang</artifactId>
-		    <version>2.5</version>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,9 +75,9 @@
 			<version>2.3</version>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
@@ -86,22 +91,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!-- plugin>
-	            <groupId>com.spotify</groupId>
-			    <artifactId>docker-maven-plugin</artifactId>
-			    <version>1.0.0</version>
-	            <configuration>
-	                <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
-	                <dockerDirectory>src/main/docker</dockerDirectory>
-	                <resources>
-	                    <resource>
-	                        <targetPath>/</targetPath>
-	                        <directory>${project.build.directory}</directory>
-	                        <include>${project.build.finalName}.jar</include>
-	                    </resource>
-	                </resources>
-	            </configuration>
-	        </plugin -->
+			<!-- plugin> <groupId>com.spotify</groupId> <artifactId>docker-maven-plugin</artifactId> 
+				<version>1.0.0</version> <configuration> <imageName>${docker.image.prefix}/${project.artifactId}</imageName> 
+				<dockerDirectory>src/main/docker</dockerDirectory> <resources> <resource> 
+				<targetPath>/</targetPath> <directory>${project.build.directory}</directory> 
+				<include>${project.build.finalName}.jar</include> </resource> </resources> 
+				</configuration> </plugin -->
 		</plugins>
 	</build>
 

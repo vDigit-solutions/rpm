@@ -1,10 +1,20 @@
 package com.vDigit.rpm.util;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Util {
+
+	public static boolean isInternetDOWN() {
+		try {
+			InetAddress.getByName("www.google.com");
+			return false;
+		} catch (UnknownHostException uhe) {
+			return true;
+		}
+	}
 
 	// Test
 	private static ObjectMapper objectMapper = new ObjectMapper();

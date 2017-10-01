@@ -52,4 +52,14 @@ public class PropertyManagers {
 		managerDao.delete(pm);
 		return pm;
 	}
+
+	public String message() {
+		return "Hello World";
+	}
+	
+	private String field = "Private Field in PropertyManager";
+	
+	private String getInfo(){
+		return "Get Info";
+	}
 }
