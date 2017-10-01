@@ -2,7 +2,6 @@ package com.vDigit.rpm.main;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.text.MessageFormat;
 import java.util.Date;
 
 import org.springframework.boot.SpringApplication;
@@ -16,14 +15,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vDigit.rpm.dto.Address;
 import com.vDigit.rpm.dto.Job;
 import com.vDigit.rpm.dto.JobRequest;
-import com.vDigit.rpm.io.ReadDataFromServices;
 import com.vDigit.rpm.io.ReadDataFromStream;
 
 import bsh.Interpreter;
@@ -48,7 +45,7 @@ public class Application {
 	@RequestMapping(value = "/runScript", method = RequestMethod.GET, produces = "text/plain")
 
 	String runScript() throws Exception {
-		//System.out.println("Run Script");
+		// System.out.println("Run Script");
 		for (String x : context.getBeanDefinitionNames()) {
 			// System.out.println(x);
 		}
@@ -63,27 +60,6 @@ public class Application {
 		i.eval(script);
 		ps.flush();
 		return baos.toString();
-	}
-
-	@RequestMapping(value = "/images", method = RequestMethod.GET, produces = "application/json")
-	@CrossOrigin(origins = "*")
-	String vehicles(@RequestParam(required = false) String webId, @RequestParam(required = false) String limit,
-			@RequestParam(required = false) String offset) {
-		String url = "http://invservices.prod-las.cobaltgroup.com/inventory/rest/v1.0/vehicles/search?inventoryOwner={0}&responseFields=id,year,make,model,vin,assets&dealerPhotos=true&limit={1}&offset={2}";
-		System.out.println(webId + " -> " + limit + " -> " + offset);
-		if (webId == null) {
-			webId = "gmps-abel";
-		}
-		if (limit == null) {
-			limit = "10";
-		}
-		if (offset == null) {
-			offset = "0";
-		}
-		url = MessageFormat.format(url, webId, limit, offset);
-		System.out.println(new java.sql.Time(System.currentTimeMillis()) + " -> " + url);
-		ReadDataFromServices rds = new ReadDataFromServices();
-		return rds.readFromProduction(url);
 	}
 
 	public static void main(String[] args) throws Exception {
