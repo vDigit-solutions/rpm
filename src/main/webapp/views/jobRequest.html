@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Property Management System</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+
     <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
     <style>
         label {display:inline-block;width: 20%;text-align: right; vertical-align: top;font-size: 0.9em; font-weight:bold;}
@@ -34,6 +36,7 @@
     </style>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
 
 </head>
 <body>
@@ -286,16 +289,29 @@
         $( "#jobtime" ).datepicker({minDate:0}).datepicker("setDate", new Date());
         
         $("#delete-jobs").button().on( "click", function() {
-            $.ajax({
-                url: '/api/pm/jobs',
-                type: 'DELETE',
-                success: function() {
-                	$( "#jobs").find("tbody" ).empty();
-                    //contractorsCache[contractorData.id] = undefined;
-                    //row.remove();
-                    //jobDialog.dialog( "close" );
-                }
-            });
+        	$.confirm({
+        	    title: 'Delete Jobs!!!',
+        	    content: 'Are you sure you want to Delete?',
+        	    boxWidth: '200px',
+        	    useBootstrap: false,
+        	    buttons: {
+        	        confirm: function () {
+        	        	$.ajax({
+        	                url: '/api/pm/jobs',
+        	                type: 'DELETE',
+        	                success: function() {
+        	                	$( "#jobs").find("tbody" ).empty();
+        	                    //contractorsCache[contractorData.id] = undefined;
+        	                    //row.remove();
+        	                    //jobDialog.dialog( "close" );
+        	                }
+        	            });
+        	        },
+        	        cancel: function () {
+        	            return true;
+        	        }
+        	    }
+        	});
         });
         
         $("#jobtype").on("selectmenuchange", function () {
@@ -372,15 +388,28 @@
             $( "#pms").find("tbody" ).append(row);
 
             $("button", row).click(()=> {
-                $.ajax({
-//                    url: 'http://localhost:8080/pms/' + pmData.id,
-                    url: '/pms/' + pmData.id,
-                    type: 'DELETE',
-                    success: function() {
-                        row.remove();
-                        pmDialog.dialog( "close" );
-                    }
-                });
+                $.confirm({
+            	    title: 'Delete PM!!!',
+            	    content: 'Are you sure you want to Delete?',
+            	    boxWidth: '200px',
+            	    useBootstrap: false,
+            	    buttons: {
+            	        confirm: function () {
+            	        	 $.ajax({
+//                               url: 'http://localhost:8080/pms/' + pmData.id,
+                               url: '/pms/' + pmData.id,
+                               type: 'DELETE',
+                               success: function() {
+                                   row.remove();
+                                   pmDialog.dialog( "close" );
+                               }
+                           });
+            	        },
+            	        cancel: function () {
+            	            return true;
+            	        }
+            	    }
+            	});
             });
 //            pmDialog.dialog( "close" );
 			$('#jobDialogForm #propertyManagerId').populate(pmData);
@@ -407,15 +436,30 @@
             $( "#users").find("tbody" ).append(row);
 
             $("button", row).click(()=> {
-                $.ajax({
-                    url: '/contractors/' + contractorData.id,
-                    type: 'DELETE',
-                    success: function() {
-                        contractorsCache[contractorData.id] = undefined;
-                        row.remove();
-                        jobDialog.dialog( "close" );
-                    }
-                });
+            	
+            	$.confirm({
+            	    title: 'Delete Contractor!!!',
+            	    content: 'Are you sure you want to Delete?',
+            	    boxWidth: '200px',
+            	    useBootstrap: false,
+            	    buttons: {
+            	        confirm: function () {
+            	        	$.ajax({
+                                url: '/contractors/' + contractorData.id,
+                                type: 'DELETE',
+                                success: function() {
+                                    contractorsCache[contractorData.id] = undefined;
+                                    row.remove();
+                                    jobDialog.dialog( "close" );
+                                }
+                            });
+            	        },
+            	        cancel: function () {
+            	            return true;
+            	        }
+            	    }
+            	});
+                
             });
 //            jobDialog.dialog( "close" );
         }
@@ -428,8 +472,10 @@
             
             const manager = managersCache[jobData.propertyManagerId] || {name:"deleted", phone:"deleted"};
             var status = "";
-            if(jobData.status === 'Schedule' ){
+            if (jobData.status === 'Schedule' ) {
             	status = "<button id='schedule'>Schedule</button>";
+            } else if (jobData.status === 'Reschedule') {
+            	status = "<button id='reschedule'>Reschedule</button>";
             }else{
             	status = jobData.status;
             }
@@ -448,14 +494,27 @@
             $( "#jobs").find("tbody" ).append( row );
             
             $("#delete", row).click(()=> {
-                $.ajax({
-                    url: '/api/pm/job/' + jobData.id,
-                    type: 'DELETE',
-                    success: function() {
-                        row.remove();
-                        jobDialog.dialog( "close" );
-                    }
-                });
+                $.confirm({
+            	    title: 'Delete Job!!!',
+            	    content: 'Are you sure you want to Delete?',
+            	    boxWidth: '200px',
+            	    useBootstrap: false,
+            	    buttons: {
+            	        confirm: function () {
+            	        	 $.ajax({
+            	                    url: '/api/pm/job/' + jobData.id,
+            	                    type: 'DELETE',
+            	                    success: function() {
+            	                        row.remove();
+            	                        jobDialog.dialog( "close" );
+            	                    }
+            	                });
+            	        },
+            	        cancel: function () {
+            	            return true;
+            	        }
+            	    }
+            	});
             });
             
             $("#schedule", row).click(()=> {
@@ -466,6 +525,28 @@
                 };
             	$.ajax({
                     url: '/api/pm/schedule/jobs',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(jobIds),
+                    dataType: 'json',
+                    success: function(jobsData) {
+                    	row.remove();
+                    	jobsData.jobs.forEach(function (jobData) {
+                    		addJobsDataAndBindUI(jobData.id)
+                    	});
+                    	jobDialog.dialog( "close" );
+                    }
+                });
+            });
+            
+			$("#reschedule", row).click(()=> {
+            	
+            	let jobIds =
+                {
+                    "jobIds": [ jobData.id ]
+                };
+            	$.ajax({
+                    url: '/api/pm/reschedule/jobs',
                     type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(jobIds),

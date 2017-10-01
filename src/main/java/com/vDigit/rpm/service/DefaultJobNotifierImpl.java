@@ -20,7 +20,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.vDigit.rpm.dao.ContractorPhoneCodeJobMappingDao;
 import com.vDigit.rpm.dao.JobDAO;
-import com.vDigit.rpm.dto.ContractWork;
 import com.vDigit.rpm.dto.Contractor;
 import com.vDigit.rpm.dto.ContractorPhoneCodeJob;
 import com.vDigit.rpm.dto.Contractors;
@@ -80,9 +79,10 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	public void processJob(Job job) {
 		Contractor c = job.getPotentialNextContractor(contractors.getContractors(job.getType()));
 		if (c == null) {
+			jobDAO.save(job);
 			return;
 		}
-		Job.ContractorEntry jce = new Job.ContractorEntry();
+		Job.ContractorEntry jce = new Job().new ContractorEntry();
 		jce.setId(c.getId());
 		jce.setNotificationSentDate(new Date());
 		job.addContractorEntry(jce);
@@ -125,6 +125,8 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 		tokens.put("description", job.getDescription());
 		tokens.put("location", job.getJobLocation());
 		tokens.put("date", format.format(job.getDesiredDateOfBegin()));
+		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
+		tokens.put("manager", propertyManager.getName());
 		return tokens;
 	}
 

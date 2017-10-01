@@ -14,7 +14,7 @@ public class CreatedDateComparator implements Comparator<Job> {
 		if (createdDate1 == null || createdDate2 == null) {
 			return -1;
 		}
-		return createdDate1.compareTo(createdDate2);
+		return createdDate2.compareTo(createdDate1);
 	}
 
 }

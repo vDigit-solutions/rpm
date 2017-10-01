@@ -3,6 +3,7 @@ package com.vDigit.rpm.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -51,6 +52,7 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 		Job job = jobRequest.getJob();
 		job.setPropertyManagerId(jobRequest.getPropertyManagerId());
 		job.setStatus("Schedule");
+		job.setCreatedDate(new Date());
 		Job j = jobDAO.save(job);
 		JobResponse jr = new JobResponse();
 		jr.getJobs().add(j);

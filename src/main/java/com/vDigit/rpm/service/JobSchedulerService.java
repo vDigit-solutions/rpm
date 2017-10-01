@@ -2,11 +2,13 @@ package com.vDigit.rpm.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,8 @@ public class JobSchedulerService {
 	@Autowired
 	private JobDAO jobDAO;
 
+	// @Scheduled(cron = "0 */1 * * * ?")
 	@Scheduled(cron = "0 0 */1 * * ?")
-	// @Scheduled(cron = "0 0 */1 * * ?")
 	public void schedule() {
 		logger.info("Scheduler started...");
 		Calendar cal = Calendar.getInstance();
@@ -50,6 +52,14 @@ public class JobSchedulerService {
 			Map<String, ContractorEntry> entries = job.getContractorEntries();
 			String theLastKey = new ArrayList<>(entries.keySet()).get(entries.size() - 1);
 			ContractorEntry contractorEntry = entries.get(theLastKey);
+			if (StringUtils.isNotBlank(contractorEntry.getResponse())) {
+				job.setStatus("Reschedule");
+				job.setContractorEntries(new LinkedHashMap<>());
+				job.setCurrentContractorRequestId(null);
+				jobDAO.save(job);
+				logger.info("JobId: {}, updated status to Reschedule", job.getId());
+				continue;
+			}
 			ContractorRequest cr = new ContractorRequest();
 			cr.setJob(job);
 			cr.setContractor(contractors.getContractorById(contractorEntry.getId()));
