@@ -674,6 +674,9 @@ div#pm-dialog-form input {
             	                    type: 'DELETE',
             	                    success: function() {
             	                        row.remove();
+            	                        if(parentNode.children.length === 1){
+                                            jobsTree.treetable("removeNode", parentId);
+                                        }
             	                        jobDialog.dialog( "close" );
             	                    }
             	                });
