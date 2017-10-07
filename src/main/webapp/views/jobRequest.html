@@ -8,6 +8,10 @@
 	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+	<link rel="stylesheet"
+		  href="http://ludo.cubicphuse.nl/jquery-treetable/css/jquery.treetable.css">
+	<link rel="stylesheet"
+		  href="http://ludo.cubicphuse.nl/jquery-treetable/css/jquery.treetable.theme.default.css">
 
 <!--<link rel="stylesheet" href="/resources/demos/style.css">-->
 <style>
@@ -126,7 +130,7 @@ div#pm-dialog-form input {
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
-
+	<script src="http://ludo.cubicphuse.nl/jquery-treetable/jquery.treetable.js"></script>
 </head>
 <body>
 
@@ -308,6 +312,10 @@ div#pm-dialog-form input {
         let contractorsCache = {};
         let managersCache = {};
         let dialogOpen = false;
+        $("#jobs").treetable({
+			expandable : true,
+			initialState: "collapsed"
+        });
 
         // JOBS dialog and form
         jobDialog = $( "#job-dialog-form" ).dialog({
@@ -507,10 +515,12 @@ div#pm-dialog-form input {
             $( "#jobs").find("tbody" ).html("");
             
             $.each(jobs.data, function (index, value){
-            		const row = $("<tr>" +
-            		 "<td colspan='6' ><div>" + index + "</div></td>" +
+                let parentId = index;
+            		const row = $("<tr data-tt-branch="+true +" data-tt-id=\""+parentId+"\">" +
+            		 "<td colspan='6' >" + index + "</td>" +
                     "</tr>");
-            		$( "#jobs").find("tbody" ).append( row );
+            		let parentNode = $(row[0]);
+                	$( "#jobs").treetable("loadBranch", null, parentNode).find("tbody" ).append( row );
             		$.each(value, function (index, v) {
   					console.log(v);
   					addNewJobUI(v, contractorsCache, managersCache);
@@ -630,7 +640,12 @@ div#pm-dialog-form input {
             if(jobData.currentContractorRequestId != null){
             	contractorDetails = contractor.vendorCompanyName ;
             }
-            const row = $("<tr>" +
+            let parentId  = jobData.propertyName;
+            let jobsTree = $("#jobs");
+            let parentNode = jobsTree.treetable("node",parentId);
+
+            let nodeId = jobData["id"];
+            const row = $("<tr data-tt-id="+ nodeId +" data-tt-parent-id=\"" +parentId+ "\">" +
             		 "<td><div><div>" + jobData.propertyName + "</div><div>" + jobData.jobLocation  + "</div><div>" + jobData.description + "</div></div></td>" +
                     "<td>" + jobData.type + "</td>" +
                     "<td><div><div>" + contractorDetails + "</div><div>" + toDateString(jobData.desiredDateOfBegin) +"</div><div></td>" +
@@ -638,7 +653,7 @@ div#pm-dialog-form input {
                     "<td><button id='delete'>Delete</button></td>" +
                     "<td><button id='clone'>Clone</button></td>" +
                     "</tr>");
-            $( "#jobs").find("tbody" ).append( row );
+            jobsTree.treetable("loadBranch",parentNode,row).treetable("collapseAll");//.find("tbody" ).append( row );
             $("#clone", row).click(()=> {
             		//alert("Clicked clone");
             		//alert(JSON.stringify(jobData));
