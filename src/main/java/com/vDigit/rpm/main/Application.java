@@ -7,7 +7,9 @@ import java.util.Date;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextListener;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vDigit.rpm.dto.Address;
@@ -27,12 +30,13 @@ import bsh.Interpreter;
 
 @RestController
 @EnableAutoConfiguration
+// @EnableOAuth2Sso
 @SpringBootApplication
 @EnableScheduling
 @ComponentScan({ "com.vDigit.rpm" })
 @EnableMongoAuditing
 @EnableMongoRepositories(basePackages = { "com.vDigit.rpm" })
-public class Application {
+public class Application extends SpringBootServletInitializer {
 
 	private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -92,6 +96,11 @@ public class Application {
 		a.setZip("98104");
 		a.setCountry("USA");
 		return a;
+	}
+
+	@Bean
+	public RequestContextListener requestContextListener() {
+		return new RequestContextListener();
 	}
 
 }
