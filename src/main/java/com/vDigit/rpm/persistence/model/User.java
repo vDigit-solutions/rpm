@@ -133,6 +133,9 @@ public class User {
 		if (!email.equals(user.email)) {
 			return false;
 		}
+		if (phone == null && user.phone == null) {
+			return true;
+		}
 		if (!phone.equals(user.phone)) {
 			return false;
 		}

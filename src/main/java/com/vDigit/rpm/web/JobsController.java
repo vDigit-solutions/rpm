@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ import com.vDigit.rpm.dto.Job.ContractorEntry;
 import com.vDigit.rpm.dto.JobRequest;
 import com.vDigit.rpm.dto.JobResponse;
 import com.vDigit.rpm.dto.ScheduleRequest;
+import com.vDigit.rpm.persistence.model.User;
 import com.vDigit.rpm.service.ContractorService;
 import com.vDigit.rpm.service.JobService;
 import com.vDigit.rpm.service.PropertyManagerService;
@@ -65,7 +67,8 @@ public class JobsController {
 	private ContractorService contractorService;
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.POST)
-	public @ResponseBody JobResponse createJob(@RequestBody JobRequest jobRequest) {
+	public @ResponseBody JobResponse createJob(@RequestBody JobRequest jobRequest, Authentication authentication) {
+		jobRequest.setPropertyManagerId(getUser(authentication).getId());
 		return pms.createJob(jobRequest);
 	}
 
@@ -81,11 +84,6 @@ public class JobsController {
 		return pms.scheduleJob(scheduleRequest);
 	}
 
-	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
-	public @ResponseBody JobResponse getJobs() {
-		return pms.getJobs();
-	}
-
 	@RequestMapping(value = "/job/{jobId}", method = RequestMethod.GET)
 	public @ResponseBody JobResponse getJob(@PathVariable String jobId) {
 		return pms.getJobs(jobId);
@@ -97,15 +95,20 @@ public class JobsController {
 	}
 
 	@RequestMapping(value = "/jobs", method = RequestMethod.DELETE)
-	public void deleteJobs() {
-		pms.deleteJobs();
+	public void deleteJobs(Authentication authentication) {
+		pms.deleteJobs(getUser(authentication).getId());
 	}
 
-	@RequestMapping(value = "/jobs/{propertyManagerId}", method = RequestMethod.GET)
-	public @ResponseBody JobResponse getJobs(@PathVariable("propertyManagerId") String propertyManagerId) {
+	@RequestMapping(value = "/jobs", method = RequestMethod.GET)
+	public @ResponseBody JobResponse getJobs(Authentication authentication) {
 		JobRequest jr = new JobRequest();
-		jr.setPropertyManagerId(propertyManagerId);
+		jr.setPropertyManagerId(getUser(authentication).getId());
 		return pms.getJobs(jr);
+	}
+
+	private User getUser(Authentication authentication) {
+		User user = (User) authentication.getPrincipal();
+		return user;
 	}
 
 	@RequestMapping(value = "/job/{jobId}/{contractorId}/{acceptance}", method = RequestMethod.GET)

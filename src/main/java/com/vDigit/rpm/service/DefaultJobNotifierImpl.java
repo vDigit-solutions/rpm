@@ -77,7 +77,8 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 
 	@Override
 	public void processJob(Job job) {
-		Contractor c = job.getPotentialNextContractor(contractors.getContractors(job.getType()));
+		Contractor c = job
+				.getPotentialNextContractor(contractors.getContractors(job.getType(), job.getPropertyManagerId()));
 		if (c == null) {
 			jobDAO.save(job);
 			return;

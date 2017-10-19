@@ -3,12 +3,20 @@ package com.vDigit.rpm.dto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.vDigit.rpm.persistence.model.User;
+
 @Document
 public class PropertyManager {
 	@Id
 	private String id;
 	private String phone;
 	private String name;
+
+	public PropertyManager(User user) {
+		this.id = user.getId();
+		this.phone = user.getPhone();
+		this.name = user.getFirstName();
+	}
 
 	public String getId() {
 		return id;
@@ -34,17 +42,4 @@ public class PropertyManager {
 		this.name = name;
 	}
 
-	public static PropertyManager makeNewPM(String id, String name, String phone) {
-		PropertyManager pm = new PropertyManager();
-		pm.id = id;
-		pm.name = name;
-		pm.phone = phone;
-		return pm;
-	}
-
-	// PropertyManager(String id, String name, String phone) {
-	// this.id = id;
-	// this.phone = phone;
-	// this.name = name;
-	// }
 }

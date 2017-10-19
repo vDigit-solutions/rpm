@@ -239,25 +239,6 @@
 		</form>
 	</div>
 
-	<!--NEW PM dialog-->
-	<div id="pm-dialog-form" title="New PM Request">
-		<form>
-			<fieldset>
-				<div class="section">
-					<label for="pm-name">name:</label> <input name="pm-name"
-						id="pm-name" class="text ui-widget-content ui-corner-all"/>
-				</div>
-				<div class="section">
-					<label for="pm-phone">phone:</label> <input name="pm-phone"
-						id="pm-phone" class="text ui-widget-content ui-corner-all"/>
-				</div>
-				<!-- Allow form submission with keyboard without duplicating the dialog button -->
-				<input type="submit" tabindex="-1"
-					style="position: absolute; top: -1000px"/>
-			</fieldset>
-		</form>
-	</div>
-
 	<!--CONTRACTORS List-->
 	<div id="users-contain" class="ui-widget users-contain">
 		<h1>Contractors:</h1>
@@ -271,23 +252,6 @@
 					<th>Phone</th>
 					<th>Type</th>
 					<th>Company Name</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody></tbody>
-		</table>
-	</div>
-
-	<!--PMs List-->
-	<div id="pms-contain" class="ui-widget users-contain">
-		<h1>Property Managers:</h1>
-		<button id="create-pm">New PM</button>
-		<table id="pms" class="ui-widget ui-widget-content">
-			<thead>
-				<tr class="ui-widget-header ">
-					<th>ID</th>
-					<th>Name</th>
-					<th>Phone</th>
 					<th></th>
 				</tr>
 			</thead>
@@ -492,18 +456,6 @@
         }
 
         function getPMsDataAndBindUI() {
-            return $.getJSON("/pms")
-                .then((pmsData) => {
-                    $( "#pms").find("tbody" ).html("");
-
-                    console.log(pmsData);
-                    pmsData.forEach(function (pmData) {
-                    	managersCache[pmData.id] = pmData;
-                        addNewPMUI(pmData);
-                    });
-                   // $('#propertyManagerId option').eq(1).attr('selected', 'selected').trigger('change');
-                   // $( "#propertyManagerId" ).selectmenu();
-                });
         }
 
         function getJobsDataAndBindUI() {
@@ -794,16 +746,9 @@
         }
 
         function createJobRequest() {
-        	
-        		var array = $.map(managersCache, function(value, index) {
-        	    		return [value];
-       	 	});
-			console.log(array)
-        		var managerId = array[0].id;
             let jobReqData =
             {"job":
                 {
-                    "propertyManagerId":managerId,
                     "description":$("#description").val(),
                     "propertyName":$("#propertyName").val(),
                     "desiredDateOfBegin":new Date($("#jobtime").val()).getTime(),
@@ -812,8 +757,7 @@
                             {
                                 "street1":$("#address").val()
                             }
-                },
-                "propertyManagerId":managerId
+                }
             };
 
             $.ajax({

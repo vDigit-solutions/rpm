@@ -20,6 +20,10 @@ public class Contractors {
 		return contractorDao.findAll();
 	}
 
+	public Collection<Contractor> getContractorsByManager(String managerId) {
+		return contractorDao.findByManagerId(managerId);
+	}
+
 	public Contractor getContractor(String phone) {
 		List<Contractor> contracors = contractorDao.findByPhoneLike(phone);
 		if (CollectionUtils.isEmpty(contracors)) {
@@ -29,12 +33,6 @@ public class Contractors {
 	}
 
 	public Contractor creatContractor(Contractor c) {
-		// we should not make these assumptions here
-
-//		Contractor saved = getContractor(c.getPhone());
-//		if (saved != null) {
-//			c.setId(saved.getId());
-//		}
 		Contractor saved = contractorDao.save(c);
 		return saved;
 	}
@@ -45,8 +43,8 @@ public class Contractors {
 		return c;
 	}
 
-	public Collection<Contractor> getContractors(String type) {
-		return contractorDao.findByType(type);
+	public Collection<Contractor> getContractors(String type, String managerId) {
+		return contractorDao.findByTypeAndManagerId(type, managerId);
 	}
 
 	public Contractor getContractorById(String contractorId) {

@@ -153,9 +153,13 @@ public class PropertyManagerServiceImpl implements PropertyManagerService {
 	}
 
 	@Override
-	public void deleteJobs() {
-		jobDAO.deleteAll();
-		contractorPhoneCodeJobMappingDao.deleteAll();
+	public void deleteJobs(String managerId) {
+		List<Job> jobs = jobDAO.findByPropertyManagerId(managerId);
+		for (Job job : jobs) {
+			List<ContractorPhoneCodeJob> mappings = contractorPhoneCodeJobMappingDao.findByJobId(job.getId());
+			contractorPhoneCodeJobMappingDao.delete(mappings);
+		}
+		jobDAO.delete(jobs);
 	}
 
 	@Override

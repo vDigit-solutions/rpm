@@ -1,7 +1,5 @@
 package com.vDigit.rpm.dto;
 
-import java.util.UUID;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,18 +15,7 @@ public class Contractor {
 	private String vendorCompanyName;
 	private String type;
 
-	public static Contractor makeNameAndPhone(String firstName, String lastName, String phone, String email,
-			String type, String vendorCompanyName) {
-		Contractor c = new Contractor();
-		c.id = UUID.randomUUID().toString();
-		c.firstName = firstName;
-		c.lastName = lastName;
-		c.phone = phone;
-		c.email = email;
-		c.type = type;
-		c.vendorCompanyName = vendorCompanyName;
-		return c;
-	}
+	private String managerId;
 
 	public String getId() {
 		return id;
@@ -84,5 +71,13 @@ public class Contractor {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getManagerId() {
+		return managerId;
+	}
+
+	public void setManagerId(String managerId) {
+		this.managerId = managerId;
 	}
 }

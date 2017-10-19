@@ -15,7 +15,7 @@ public interface PropertyManagerService {
 
 	void updateJob(Job job, Contractor contractor);
 
-	void deleteJobs();
+	void deleteJobs(String managerId);
 
 	JobResponse getJobs();
 

@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vDigit.rpm.dto.Contractor;
 import com.vDigit.rpm.dto.Contractors;
+import com.vDigit.rpm.persistence.model.User;
 
 @RestController
 @RequestMapping("/")
@@ -24,12 +26,20 @@ public class ContractorsController {
 	private Contractors contractors;
 
 	@RequestMapping(value = "/contractors", method = RequestMethod.GET)
-	public @ResponseBody Collection<Contractor> getContractors() {
-		return contractors.getContractors();
+	public @ResponseBody Collection<Contractor> getContractors(Authentication authentication) {
+		User user = getUser(authentication);
+		return contractors.getContractorsByManager(user.getId());
+	}
+
+	private User getUser(Authentication authentication) {
+		User user = (User) authentication.getPrincipal();
+		return user;
 	}
 
 	@RequestMapping(value = "/contractors", method = RequestMethod.POST)
-	public @ResponseBody Contractor createContractor(@RequestBody Contractor contractorRequest) {
+	public @ResponseBody Contractor createContractor(@RequestBody Contractor contractorRequest,
+			Authentication authentication) {
+		contractorRequest.setManagerId(getUser(authentication).getId());
 		return contractors.creatContractor(contractorRequest);
 	}
 
