@@ -16,4 +16,8 @@ public interface PropertyManager {
 	String getPhoneNotifications();
 
 	void setPhoneNotifications(String pn);
+
+	void setAppUrl(String appUrl);
+
+	String getAppUrl();
 }

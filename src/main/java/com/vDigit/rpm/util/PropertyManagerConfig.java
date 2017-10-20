@@ -5,14 +5,17 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-public class PropertyManagerFactory {
-	private static Logger logger = LoggerFactory.getLogger(PropertyManagerFactory.class);
-	private static PropertyManager pm = makePropertyManager();
+@Configuration
+public class PropertyManagerConfig {
+	private static Logger logger = LoggerFactory.getLogger(PropertyManagerConfig.class);
 
-	private static PropertyManager makePropertyManager() {
-		PropertyManagerImpl pm = new PropertyManagerImpl();
+	@Bean
+	public PropertyManager propertyManager() {
+		PersonalPropertyManager pm = new PersonalPropertyManager();
 		String propertiesFile = "environment/" + Util.getServerName() + ".properties";
 		Properties p = new Properties();
 		try {
@@ -20,18 +23,9 @@ public class PropertyManagerFactory {
 		} catch (IOException e) {
 			logger.error("Could not find property file -> " + propertiesFile
 					+ " in resources folder. Hence using environment.default.properties. Please change it to use your machine specific property file");
-			try {
-				p.load(new ClassPathResource("environment/default.properties").getInputStream());
-			} catch (IOException ioe) {
-				throw new RuntimeException(ioe);
-			}
-
+			return new PropertyManagerImpl();
 		}
 		pm.setProperties(p);
-		return pm;
-	}
-
-	public static PropertyManager getPropertyManager() {
 		return pm;
 	}
 

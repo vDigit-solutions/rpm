@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -28,13 +27,10 @@ import com.vDigit.rpm.dto.NotificationContext;
 import com.vDigit.rpm.dto.PropertyManager;
 import com.vDigit.rpm.dto.PropertyManagers;
 import com.vDigit.rpm.util.MailNotification;
-import com.vDigit.rpm.util.PropertyManagerFactory;
 import com.vDigit.rpm.util.TwilioPhoneNotification;
 
 @Component
 public class DefaultJobNotifierImpl implements JobNotifier {
-
-	private com.vDigit.rpm.util.PropertyManager PROPERTY_MANAGER = PropertyManagerFactory.getPropertyManager();
 
 	private static final String SUBJECT = "We have a %s work for you";
 	private static final String YES = "%s/api/pm/job/%s/%s/yes";
@@ -51,6 +47,9 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	@Resource(name = "contractors")
 	private Contractors contractors;
 
+	@Resource(name = "propertyManager")
+	private com.vDigit.rpm.util.PropertyManager propertyManager;
+
 	@Autowired
 	private JobDAO jobDAO;
 
@@ -59,9 +58,6 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 
 	@Resource(name = "mailNotification")
 	private MailNotification mailNotification;
-
-	@Value("${app.url:http://localhost:8080}")
-	private String appUrl;
 
 	@Resource(name = "templateMessageReader")
 	private TemplateMessageReader templateMessageReader;
@@ -109,7 +105,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	}
 
 	protected void sendSMSIfConfigured(Job job, Contractor c, String subject, Map<String, String> tokens) {
-		if ("false".equalsIgnoreCase(PROPERTY_MANAGER.getPhoneNotifications())) {
+		if ("false".equalsIgnoreCase(propertyManager.getPhoneNotifications())) {
 			return;
 		}
 		PropertyManager propertyManager = propertyManagers.getPropertyManager(job.getPropertyManagerId());
@@ -132,6 +128,7 @@ public class DefaultJobNotifierImpl implements JobNotifier {
 	}
 
 	private String createEmailMessage(Map<String, String> tokens, Job job, Contractor c) {
+		String appUrl = propertyManager.getAppUrl();
 		tokens.put("yes", String.format(YES, appUrl, job.getId(), c.getId()));
 		tokens.put("no", String.format(NO, appUrl, job.getId(), c.getId()));
 		tokens.put("unsubscribe", String.format(UNSUBSCRIBE, appUrl, c.getId()));

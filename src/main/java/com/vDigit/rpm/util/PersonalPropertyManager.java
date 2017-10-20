@@ -2,10 +2,7 @@ package com.vDigit.rpm.util;
 
 import java.util.Properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
-@ConfigurationProperties("rpm")
-public class PropertyManagerImpl implements PropertyManager {
+public class PersonalPropertyManager implements PropertyManager {
 	private String twilioAccountSID;
 	private String twilioPhone;
 	private String twilioAuthToken;
@@ -36,7 +33,7 @@ public class PropertyManagerImpl implements PropertyManager {
 		this.twilioAuthToken = twilioAuthToken;
 	}
 
-	public PropertyManagerImpl() {
+	public PersonalPropertyManager() {
 
 	}
 

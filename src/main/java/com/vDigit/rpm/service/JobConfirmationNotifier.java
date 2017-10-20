@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.vDigit.rpm.dto.Contractor;
@@ -40,8 +39,8 @@ public class JobConfirmationNotifier {
 	@Resource(name = "propertyManagers")
 	private PropertyManagers propertyManagers;
 
-	@Value("${app.url:http://localhost:8080}")
-	private String appUrl;
+	@Resource(name = "propertyManager")
+	private com.vDigit.rpm.util.PropertyManager propertyManager;
 
 	public void process(String template, Job job, Contractor contractor) {
 		Map<String, String> tokens = new HashMap<>();
@@ -62,7 +61,7 @@ public class JobConfirmationNotifier {
 		String phoneMsg = message.replaceAll("<div>", "").replaceAll("</div>", "");
 		NotificationContext sms = new NotificationContext(null, c.getPhone(), phoneMsg, subject);
 		twilioPhoneNotification.send(sms);
-		String url = String.format(JobNotifier.UNSUBSCRIBE, appUrl, c.getId());
+		String url = String.format(JobNotifier.UNSUBSCRIBE, propertyManager.getAppUrl(), c.getId());
 		String emailMsg = message + String.format(UNSUBSCRIBE_DIV, url);
 		NotificationContext mail = new NotificationContext(null, c.getEmail(), emailMsg, subject);
 		mail.setJobId(job.getId());
