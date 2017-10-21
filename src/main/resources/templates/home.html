@@ -143,7 +143,7 @@
   </div>
 </nav>
     <div class="container">
-            <h1 th:text="#{label.pages.home.message}">home</h1>
+            <h1><span th:text="#{label.pages.home.message}">home</span><span th:text="${param.user[0]}">name</span></h1>
             <!--NEW JOB dialog-->
 	<div id="job-dialog-form" title="New Job request">
 		<form id="jobDialogForm">
@@ -286,10 +286,6 @@
         let contractorsCache = {};
         let managersCache = {};
         let dialogOpen = false;
-        $("#jobs").treetable({
-			expandable : true,
-			initialState: "expanded"
-        });
 
         // JOBS dialog and form
         jobDialog = $( "#job-dialog-form" ).dialog({
@@ -605,7 +601,6 @@
             let parentId  = jobData.propertyName;
             let jobsTree = $("#jobs");
             let parentNode = jobsTree.treetable("node",parentId);
-
             let nodeId = jobData["id"];
             const row = $("<tr data-tt-id="+ nodeId +" data-tt-parent-id=\"" +parentId+ "\">" +
             		 "<td><div><div>" + jobData.propertyName + "</div><div>" + jobData.jobLocation  + "</div><div>" + jobData.description + "</div></div></td>" +
@@ -615,7 +610,7 @@
                     "<td><button id='delete'>Delete</button></td>" +
                     "<td><button id='clone'>Clone</button></td>" +
                     "</tr>");
-            jobsTree.treetable("loadBranch",parentNode,row).treetable("collapseAll");//.find("tbody" ).append( row );
+            jobsTree.treetable("loadBranch",parentNode,row).treetable("expandAll");//.find("tbody" ).append( row );
             $("#clone", row).click(()=> {
             		//alert("Clicked clone");
             		//alert(JSON.stringify(jobData));
@@ -776,6 +771,10 @@
             return true;
         }
 
+		$("#jobs").treetable({
+			expandable : true,
+			initialState: "expanded"
+        });
 
         setInterval(function(){
             if (!dialogOpen) {
